@@ -1,0 +1,17 @@
+{
+    "name": "hubleto/apps",
+    "license": "GPL-3.0-only",
+    "description": "Free to use apps for Hubleto.",
+    "homepage": "https://www.hubleto.com",
+    "support": {
+        "issues": "https://github.com/hubleto/main/issues",
+        "source": "https://github.com/hubleto/main"
+    },
+    "keywords": ["hubleto", "crm", "erp", "application", "hub"],
+    "autoload": {
+        "psr-4": {
+            "HubletoApp\\Community\\": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}

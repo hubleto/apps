@@ -1,0 +1,3 @@
+import BillingTableBillingAccountService from "./Components/TableBillingAccountServices"
+
+globalThis.main.registerReactComponent('BillingTableBillingAccountService', BillingTableBillingAccountService);
