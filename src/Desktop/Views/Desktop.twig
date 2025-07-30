@@ -62,11 +62,8 @@
 
   <script defer src='{{ config.assetsUrl }}/jquery-3.5.1.js'></script>
   <script defer src='{{ config.assetsUrl }}/compiled/js/main.js'></script>
-
   <link rel="stylesheet" type="text/css" href="{{ config.assetsUrl }}/compiled/css/main.css">
   <link rel="stylesheet" type="text/css" href="{{ config.srcUrl }}/assets/css/themes/{{ viewParams.currentTheme }}.css">
-
-
 </head>
 
 <body id="page-top">
@@ -123,25 +120,6 @@
       </div>
       <div id="default-navbar-mobile">
         <ul class="flex font-sm gap-1">
-          {# <li>
-            <button class="btn btn-white btn-small btn-dropdown">
-              <span class="icon"><i class="fas fa-envelope"></i></span>
-              <span class="text">3</span>
-              <div class="menu">
-                <div class="list" style="margin-left:-16.2em;width:18em;">
-                  <div class="text-center">
-                    <i class="fas fa-envelope text-primary text-2xl p-4"></i>
-                  </div>
-                  <h1 class="text-center p-6 m-0">{{ translate('Your messages') }}</h1>
-                  <div>
-                    <a href="#" class="btn btn-white btn-list-item m-1"><span class="icon"><i class="fas fa-envelope"></i></span><span class="text">Využite špeciálnu zľavu</span></a>
-                    <a href="#" class="btn btn-white btn-list-item m-1"><span class="icon"><i class="fas fa-envelope"></i></span><span class="text">Vydali sme novú verziu</span></a>
-                    <a href="#" class="btn btn-white btn-list-item m-1"><span class="icon"><i class="fas fa-envelope"></i></span><span class="text">Príďte nás navštíviť na CODECON</span></a>
-                  </div>
-                </div>
-              </div>
-            </button>
-          </li> #}
           {% if viewParams.availableLanguages|length > 0 %}
             <li class="mr-2 hidden md:block">
               <button class="btn btn-transparent btn-dropdown">
