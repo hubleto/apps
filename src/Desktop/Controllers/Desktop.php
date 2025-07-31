@@ -58,15 +58,15 @@ class Desktop extends \HubletoMain\Controller
     ]);
 
     $this->viewParams['availableLanguages'] = $this->main->config->getAsArray('availableLanguages', [
-      "en" => [ "flagImage" => "assets/images/flags/en.jpg", "name" => "English" ],
-      "de" => [ "flagImage" => "assets/images/flags/de.jpg", "name" => "Deutsch" ],
-      "es" => [ "flagImage" => "assets/images/flags/es.jpg", "name" => "Español" ],
-      "fr" => [ "flagImage" => "assets/images/flags/fr.jpg", "name" => "Francais" ],
-      "it" => [ "flagImage" => "assets/images/flags/it.jpg", "name" => "Italiano" ],
-      "pl" => [ "flagImage" => "assets/images/flags/pl.jpg", "name" => "Polski" ],
-      "ro" => [ "flagImage" => "assets/images/flags/ro.jpg", "name" => "Română" ],
-      "cs" => [ "flagImage" => "assets/images/flags/cs.jpg", "name" => "Česky" ],
-      "sk" => [ "flagImage" => "assets/images/flags/sk.jpg", "name" => "Slovensky" ],
+      "en" => [ "flagImage" => "en.jpg", "name" => "English" ],
+      "de" => [ "flagImage" => "de.jpg", "name" => "Deutsch" ],
+      "es" => [ "flagImage" => "es.jpg", "name" => "Español" ],
+      "fr" => [ "flagImage" => "fr.jpg", "name" => "Francais" ],
+      "it" => [ "flagImage" => "it.jpg", "name" => "Italiano" ],
+      "pl" => [ "flagImage" => "pl.jpg", "name" => "Polski" ],
+      "ro" => [ "flagImage" => "ro.jpg", "name" => "Română" ],
+      "cs" => [ "flagImage" => "cs.jpg", "name" => "Česky" ],
+      "sk" => [ "flagImage" => "sk.jpg", "name" => "Slovensky" ],
     ]);
 
     $appMenu = $this->main->apps->community('Desktop')->appMenu;

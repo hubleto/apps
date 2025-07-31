@@ -30,7 +30,7 @@ export default class FormLeadTopMenu extends TranslatedComponent<P, S> {
       {recordId: recordId},
       (data: any) => {
         if (data.status == "success") {
-          location.assign(globalThis.main.config.rootUrl + `/deals?recordId=${data.idDeal}&recordTitle=${data.title}`)
+          location.assign(globalThis.main.config.projectUrl + `/deals?recordId=${data.idDeal}&recordTitle=${data.title}`)
         }
       }
     );
@@ -73,7 +73,7 @@ export default class FormLeadTopMenu extends TranslatedComponent<P, S> {
     const R = form.state.record;
 
     return (R.DEAL != null ?
-      <a className='btn btn-transparent' href={`${globalThis.main.config.rootUrl}/deals/${R.DEAL.id}`}>
+      <a className='btn btn-transparent' href={`${globalThis.main.config.projectUrl}/deals/${R.DEAL.id}`}>
         <span className='icon'><i className='fas fa-arrow-up-right-from-square'></i></span>
         <span className='text'>{this.translate('Go to deal')}</span>
       </a>

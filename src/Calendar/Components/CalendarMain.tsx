@@ -176,7 +176,7 @@ export default class CalendarComponent extends TranslatedComponent<CalendarMainP
           views={"timeGridDay,timeGridWeek,dayGridMonth,listYear"}
           height={this.props.height}
           initialView="timeGridWeek"
-          eventsEndpoint={globalThis.main.config.rootUrl + '/' + this.getCalendarEventsEndpointUrl()}
+          eventsEndpoint={globalThis.main.config.projectUrl + '/' + this.getCalendarEventsEndpointUrl()}
           onEventsLoaded={(events) => {
             // for (let i in events) {
             //   if (

@@ -101,7 +101,7 @@ class Loader extends \Hubleto\Framework\App
           $digestHtml .= "
             <div style='font-size:11pt;margin-bottom:0.25em;padding:0.25em;border:1px solid #EEEEEE;border-left:0.5em solid {$item['color']}'>
               <b>" . htmlspecialchars($item['category']) . "</b>
-              <a href='{$this->main->config->getAsString('rootUrl')}/{$item['url']}'>" . htmlspecialchars($item['text']) . "</a><br/>
+              <a href='{$this->main->projectUrl}/{$item['url']}'>" . htmlspecialchars($item['text']) . "</a><br/>
               <small>" . htmlspecialchars($item['description']) . "</small>
             </div>
           ";
