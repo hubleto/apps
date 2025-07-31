@@ -6,7 +6,7 @@ class ReportManager
 {
   public \HubletoMain\Loader $main;
 
-  /** @var array<string, \Hubleto\Framework\Report> */
+  /** @var array<string, \HubletoMain\Report> */
   protected array $reports = [];
 
   public function __construct(\HubletoMain\Loader $main)
@@ -26,7 +26,7 @@ class ReportManager
   public function addReport(\Hubleto\Framework\App $hubletoApp, string $reportClass): void
   {
     $report = $this->main->di->create($reportClass);
-    if ($report instanceof \Hubleto\Framework\Report) {
+    if ($report instanceof \HubletoMain\Report) {
       $report->hubletoApp = $hubletoApp;
       $this->reports[$reportClass] = $report;
     }
@@ -35,7 +35,7 @@ class ReportManager
   /**
    * Get all reports registered in report manager.
    *
-   * @return array<string, \Hubleto\Framework\Report>
+   * @return array<string, \HubletoMain\Report>
    * 
    */
   public function getReports(): array
@@ -43,12 +43,12 @@ class ReportManager
     return $this->reports;
   }
 
-  public function getReport(string $reportClass): \Hubleto\Framework\Report
+  public function getReport(string $reportClass): \HubletoMain\Report
   {
     return $this->reports[$reportClass];
   }
 
-  public function getReportByUrlSlug(string $reportUrlSlug): null|\Hubleto\Framework\Report
+  public function getReportByUrlSlug(string $reportUrlSlug): null|\HubletoMain\Report
   {
     foreach ($this->getReports() as $report) {
       if ($report->getUrlSlug() == $reportUrlSlug) {
