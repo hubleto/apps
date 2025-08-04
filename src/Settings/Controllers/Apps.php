@@ -41,7 +41,6 @@ class Apps extends \HubletoMain\Controller
     $installedApps = array_merge($this->main->apps->getEnabledApps(), $this->main->apps->getDisabledApps());
     $availableApps = $this->main->apps->getAvailableApps();
 
-var_dump($this->main->srcFolder . '/../../apps/src');
     $appsToShow = [];
     if (empty($findApp)) {
       foreach ($installedApps as $appNamespace => $app) {
