@@ -1,7 +1,7 @@
 <h1 class="app-main-title">About</h1>
 
-<div class="flex gap-2">
-  <div class="card">
+<div class="flex gap-2 w-full">
+  <div class="card grow">
     <div class="card-header">
       {{ translate('About your Hubleto') }}
     </div>
@@ -16,6 +16,34 @@
             <td>Environment</td>
             <td>{{ config.env }}</td>
           </tr>
+          <tr>
+            <td colspan=2><b>Packages</b></td>
+          </tr>
+          {% for pName, pInfo in viewParams.packages %}
+            {% if pName starts with 'hubleto' %}
+              <tr>
+                <td>{{ pName }}</td>
+                <td>{{ pInfo.version }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card grow">
+    <div class="card-header">
+      Packages
+    </div>
+    <div class="card-body">
+      <table class="table-default dense">
+        <tbody>
+          {% for pName, pInfo in viewParams.packages %}
+            <tr>
+              <td>{{ pName }}</td>
+              <td>{{ pInfo.version }}</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

@@ -14,6 +14,17 @@ class About extends \HubletoMain\Controller
   public function prepareView(): void
   {
     parent::prepareView();
+
+    $tmp = \Composer\InstalledVersions::getInstalledPackages();
+    $packages = [];
+    foreach ($tmp as $package) {
+      $packages[$package] = [
+       'version' => \Composer\InstalledVersions::getPrettyVersion($package),
+      ];
+    }
+
+    $this->viewParams['packages'] = $packages;
+
     $this->setView('@HubletoApp:Community:About/About.twig');
   }
 
