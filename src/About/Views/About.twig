@@ -23,7 +23,10 @@
             {% if pName starts with 'hubleto' %}
               <tr>
                 <td>{{ pName }}</td>
-                <td>{{ pInfo.version }}</td>
+                <td>
+                  {{ pInfo.version }}
+                  {{ pInfo.reference }}
+                </td>
               </tr>
             {% endif %}
           {% endfor %}

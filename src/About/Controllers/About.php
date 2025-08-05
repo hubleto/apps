@@ -20,6 +20,7 @@ class About extends \HubletoMain\Controller
     foreach ($tmp as $package) {
       $packages[$package] = [
        'version' => \Composer\InstalledVersions::getPrettyVersion($package),
+       'reference' => \Composer\InstalledVersions::getReference($package),
       ];
     }
 
