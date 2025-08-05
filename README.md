@@ -2,6 +2,8 @@
 
 Free to use apps for Hubleto. This repository is bundled inside `hubleto/dev` or `hubleto/erp` projects. It shall be used only with these repositories.
 
+🌟 Star if you like it!
+
 ## Apps
 
 | App           | Description                                                      | Group              |
