@@ -4,6 +4,8 @@ Free to use apps for Hubleto. This repository is bundled inside `hubleto/dev` or
 
 🌟 Star if you like it!
 
+**Want to build your Hubleto app?** Check https://github.com/wai-blue/hubleto-hello-world-app
+
 ## Apps
 
 | App           | Description                                                      | Group              |
