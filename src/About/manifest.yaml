@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\About
+appType: community
 sidebarGroup: help
 rootUrlSlug: about
 name: About

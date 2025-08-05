@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Deals
+appType: community
 sidebarGroup: sales
 rootUrlSlug: deals
 name: Deals

@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Leads
+appType: community
 sidebarGroup: marketing
 rootUrlSlug: leads
 name: Leads

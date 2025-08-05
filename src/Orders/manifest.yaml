@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Orders
+appType: community
 sidebarGroup: sales
 rootUrlSlug: orders
 name: Orders

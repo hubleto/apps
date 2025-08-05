@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Documents
+appType: community
 sidebarGroup: documents
 rootUrlSlug: documents
 name: Documents

@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Pipeline
+appType: community
 sidebarGroup: sales
 rootUrlSlug: pipeline
 name: Pipeline

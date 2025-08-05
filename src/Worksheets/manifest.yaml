@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Worksheets
+appType: community
 sidebarGroup: tasks
 rootUrlSlug: worksheets
 name: Worksheets

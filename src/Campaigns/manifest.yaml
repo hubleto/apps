@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Campaigns
+appType: community
 sidebarGroup: marketing
 rootUrlSlug: campaigns
 name: Campaigns

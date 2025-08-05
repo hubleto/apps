@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Suppliers
+appType: community
 sidebarGroup: supply-chain
 rootUrlSlug: suppliers
 name: Suppliers

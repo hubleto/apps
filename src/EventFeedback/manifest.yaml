@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\EventFeedback
+appType: community
 sidebarGroup: events
 rootUrlSlug: events-feedback
 name: Feedback

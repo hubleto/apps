@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Desktop
+appType: community
 rootUrlSlug: desktop
 name: Desktop
 icon: fas fa-home

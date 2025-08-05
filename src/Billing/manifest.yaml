@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Billing
+appType: community
 sidebarGroup: finance
 rootUrlSlug: billing
 name: Billing

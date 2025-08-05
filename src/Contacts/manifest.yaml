@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Contacts
+appType: community
 sidebarGroup: crm
 rootUrlSlug: contacts
 name: Contacts

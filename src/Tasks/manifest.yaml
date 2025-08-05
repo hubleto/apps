@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Tasks
+appType: community
 sidebarGroup: tasks
 rootUrlSlug: tasks
 name: Tasks

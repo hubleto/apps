@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\CalendarSync
+appType: community
 rootUrlSlug: settings/calendar-sources
 name: Calendar Sync
 icon: fas fa-calendar

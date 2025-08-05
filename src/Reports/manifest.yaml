@@ -1,4 +1,5 @@
 namespace: HubletoApp\Community\Reports
+appType: community
 sidebarGroup: reporting
 rootUrlSlug: reports
 name: Reports
