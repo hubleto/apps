@@ -14,6 +14,8 @@ class Loader extends \Hubleto\Framework\App
       '/^campaigns\/?$/' => Controllers\Campaigns::class,
     ]);
 
+    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Campaign::class);
+
   }
 
   public function installTables(int $round): void

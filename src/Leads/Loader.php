@@ -40,6 +40,8 @@ class Loader extends \Hubleto\Framework\App
       'url' => 'settings/lead-lost-reasons',
     ]);
 
+    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Lead::class);
+
     $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
     $calendarManager->addCalendar(
       'leads',
