@@ -19,3 +19,4 @@ tags:
 requires:
   - HubletoApp\Community\Customers
   - HubletoApp\Community\Calendar
+  - HubletoApp\Community\Campaigns

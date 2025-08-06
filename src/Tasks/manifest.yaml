@@ -8,4 +8,5 @@ author:
   name: "WAI.blue"
   nick: "wai.blue"
 highlight: Task management app
-created: 2025-06-25 18:55:11
+requires:
+  - HubletoApp\Community\Pipeline
