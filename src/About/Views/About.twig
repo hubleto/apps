@@ -7,26 +7,20 @@
     </div>
     <div class="card-body">
       <table class="table-default dense">
+        <thead>
+          <tr>
+            <td>Package</td>
+            <td>Version</td>
+            <td>Commit</td>
+          </tr>
+        </thead>
         <tbody>
-          <tr>
-            <td>Release</td>
-            <td>[{{ app.release.getVersion() }}] {{ app.release.getCodename() }}</td>
-          </tr>
-          <tr>
-            <td>Environment</td>
-            <td>{{ config.env }}</td>
-          </tr>
-          <tr>
-            <td colspan=2><b>Packages</b></td>
-          </tr>
           {% for pName, pInfo in viewParams.packages %}
             {% if pName starts with 'hubleto' %}
               <tr>
                 <td>{{ pName }}</td>
-                <td>
-                  {{ pInfo.version }}
-                  {{ pInfo.reference }}
-                </td>
+                <td>{{ pInfo.version }}</td>
+                <td>{{ pInfo.reference }}</td>
               </tr>
             {% endif %}
           {% endfor %}
