@@ -155,6 +155,9 @@ class Task extends \Hubleto\Framework\Models\Model
           . ':' . ($externalRecord['identifier'] ?? 'X')
           . '#' . $savedRecord["id"]
         ;
+      } else {
+        $savedRecord["identifier"] = '#' . $savedRecord["id"];
+        ;
       }
     }
 
