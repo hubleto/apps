@@ -17,15 +17,15 @@ class Mail extends \Hubleto\Framework\Models\Model
   public string $recordManagerClass = RecordManagers\Mail::class;
   public ?string $lookupSqlValue = '{%TABLE%}.subject';
 
-  // public array $relations = [
-  //   'OWNER' => [ self::BELONGS_TO, User::class, 'id_owner', 'id' ],
-  // ];
+  public array $relations = [
+    'ACCOUNT' => [ self::BELONGS_TO, Account::class, 'id_account', 'id' ],
+  ];
 
   public function describeColumns(): array
   {
     $user = $this->main->auth->getUser();
     return array_merge(parent::describeColumns(), [
-      // 'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setReadonly(),
+      'id_account' => (new Lookup($this, $this->translate('Account'), User::class))->setReadonly(),
       'priority' => (new Integer($this, $this->translate('Priority')))->setRequired()->setDefaultValue(1),
       'datetime_created' => (new DateTime($this, $this->translate('Created')))->setRequired()->setReadonly()->setDefaultValue(date('Y-m-d H:i:s')),
       'datetime_sent' => (new DateTime($this, $this->translate('Sent')))->setReadonly(),

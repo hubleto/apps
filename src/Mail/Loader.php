@@ -17,6 +17,7 @@ class Loader extends \Hubleto\Framework\App
 
     $this->main->router->httpGet([
       '/^mail\/?$/' => Controllers\Mails::class,
+      '/^mail\/accounts\/?$/' => Controllers\Accounts::class,
       '/^mail\/inbox\/?$/' => Controllers\Inbox::class,
       '/^mail\/sent\/?$/' => Controllers\Sent::class,
       '/^mail\/drafts\/?$/' => Controllers\Drafts::class,
@@ -27,11 +28,16 @@ class Loader extends \Hubleto\Framework\App
       '/^mail\/api\/mark-as-read\/?$/' => Controllers\Api\MarkAsRead::class,
       '/^mail\/api\/mark-as-unread\/?$/' => Controllers\Api\MarkAsUnread::class,
     ]);
+
+    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
+    $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
   }
 
   public function installTables(int $round): void
   {
     if ($round == 1) {
+      (new Models\Account($this->main))->dropTableIfExists()->install();
       (new Models\Mail($this->main))->dropTableIfExists()->install();
       (new Models\Index($this->main))->dropTableIfExists()->install();
     }
