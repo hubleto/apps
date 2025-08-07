@@ -43,19 +43,19 @@ class Loader extends \Hubleto\Framework\App
     }
   }
 
-  // public function getNotificationsCount(): int
-  // {
-  //   $mMail = $this->main->di->create(\HubletoApp\Community\Mail\Models\Mail::class);
-  //   return $mMail->record->prepareReadQuery()
-  //     ->where(function ($q) {
-  //       $q->where('midx.id_to', $this->main->auth->getUserId());
-  //       $q->orWhere('midx.id_cc', $this->main->auth->getUserId());
-  //       $q->orWhere('midx.id_bcc', $this->main->auth->getUserId());
-  //     })
-  //     ->whereNull('datetime_read')
-  //     ->count()
-  //   ;
-  // }
+  public function getNotificationsCount(): int
+  {
+    $mMail = $this->main->di->create(\HubletoApp\Community\Mail\Models\Mail::class);
+    return $mMail->record->prepareReadQuery()
+      ->where(function ($q) {
+        $q->where('midx.id_to', $this->main->auth->getUserId());
+        $q->orWhere('midx.id_cc', $this->main->auth->getUserId());
+        $q->orWhere('midx.id_bcc', $this->main->auth->getUserId());
+      })
+      ->whereNull('datetime_read')
+      ->count()
+    ;
+  }
 
   public function parseEmailsFromString(string $emails): array
   {
