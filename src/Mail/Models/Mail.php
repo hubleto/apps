@@ -25,7 +25,7 @@ class Mail extends \Hubleto\Framework\Models\Model
   {
     $user = $this->main->auth->getUser();
     return array_merge(parent::describeColumns(), [
-      'id_account' => (new Lookup($this, $this->translate('Account'), User::class))->setReadonly(),
+      'id_account' => (new Lookup($this, $this->translate('Account'), Account::class))->setReadonly(),
       'priority' => (new Integer($this, $this->translate('Priority')))->setRequired()->setDefaultValue(1),
       'datetime_created' => (new DateTime($this, $this->translate('Created')))->setRequired()->setReadonly()->setDefaultValue(date('Y-m-d H:i:s')),
       'datetime_sent' => (new DateTime($this, $this->translate('Sent')))->setReadonly(),
