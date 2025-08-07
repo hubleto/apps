@@ -118,6 +118,11 @@
       <div class="hidden sm:block flex-1">
         {{ include('@hubleto-main/Breadcrumbs.twig', {'items': viewParams.breadcrumbs}) }}
       </div>
+      <div class="hidden sm:block flex-1">
+        <app-search string:endpoint='api/search'></app-search>
+      </div>
+      <div class="hidden sm:block flex-1">
+      </div>
       <div id="default-navbar-mobile">
         <ul class="flex font-sm gap-1">
           {% if viewParams.availableLanguages|length > 0 %}
