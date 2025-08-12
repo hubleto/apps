@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Builder;
 
-class Customer extends \Hubleto\Framework\RecordManager
+class Customer extends \HubletoMain\RecordManager
 {
   public $table = 'customers';
 

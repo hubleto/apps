@@ -395,35 +395,35 @@ class Loader extends \Hubleto\Framework\App
       ])['id'];
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_CHIEF_OFFICER,
-        'role' => 'Chief Officer (CEO, CFO, CTO, ...)',
+        'role' => 'Chief Officer (default permissions)',
         'description' => 'Can read all data and can modify most of the data. Does not have access to settings.',
         'grant_all' => false,
         'is_default' => true,
       ])['id'];
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_MANAGER,
-        'role' => 'Manager (Sales, Project, ...)',
+        'role' => 'Manager (default permissions)',
         'description' => 'Can read and modify all data that he/she owns or is manager.',
         'grant_all' => false,
         'is_default' => true,
       ])['id'];
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_EMPLOYEE,
-        'role' => 'Employee',
+        'role' => 'Employee (default permissions)',
         'description' => 'In general, can read or modify only data that he/she owns.',
         'grant_all' => false,
         'is_default' => true,
       ])['id'];
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_ASSISTANT,
-        'role' => 'Assistant',
+        'role' => 'Assistant (default permissions)',
         'description' => 'Very similar to employee, but may be more limited in some certain situations.',
         'grant_all' => false,
         'is_default' => true,
       ])['id'];
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_EXTERNAL,
-        'role' => 'External',
+        'role' => 'External (default permissions)',
         'description' => 'By default should not have access to anything. Access permissions must be enabled in settings by administrator.',
         'grant_all' => false,
         'is_default' => true,

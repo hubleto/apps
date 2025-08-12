@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Products\Models\RecordManagers;
 use HubletoApp\Community\Suppliers\Models\RecordManagers\Supplier;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Product extends \Hubleto\Framework\RecordManager
+class Product extends \HubletoMain\RecordManager
 {
   public $table = 'products';
 

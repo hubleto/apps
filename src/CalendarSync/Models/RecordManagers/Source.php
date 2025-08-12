@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\CalendarSync\Models\RecordManagers;
 
-class Source extends \Hubleto\Framework\RecordManager
+class Source extends \HubletoMain\RecordManager
 {
   public $table = 'calendar_sync_sources';
 

@@ -9,7 +9,7 @@ use \HubletoApp\Community\Customers\Models\RecordManagers\Customer;
 use \HubletoApp\Community\Settings\Models\RecordManagers\User;
 use \HubletoApp\Community\Settings\Models\RecordManagers\InvoiceProfile;
 
-class Invoice extends \Hubleto\Framework\RecordManager {
+class Invoice extends \HubletoMain\RecordManager {
   public $table = 'invoices';
 
   /** @return BelongsTo<Customer, covariant Invoice> */

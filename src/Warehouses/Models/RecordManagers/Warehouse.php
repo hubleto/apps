@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Warehouses\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class Warehouse extends \Hubleto\Framework\RecordManager
+class Warehouse extends \HubletoMain\RecordManager
 {
   public $table = 'warehouses';
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class CustomerTag extends \Hubleto\Framework\RecordManager
+class CustomerTag extends \HubletoMain\RecordManager
 {
   public $table = 'cross_customer_tags';
 

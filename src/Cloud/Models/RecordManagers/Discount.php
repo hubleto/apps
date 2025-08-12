@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Cloud\Models\RecordManagers;
 
-class Discount extends \Hubleto\Framework\RecordManager
+class Discount extends \HubletoMain\RecordManager
 {
   public $table = 'cloud_discounts';
 

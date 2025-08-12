@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 use HubletoApp\Community\Tasks\Models\RecordManagers\Task;
 
-class Activity extends \Hubleto\Framework\RecordManager
+class Activity extends \HubletoMain\RecordManager
 {
   public $table = 'worksheet_activities';
 

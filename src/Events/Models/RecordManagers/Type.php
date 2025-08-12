@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Events\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class Type extends \Hubleto\Framework\RecordManager
+class Type extends \HubletoMain\RecordManager
 {
   public $table = 'events_types';
 

@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Worksheets\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class ActivityType extends \Hubleto\Framework\RecordManager
+class ActivityType extends \HubletoMain\RecordManager
 {
   public $table = 'worksheet_activities_types';
 

@@ -6,7 +6,7 @@ use HubletoApp\Community\Products\Models\RecordManagers\Product;
 use HubletoApp\Community\Deals\Models\RecordManagers\Deal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DealProduct extends \Hubleto\Framework\RecordManager
+class DealProduct extends \HubletoMain\RecordManager
 {
   public $table = 'deal_products';
 

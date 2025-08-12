@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Mail\Models\RecordManagers;
 
-class Index extends \Hubleto\Framework\RecordManager
+class Index extends \HubletoMain\RecordManager
 {
   public $table = 'mails_index';
 }

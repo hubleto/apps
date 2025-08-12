@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Reports\Models\RecordManagers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Report extends \Hubleto\Framework\RecordManager
+class Report extends \HubletoMain\RecordManager
 {
   public $table = 'reports';
 

@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Orders\Models\RecordManagers;
 
-class State extends \Hubleto\Framework\RecordManager
+class State extends \HubletoMain\RecordManager
 {
   public $table = 'order_states';
 }

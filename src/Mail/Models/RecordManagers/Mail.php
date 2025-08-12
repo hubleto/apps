@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Mail\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class Mail extends \Hubleto\Framework\RecordManager
+class Mail extends \HubletoMain\RecordManager
 {
   public $table = 'mails';
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ActivityType extends \Hubleto\Framework\RecordManager
+class ActivityType extends \HubletoMain\RecordManager
 {
   public $table = 'activity_types';
 }

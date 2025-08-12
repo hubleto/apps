@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Settings\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserRole extends \Hubleto\Framework\RecordManager
+class UserRole extends \HubletoMain\RecordManager
 {
   public $table = 'user_roles';
 

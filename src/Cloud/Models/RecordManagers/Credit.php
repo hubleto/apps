@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Cloud\Models\RecordManagers;
 
-class Credit extends \Hubleto\Framework\RecordManager
+class Credit extends \HubletoMain\RecordManager
 {
   public $table = 'cloud_credit';
 

@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Notifications\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class Notification extends \Hubleto\Framework\RecordManager
+class Notification extends \HubletoMain\RecordManager
 {
   public $table = 'notifications';
 

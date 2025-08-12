@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Documents\Models\RecordManagers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Document extends \Hubleto\Framework\RecordManager
+class Document extends \HubletoMain\RecordManager
 {
   public $table = 'documents';
 

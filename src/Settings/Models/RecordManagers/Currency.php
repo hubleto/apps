@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Currency extends \Hubleto\Framework\RecordManager
+class Currency extends \HubletoMain\RecordManager
 {
   public $table = 'currencies';
 }

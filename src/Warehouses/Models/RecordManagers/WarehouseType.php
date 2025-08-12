@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Warehouses\Models\RecordManagers;
 
-class WarehouseType extends \Hubleto\Framework\RecordManager
+class WarehouseType extends \HubletoMain\RecordManager
 {
   public $table = 'warehouses_types';
 

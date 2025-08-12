@@ -5,9 +5,28 @@ namespace HubletoApp\Community\Settings\Models;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Json;
+use Hubleto\Framework\Db\Column\Integer;
 
 class User extends \Hubleto\Framework\Models\User
 {
+  public const TYPE_NOT_SPECIFIED = 0;
+  public const TYPE_ADMINISTRATOR = 1;
+  public const TYPE_CHIEF_OFFICER = 2;
+  public const TYPE_MANAGER = 3;
+  public const TYPE_EMPLOYEE = 4;
+  public const TYPE_ASSISTANT = 5;
+  public const TYPE_EXTERNAL = 6;
+
+  public const TYPE_ENUM_VALUES = [
+    self::TYPE_NOT_SPECIFIED => 'NOT_SPECIFIED',
+    self::TYPE_ADMINISTRATOR => 'ADMINISTRATOR',
+    self::TYPE_CHIEF_OFFICER => 'Chief Officer (CEO, CFO, CTO, ...)',
+    self::TYPE_MANAGER => 'Manager (Sales, Project, ...)',
+    self::TYPE_EMPLOYEE => 'Employee',
+    self::TYPE_ASSISTANT => 'Assistant',
+    self::TYPE_EXTERNAL => 'External',
+  ];
+
   public const ENUM_LANGUAGES = [
     'en' => 'English',
     'de' => 'Deutsch',
@@ -35,6 +54,7 @@ class User extends \Hubleto\Framework\Models\User
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
+      'type' => (new Integer($this, $this->translate('Type')))->setEnumValues(self::TYPE_ENUM_VALUES),
       'first_name' => (new Varchar($this, $this->translate('First name')))->setRequired(),
       'last_name' => (new Varchar($this, $this->translate('Last name')))->setRequired(),
       'nick' => (new Varchar($this, $this->translate('Nick'))),
@@ -84,6 +104,7 @@ class User extends \Hubleto\Framework\Models\User
     $description->permissions['canDelete'] = false;
 
     $description->columns = [
+      'type' => $description->columns['type'],
       'first_name' => $description->columns['first_name'],
       'last_name' => $description->columns['last_name'],
       'nick' => $description->columns['nick'],

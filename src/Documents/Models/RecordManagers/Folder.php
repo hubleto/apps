@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Documents\Models\RecordManagers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Folder extends \Hubleto\Framework\RecordManager
+class Folder extends \HubletoMain\RecordManager
 {
   public $table = 'folders';
 

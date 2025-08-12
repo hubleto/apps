@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Settings\Models\RecordManagers;
 
-class InvoiceProfile extends \Hubleto\Framework\RecordManager
+class InvoiceProfile extends \HubletoMain\RecordManager
 {
   public $table = 'invoice_profiles';
 }

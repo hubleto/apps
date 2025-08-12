@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Contacts\Models\RecordManagers;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Value extends \Hubleto\Framework\RecordManager
+class Value extends \HubletoMain\RecordManager
 {
   public $table = 'contact_values';
 

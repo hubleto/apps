@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Inventory\Models\RecordManagers;
 
-class Status extends \Hubleto\Framework\RecordManager
+class Status extends \HubletoMain\RecordManager
 {
   public $table = 'inventory_status';
 

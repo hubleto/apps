@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
-class Dashboard extends \Hubleto\Framework\RecordManager
+class Dashboard extends \HubletoMain\RecordManager
 {
   public $table = 'dashboards';
 

@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Customers\Models\RecordManagers;
 use HubletoApp\Community\Documents\Models\RecordManagers\Document;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CustomerDocument extends \Hubleto\Framework\RecordManager
+class CustomerDocument extends \HubletoMain\RecordManager
 {
   public $table = 'customer_documents';
 

@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Dashboards\Models\RecordManagers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Panel extends \Hubleto\Framework\RecordManager
+class Panel extends \HubletoMain\RecordManager
 {
   public $table = 'dashboards_panels';
 

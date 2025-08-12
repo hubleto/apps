@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends \Hubleto\Framework\RecordManager
+class User extends \HubletoMain\RecordManager
 {
   /**
    * @var string

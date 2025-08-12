@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Orders\Models\RecordManagers;
 use HubletoApp\Community\Products\Models\RecordManagers\Product;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OrderProduct extends \Hubleto\Framework\RecordManager
+class OrderProduct extends \HubletoMain\RecordManager
 {
   public $table = 'order_products';
 

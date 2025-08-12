@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Deal extends \Hubleto\Framework\RecordManager
+class Deal extends \HubletoMain\RecordManager
 {
   public $table = 'deals';
 

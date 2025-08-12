@@ -57,8 +57,6 @@ export default class FormUser<P, S> extends HubletoForm<FormUserProps, FormUserS
 
     if (!uApps) uApps = [];
 
-    console.log(this.state.appsInfo, R, uApps);
-
     return <>
       <div className='w-full flex gap-2'>
         <div className="p-4 flex-1 text-center">
@@ -78,6 +76,7 @@ export default class FormUser<P, S> extends HubletoForm<FormUserProps, FormUserS
             <div className='flex gap-2 flex-col md:flex-row'>
               <div className="flex-1">
                 {this.divider(this.translate('About the user'))}
+                {this.inputWrapper('type')}
                 {this.inputWrapper('first_name')}
                 {this.inputWrapper('last_name')}
                 {this.inputWrapper('nick')}
