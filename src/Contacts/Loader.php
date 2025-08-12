@@ -63,4 +63,40 @@ class Loader extends \Hubleto\Framework\App
     }
   }
 
+  /**
+   * Implements fulltext search functionality for the contacts
+   *
+   * @param array $expressions List of expressions to be searched and glued with logical 'or'.
+   * 
+   * @return array
+   * 
+   */
+  public function search(array $expressions): array
+  {
+    $mContact = $this->main->di->create(Models\Contact::class);
+    $qContacts = $mContact->record;
+    
+    foreach ($expressions as $e) {
+      $qContacts = $qContacts
+        ->orWhere('first_name', 'like', '%' . $e . '%')
+        ->orWhere('last_name', 'like', '%' . $e . '%')
+      ;
+    }
+
+    $contacts = $qContacts->get()->toArray();
+
+    $results = [];
+
+    foreach ($contacts as $contact) {
+      $results[] = [
+        "id" => $contact['id'],
+        "label" => $contact['first_name'] . ' ' . $contact['last_name'],
+        "url" => 'contacts/' . $contact['id'],
+        "description" => $contact['date_created'],
+      ];
+    }
+
+    return $results;
+  }
+
 }
