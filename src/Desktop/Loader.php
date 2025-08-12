@@ -2,6 +2,8 @@
 
 namespace HubletoApp\Community\Desktop;
 
+use \Hubleto\Framework\Interfaces\AppMenuManagerInterface;
+
 class Loader extends \Hubleto\Framework\App
 {
   public const DEFAULT_INSTALLATION_CONFIG = [
@@ -12,7 +14,7 @@ class Loader extends \Hubleto\Framework\App
   public bool $permittedForAllUsers = true;
 
   public SidebarManager $sidebar;
-  public AppMenuManager $appMenu;
+  public AppMenuManagerInterface $appMenu;
   public DashboardManager $dashboard;
 
   public function __construct(\HubletoMain\Loader $main)

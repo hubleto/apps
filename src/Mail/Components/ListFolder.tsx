@@ -7,7 +7,8 @@ import { ProgressBar } from 'primereact/progressbar';
 import ModalForm from "@hubleto/react-ui/core/ModalForm";
 
 interface ListFolderProps extends TableProps {
-  folder?: string,
+  idFolder?: number,
+  folderName?: string,
 }
 interface ListFolderState extends TableState {
 }
@@ -38,7 +39,7 @@ export default class ListFolder extends Table<ListFolderProps, ListFolderState> 
   getEndpointParams() {
     return {
       ...super.getEndpointParams(),
-      folder: this.props.folder
+      idfolder: this.props.idFolder
     }
   }
 
@@ -49,7 +50,7 @@ export default class ListFolder extends Table<ListFolderProps, ListFolderState> 
   }
 
   rowClassName(rowData: any): string {
-    if (this.props.folder == 'inbox') {
+    if (this.props.folderName == 'INBOX') {
       return rowData.read ? '' : 'bg-yellow-50 text-yellow-800';
     } else {
       return '';
@@ -58,7 +59,7 @@ export default class ListFolder extends Table<ListFolderProps, ListFolderState> 
 
   renderActionsColumn(data: any, options: any) {
     const R = this.findRecordById(data.id);
-    if (this.props.folder == 'inbox') {
+    if (this.props.folderName == 'INBOX') {
       if (R.read) {
         return <button
           className="btn btn-small btn-transparent"

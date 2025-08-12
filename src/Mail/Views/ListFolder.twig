@@ -5,7 +5,10 @@
   <div>
     <div class="badge badge-extra-large ml-0">{{ viewParams.title }}</div>
     <div class="mt-4">
-      <app-mail-list-folder string:folder="{{ viewParams.folder }}"></app-mail-list-folder>
+      <app-mail-list-folder
+        int:id-folder="{{ viewParams.idFolder }}"
+        string:folder-name="{{ viewParams.folderName }}"
+      ></app-mail-list-folder>
     </div>
   </div>
 </div>

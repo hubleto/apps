@@ -10,8 +10,8 @@ class Mail extends \HubletoMain\RecordManager
   public $table = 'mails';
 
   /** @return BelongsTo<User, covariant Customer> */
-  public function ACCOUNT(): BelongsTo {
-    return $this->belongsTo(Account::class, 'id_account', 'id');
+  public function FOLDER(): BelongsTo {
+    return $this->belongsTo(Mailbox::class, 'id_mailbox', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed

@@ -7,9 +7,6 @@ class Loader extends \Hubleto\Framework\App
   public bool $canBeDisabled = false;
 
   /** @var array<int, array<\Hubleto\Framework\App, array>> */
-  private array $settings = [];
-
-  /** @var array<int, array<\Hubleto\Framework\App, array>> */
   private array $tools = [];
 
   public function init(): void
@@ -430,23 +427,6 @@ class Loader extends \Hubleto\Framework\App
       ])['id'];
 
     }
-  }
-
-  public function addSetting(\Hubleto\Framework\App $app, array $setting): void
-  {
-    $this->settings[] = [$app, $setting];
-  }
-
-  public function getSettings(): array
-  {
-    $settings = [];
-    foreach ($this->settings as $setting) {
-      $settings[] = $setting[1];
-    }
-
-    $titles = array_column($settings, 'title');
-    array_multisort($titles, SORT_ASC, $settings);
-    return $settings;
   }
 
 }

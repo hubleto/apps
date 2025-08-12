@@ -18,6 +18,9 @@ class Loader extends \Hubleto\Framework\App
     $this->main->router->httpGet([
       '/^mail\/?$/' => Controllers\Mails::class,
       '/^mail\/accounts\/?$/' => Controllers\Accounts::class,
+      '/^mail\/list-mailbox\/?$/' => Controllers\ListMailbox::class,
+
+
       '/^mail\/inbox\/?$/' => Controllers\Inbox::class,
       '/^mail\/sent\/?$/' => Controllers\Sent::class,
       '/^mail\/drafts\/?$/' => Controllers\Drafts::class,
@@ -32,12 +35,15 @@ class Loader extends \Hubleto\Framework\App
     $appMenu = $this->main->apps->community('Desktop')->appMenu;
     $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
     $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
+
+    $this->main->crons->addCron(Crons\GetMails::class);
   }
 
   public function installTables(int $round): void
   {
     if ($round == 1) {
       (new Models\Account($this->main))->dropTableIfExists()->install();
+      (new Models\Mailbox($this->main))->dropTableIfExists()->install();
       (new Models\Mail($this->main))->dropTableIfExists()->install();
       (new Models\Index($this->main))->dropTableIfExists()->install();
     }
@@ -69,6 +75,16 @@ class Loader extends \Hubleto\Framework\App
     }
 
     return $emailsFound;
+  }
+
+  public function getCipherKey(): string
+  {
+    $key = $this->configAsString('cipherKey');
+    if (empty($key)) {
+      $this->saveConfig('cipherKey', openssl_random_pseudo_bytes(64));
+      $key = $this->configAsString('cipherKey');
+    }
+    return $key;
   }
 
   public function send(

@@ -26,4 +26,14 @@ class Account extends \Hubleto\Framework\Models\Model
     ]);
   }
 
+  public function hashPassword(string $original): string
+  {
+    return strrev($original);
+  }
+
+  public function decryptPassword(string $encrypted): string
+  {
+    return strrev($encrypted);
+  }
+
 }

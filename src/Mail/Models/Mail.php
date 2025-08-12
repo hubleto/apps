@@ -9,7 +9,6 @@ use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\DateTime;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Boolean;
-use HubletoApp\Community\Settings\Models\User;
 
 class Mail extends \Hubleto\Framework\Models\Model
 {
@@ -18,14 +17,16 @@ class Mail extends \Hubleto\Framework\Models\Model
   public ?string $lookupSqlValue = '{%TABLE%}.subject';
 
   public array $relations = [
-    'ACCOUNT' => [ self::BELONGS_TO, Account::class, 'id_account', 'id' ],
+    'FOLDER' => [ self::BELONGS_TO, Mailbox::class, 'id_folder', 'id' ],
   ];
 
   public function describeColumns(): array
   {
     $user = $this->main->auth->getUser();
     return array_merge(parent::describeColumns(), [
-      'id_account' => (new Lookup($this, $this->translate('Account'), Account::class))->setReadonly(),
+      'mail_number' => (new Varchar($this, $this->translate('Mail Id')))->addIndex('INDEX `mail_number` (`mail_number`)'),
+      'mail_id' => (new Varchar($this, $this->translate('Mail Number')))->addIndex('INDEX `mail_id` (`mail_id`)'),
+      'id_mailbox' => (new Lookup($this, $this->translate('Mailbox'), Mailbox::class))->setReadonly(),
       'priority' => (new Integer($this, $this->translate('Priority')))->setRequired()->setDefaultValue(1),
       'datetime_created' => (new DateTime($this, $this->translate('Created')))->setRequired()->setReadonly()->setDefaultValue(date('Y-m-d H:i:s')),
       'datetime_sent' => (new DateTime($this, $this->translate('Sent')))->setReadonly(),
@@ -35,7 +36,8 @@ class Mail extends \Hubleto\Framework\Models\Model
       'to' => (new Varchar($this, $this->translate('To')))->setRequired(),
       'cc' => (new Varchar($this, $this->translate('Cc'))),
       'bcc' => (new Varchar($this, $this->translate('Bcc'))),
-      'body' => (new Text($this, $this->translate('Body')))->setRequired(),
+      'body_text' => (new Text($this, $this->translate('Body (Text)'))),
+      'body_html' => (new Text($this, $this->translate('Body (HTML)'))),
       'color' => (new Color($this, $this->translate('Color'))),
       'is_draft' => (new Boolean($this, $this->translate('Draft')))->setDefaultValue(true),
       'is_template' => (new Boolean($this, $this->translate('Template'))),

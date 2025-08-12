@@ -1,0 +1,49 @@
+<?php
+
+namespace HubletoApp\Community\Issues;
+
+class Loader extends \Hubleto\Framework\App
+{
+
+  /**
+   * Initialize Issues app
+   *
+   * @return void
+   * 
+   */
+  public function init(): void
+  {
+    parent::init();
+
+    $this->main->router->httpGet([
+      '/^issues\/?$/' => Controllers\Issues::class,
+      '/^issues\/mail-accounts\/?$/' => Controllers\MailAccounts::class,
+    ]);
+
+    $this->main->apps->community('Settings')->addSetting($this, [
+      'title' => 'Issues Mail Accounts', // or $this->translate('EventFeedback')
+      'icon' => 'fas fa-table',
+      'url' => 'issues/mail-accounts',
+    ]);
+
+    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu->addItem($this, 'issues', $this->translate('Issues'), 'fas fa-table');
+    $appMenu->addItem($this, 'issues/mail-accounts', $this->translate('Mail accounts'), 'fas fa-list');
+  }
+
+  // installTables
+  public function installTables(int $round): void
+  {
+    if ($round == 1) {
+      (new Models\Issue($this->main))->dropTableIfExists()->install();
+      (new Models\MailAccount($this->main))->dropTableIfExists()->install();
+   }
+  }
+
+  // generateDemoData
+  public function generateDemoData(): void
+  {
+    // Create any demo data to promote your app.
+  }
+
+}
