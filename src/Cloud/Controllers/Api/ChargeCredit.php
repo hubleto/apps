@@ -10,10 +10,10 @@ class ChargeCredit extends \HubletoMain\Controllers\ApiController
 
   public function renderJson(): ?array
   {
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
 
-    $mDiscount = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Discount::class);
-    $mPayment = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Payment::class);
+    $mDiscount = $this->main->load(\HubletoApp\Community\Cloud\Models\Discount::class);
+    $mPayment = $this->main->load(\HubletoApp\Community\Cloud\Models\Payment::class);
 
     $discountThisMonth = $mDiscount->record
       ->where('month', date('m'))

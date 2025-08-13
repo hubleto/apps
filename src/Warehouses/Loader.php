@@ -18,7 +18,7 @@ class Loader extends \HubletoMain\App
       '/^warehouses\/settings\/warehouse-location-types\/?$/' => Controllers\LocationTypes::class,
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'warehouses', $this->translate('Warehouses'), 'fas fa-warehouse');
     $appMenu->addItem($this, 'warehouses/locations', $this->translate('Locations'), 'fas fa-pallet');
 
@@ -28,13 +28,13 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\WarehouseType::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\LocationType::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Warehouse::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Location::class)->dropTableIfExists()->install();
+      $this->main->load(Models\WarehouseType::class)->dropTableIfExists()->install();
+      $this->main->load(Models\LocationType::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Warehouse::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Location::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
-      $mLocationType = $this->main->di->create(Models\LocationType::class);
+      $mLocationType = $this->main->load(Models\LocationType::class);
       $mLocationType->record->recordCreate(['name' => 'Area']);
       $mLocationType->record->recordCreate(['name' => 'Aisle']);
       $mLocationType->record->recordCreate(['name' => 'Rack']);
@@ -46,10 +46,10 @@ class Loader extends \HubletoMain\App
   // generateDemoData
   public function generateDemoData(): void
   {
-    $mWarehouseType = $this->main->di->create(Models\WarehouseType::class);
-    $mLocationType = $this->main->di->create(Models\LocationType::class);
-    $mWarehouse = $this->main->di->create(Models\Warehouse::class);
-    $mLocation = $this->main->di->create(Models\Location::class);
+    $mWarehouseType = $this->main->load(Models\WarehouseType::class);
+    $mLocationType = $this->main->load(Models\LocationType::class);
+    $mWarehouse = $this->main->load(Models\Warehouse::class);
+    $mLocation = $this->main->load(Models\Location::class);
 
     $idWarehouseTypeMain = $mWarehouseType->record->recordCreate(['name' => 'Main'])['id'];
     $idWarehouseTypeRegional = $mWarehouseType->record->recordCreate(['name' => 'Regional'])['id'];

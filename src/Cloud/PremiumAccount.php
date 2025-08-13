@@ -80,9 +80,9 @@ class PremiumAccount extends \HubletoMain\CoreClass
       $year = (int) date('Y');
     }
 
-    $mLog = $this->main->di->create(Models\Log::class);
-    $mPayment = $this->main->di->create(Models\Payment::class);
-    $mCredit = $this->main->di->create(Models\Credit::class);
+    $mLog = $this->main->load(Models\Log::class);
+    $mPayment = $this->main->load(Models\Payment::class);
+    $mCredit = $this->main->load(Models\Credit::class);
 
     $lastLog = $mLog->record
       ->orderBy('log_datetime', 'desc')
@@ -102,7 +102,7 @@ class PremiumAccount extends \HubletoMain\CoreClass
     }
 
     // count active users
-    $mUser = $this->main->di->create(\HubletoApp\Community\Settings\Models\User::class);
+    $mUser = $this->main->load(\HubletoApp\Community\Settings\Models\User::class);
     $activeUsers = $mUser->record->where('is_active', 1)->count();
 
     // log change in number of users or paid apps
@@ -119,8 +119,8 @@ class PremiumAccount extends \HubletoMain\CoreClass
 
   public function recalculateCredit(): float
   {
-    $mPayment = $this->main->di->create(Models\Payment::class);
-    $mCredit = $this->main->di->create(Models\Credit::class);
+    $mPayment = $this->main->load(Models\Payment::class);
+    $mCredit = $this->main->load(Models\Credit::class);
 
     $lastCreditData = $mCredit->record->orderBy('id', 'desc')->first()?->toArray();
     $currentCredit = 0;
@@ -151,7 +151,7 @@ class PremiumAccount extends \HubletoMain\CoreClass
 
   public function getCurrentCredit(): float
   {
-    $mCredit = $this->main->di->create(Models\Credit::class);
+    $mCredit = $this->main->load(Models\Credit::class);
     $tmp = $mCredit->record->orderBy('id', 'desc')->first()?->toArray();
 
     return (float) ($tmp['credit'] ?? 0);
@@ -159,9 +159,9 @@ class PremiumAccount extends \HubletoMain\CoreClass
 
   public function getPremiumInfo(int $month = 0, int $year = 0): array
   {
-    $mDiscount = $this->main->di->create(Models\Discount::class);
-    $mLog = $this->main->di->create(Models\Log::class);
-    $mPayment = $this->main->di->create(Models\Payment::class);
+    $mDiscount = $this->main->load(Models\Discount::class);
+    $mLog = $this->main->load(Models\Log::class);
+    $mPayment = $this->main->load(Models\Payment::class);
 
     if ($month == 0) {
       $month = date('m');
@@ -200,7 +200,7 @@ class PremiumAccount extends \HubletoMain\CoreClass
       }
 
       // count active users
-      $mUser = $this->main->di->create(\HubletoApp\Community\Settings\Models\User::class);
+      $mUser = $this->main->load(\HubletoApp\Community\Settings\Models\User::class);
       $activeUsers = $mUser->record->where('is_active', 1)->count();
 
       $premiumInfo['activeUsers'] = $activeUsers;

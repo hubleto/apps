@@ -33,7 +33,7 @@ class Loader extends \HubletoMain\App
       'url' => 'events/settings',
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'events', $this->translate('Events'), 'fas fa-people-group');
     $appMenu->addItem($this, 'events/venues', $this->translate('Venues'), 'fas fa-building-columns');
     $appMenu->addItem($this, 'events/speakers', $this->translate('Speakers'), 'fas fa-user-tie');
@@ -44,18 +44,18 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Type::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Venue::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Speaker::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Attendee::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Event::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\EventVenue::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\EventSpeaker::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\EventAttendee::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Agenda::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Type::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Venue::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Speaker::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Attendee::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Event::class)->dropTableIfExists()->install();
+      $this->main->load(Models\EventVenue::class)->dropTableIfExists()->install();
+      $this->main->load(Models\EventSpeaker::class)->dropTableIfExists()->install();
+      $this->main->load(Models\EventAttendee::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Agenda::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
-      $mType = $this->main->di->create(Models\Type::class);
+      $mType = $this->main->load(Models\Type::class);
       $mType->record->recordCreate(['name' => 'Seminar']);
       $mType->record->recordCreate(['name' => 'Workshop']);
       $mType->record->recordCreate(['name' => 'Team building']);

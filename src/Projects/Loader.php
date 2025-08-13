@@ -35,11 +35,11 @@ class Loader extends \HubletoMain\App
       Calendar::class // your app's Calendar class
     );
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'projects', $this->translate('Projects'), 'fas fa-diagram-project');
     $appMenu->addItem($this, 'projects/phases', $this->translate('Phases'), 'fas fa-list');
 
-    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
     $externalModels->registerExternalModel($this, Models\Project::class);
 
   }
@@ -48,14 +48,14 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Phase::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Project::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Phase::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Project::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
 
     }
     if ($round == 3) {
-      $mPhase = $this->main->di->create(Models\Phase::class);
+      $mPhase = $this->main->load(Models\Phase::class);
       $mPhase->record->recordCreate(['name' => 'Early preparation', 'order' => 1, 'color' => '#344556']);
       $mPhase->record->recordCreate(['name' => 'Advanced preparation', 'order' => 2, 'color' => '#6830a5']);
       $mPhase->record->recordCreate(['name' => 'Final preparation', 'order' => 3, 'color' => '#3068a5']);
@@ -69,7 +69,7 @@ class Loader extends \HubletoMain\App
   // generateDemoData
   public function generateDemoData(): void
   {
-    $mProject = $this->main->di->create(Models\Project::class);
+    $mProject = $this->main->load(Models\Project::class);
 
     $mProject->record->recordCreate([
       'id_deal' => 1,

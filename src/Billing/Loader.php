@@ -19,7 +19,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\BillingAccount::class)->dropTableIfExists()->install();
+      $this->main->load(Models\BillingAccount::class)->dropTableIfExists()->install();
     }
   }
 

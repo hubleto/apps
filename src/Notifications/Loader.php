@@ -34,7 +34,7 @@ class Loader extends \HubletoMain\App
 
   public function getNotificationsCount(): int
   {
-    $mNotification = $this->main->di->create(\HubletoApp\Community\Notifications\Models\Notification::class);
+    $mNotification = $this->main->load(\HubletoApp\Community\Notifications\Models\Notification::class);
     return $mNotification->record->prepareReadQuery()
       ->where('id_to', $this->main->auth->getUserId())
       ->whereNull('datetime_read')
@@ -55,7 +55,7 @@ class Loader extends \HubletoMain\App
     $idUser = $user['id'] ?? 0;
 
     if ($idTo > 0) {
-      $mNotification = $this->main->di->create(Models\Notification::class);
+      $mNotification = $this->main->load(Models\Notification::class);
       $notification = $mNotification->record->create([
         'priority' => $priority,
         'category' => $category,
@@ -83,7 +83,7 @@ class Loader extends \HubletoMain\App
 
       $dailyDigestClass = '\\' . $appNamespace . '\\Controllers\\Api\\DailyDigest';
       if (class_exists($dailyDigestClass)) {
-        $dailyDigestController = $this->main->di->create($dailyDigestClass);
+        $dailyDigestController = $this->main->load($dailyDigestClass);
         $dailyDigestController->user = $user;
         $appDigest = $dailyDigestController->response();
       }

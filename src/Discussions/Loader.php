@@ -19,7 +19,7 @@ class Loader extends \HubletoMain\App
       '/^discussions\/api\/send-message\/?$/' => Controllers\Api\SendMessage::class,
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'discussions', $this->translate('Discussions'), 'fas fa-user');
     $appMenu->addItem($this, 'discussions/members', $this->translate('Members'), 'fas fa-file-import');
     $appMenu->addItem($this, 'discussions/messages', $this->translate('Messages'), 'fas fa-file-import');
@@ -29,9 +29,9 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Discussion::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Member::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Message::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Discussion::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Member::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Message::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       // do something in the 2nd round, if required

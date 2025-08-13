@@ -10,7 +10,7 @@ class GetPipelines extends \HubletoMain\Controllers\ApiController
   public function renderJson(): ?array
   {
 
-    $mPipeline = $this->main->di->create(Pipeline::class);
+    $mPipeline = $this->main->load(Pipeline::class);
     $pipelines = \Hubleto\Framework\Helper::keyBy('id', $mPipeline->record->prepareReadQuery()->get()?->toArray());
 
     return [

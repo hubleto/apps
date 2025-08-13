@@ -8,7 +8,7 @@ class ActivatePremiumAccount extends \HubletoMain\Controllers\ApiController
 {
   public function renderJson(): ?array
   {
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
     $premiumAccount->activatePremiumAccount();
     $this->main->router->redirectTo('cloud');
   }

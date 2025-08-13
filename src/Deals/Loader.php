@@ -44,20 +44,20 @@ class Loader extends \HubletoMain\App
 
     $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 
-    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
     $externalModels->registerExternalModel($this, Models\Deal::class);
 
-    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard( $this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
     $boards->addBoard( $this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');
     $boards->addBoard( $this, $this->translate('Deal value by result'), 'deals/boards/deal-value-by-result');
 
-    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     $help->addContextHelpUrls('/^deals\/?$/', [
       'en' => 'en/apps/community/deals',
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'deals', $this->translate('Active deals'), 'fas fa-handshake');
     $appMenu->addItem($this, 'deals/archive', $this->translate('Archived deals'), 'fas fa-box-archive');
   }
@@ -65,14 +65,14 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mDeal = $this->main->di->create(\HubletoApp\Community\Deals\Models\Deal::class);
-      $mDealHistory = $this->main->di->create(\HubletoApp\Community\Deals\Models\DealHistory::class);
-      $mDealTag = $this->main->di->create(\HubletoApp\Community\Deals\Models\Tag::class);
-      $mCrossDealTag = $this->main->di->create(\HubletoApp\Community\Deals\Models\DealTag::class);
-      $mDealProduct = $this->main->di->create(\HubletoApp\Community\Deals\Models\DealProduct::class);
-      $mDealActivity = $this->main->di->create(\HubletoApp\Community\Deals\Models\DealActivity::class);
-      $mDealDocument = $this->main->di->create(\HubletoApp\Community\Deals\Models\DealDocument::class);
-      $mLostReasons = $this->main->di->create(\HubletoApp\Community\Deals\Models\LostReason::class);
+      $mDeal = $this->main->load(\HubletoApp\Community\Deals\Models\Deal::class);
+      $mDealHistory = $this->main->load(\HubletoApp\Community\Deals\Models\DealHistory::class);
+      $mDealTag = $this->main->load(\HubletoApp\Community\Deals\Models\Tag::class);
+      $mCrossDealTag = $this->main->load(\HubletoApp\Community\Deals\Models\DealTag::class);
+      $mDealProduct = $this->main->load(\HubletoApp\Community\Deals\Models\DealProduct::class);
+      $mDealActivity = $this->main->load(\HubletoApp\Community\Deals\Models\DealActivity::class);
+      $mDealDocument = $this->main->load(\HubletoApp\Community\Deals\Models\DealDocument::class);
+      $mLostReasons = $this->main->load(\HubletoApp\Community\Deals\Models\LostReason::class);
 
       $mLostReasons->dropTableIfExists()->install();
       $mDeal->dropTableIfExists()->install();
@@ -98,7 +98,7 @@ class Loader extends \HubletoMain\App
 
   // public function installDefaultPermissions(): void
   // {
-  //   $mPermission = $this->main->di->create(\HubletoApp\Community\Settings\Models\Permission::class);
+  //   $mPermission = $this->main->load(\HubletoApp\Community\Settings\Models\Permission::class);
   //   $permissions = [
   //     "HubletoApp/Community/Deals/Models/Deal:Create",
   //     "HubletoApp/Community/Deals/Models/Deal:Read",

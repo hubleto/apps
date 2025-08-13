@@ -12,7 +12,7 @@ class DealValueByResult extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $mDeal = $this->main->di->create(Deal::class);
+    $mDeal = $this->main->load(Deal::class);
 
     $deals = $mDeal->record->prepareReadQuery()
       ->selectRaw("`{$mDeal->table}`.`deal_result`, SUM(`{$mDeal->table}`.`price`) as price")

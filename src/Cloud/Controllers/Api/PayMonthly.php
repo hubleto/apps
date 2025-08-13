@@ -16,7 +16,7 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
 
   public function renderJson(): ?array
   {
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
 
     if ($this->main->isUrlParam('today')) {
       $today = date('Y-m-d', strtotime($this->main->urlParamAsString('today')));
@@ -45,7 +45,7 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
     }
 
 
-    $mPayment = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Payment::class);
+    $mPayment = $this->main->load(\HubletoApp\Community\Cloud\Models\Payment::class);
 
     $prevMonth = date('m', strtotime('-1 month', strtotime($today)));
     $prevYear = date('Y', strtotime('-1 month', strtotime($today)));

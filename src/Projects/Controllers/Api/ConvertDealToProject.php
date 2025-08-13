@@ -20,8 +20,8 @@ class ConvertDealToProject extends \HubletoMain\Controllers\ApiController
 
     $idDeal = $this->main->urlParamAsInteger("idDeal");
 
-    $mDeal = $this->main->di->create(Deal::class);
-    $mProject = $this->main->di->create(Project::class);
+    $mDeal = $this->main->load(Deal::class);
+    $mProject = $this->main->load(Project::class);
     $project = null;
 
     try {
@@ -32,7 +32,7 @@ class ConvertDealToProject extends \HubletoMain\Controllers\ApiController
 
       $projectsCount = $mProject->record->where('id_deal', $deal->id)->count();
 
-      $mPipeline = $this->main->di->create(Pipeline::class);
+      $mPipeline = $this->main->load(Pipeline::class);
       list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_PROJECT_MANAGEMENT);
 
       $project = $mProject->record->recordCreate([

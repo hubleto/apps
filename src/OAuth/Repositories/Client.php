@@ -18,7 +18,7 @@ class Client implements ClientRepositoryInterface
   public function getClientEntity(string $clientIdentifier): ?ClientEntityInterface
   {
 
-    $mClient = $this->main->di->create(\HubletoApp\Community\OAuth\Models\Client::class);
+    $mClient = $this->main->load(\HubletoApp\Community\OAuth\Models\Client::class);
     $clientData = $mClient->record->where('client_id', $clientIdentifier)->first()?->toArray();
 
     $client = new ClientEntity();
@@ -33,7 +33,7 @@ class Client implements ClientRepositoryInterface
   public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
   {
 
-    $mClient = $this->main->di->create(\HubletoApp\Community\OAuth\Models\Client::class);
+    $mClient = $this->main->load(\HubletoApp\Community\OAuth\Models\Client::class);
     $clientData = $mClient->record->where('client_id', $clientIdentifier)->first()?->toArray();
     return ($clientData['client_secret'] ?? '') == $clientSecret;
   }

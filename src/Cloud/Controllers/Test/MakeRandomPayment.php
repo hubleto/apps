@@ -10,11 +10,11 @@ class MakeRandomPayment extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
 
     $amount = rand(15, 20) / 2;
 
-    $mPayment = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Payment::class);
+    $mPayment = $this->main->load(\HubletoApp\Community\Cloud\Models\Payment::class);
     $mPayment->addPayment(date('Y-m-d H:i:s'), $amount, 'TEST: random payment');
 
     $this->viewParams['amount'] = $amount;

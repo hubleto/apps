@@ -16,8 +16,8 @@ class Import extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $mContact = $this->main->di->create(\HubletoApp\Community\Contacts\Models\Contact::class);
-    $mValue = $this->main->di->create(\HubletoApp\Community\Contacts\Models\Value::class);
+    $mContact = $this->main->load(\HubletoApp\Community\Contacts\Models\Contact::class);
+    $mValue = $this->main->load(\HubletoApp\Community\Contacts\Models\Value::class);
 
     $log = [];
     $importFinished = false;

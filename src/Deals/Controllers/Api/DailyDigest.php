@@ -8,7 +8,7 @@ class DailyDigest extends \HubletoMain\Controllers\ApiController
   {
     $digest = [];
 
-    $mDeal = $this->main->di->create(\HubletoApp\Community\Deals\Models\Deal::class);
+    $mDeal = $this->main->load(\HubletoApp\Community\Deals\Models\Deal::class);
 
     $myDeals = $mDeal->record->prepareReadQuery()
       ->where($mDeal->table . ".is_archived", 0)

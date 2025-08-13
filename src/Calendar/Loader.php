@@ -31,12 +31,12 @@ class Loader extends \HubletoMain\App
       '/^calendar\/api\/stop-sharing-calendar\/?$/' => Controllers\Api\StopSharingCalendar::class,
     ]);
 
-    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     $help->addContextHelpUrls('/^calendar\/?$/', [
       'en' => 'en/apps/community/calendar',
     ]);
 
-    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard(
       $this,
       $this->translate('Reminders'),
@@ -54,9 +54,9 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mActivity = $this->main->di->create(Activity::class);
+      $mActivity = $this->main->load(Activity::class);
       $mActivity->install();
-      $mSharedCalendar = $this->main->di->create(SharedCalendar::class);
+      $mSharedCalendar = $this->main->load(SharedCalendar::class);
       $mSharedCalendar->install();
     }
   }

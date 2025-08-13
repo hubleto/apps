@@ -30,15 +30,15 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Dashboard::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Panel::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Dashboard::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Panel::class)->dropTableIfExists()->install();
     }
   }
 
   public function generateDemoData(): void
   {
-    $mDashboard = $this->main->di->create(Models\Dashboard::class);
-    $mPanel = $this->main->di->create(Models\Panel::class);
+    $mDashboard = $this->main->load(Models\Dashboard::class);
+    $mPanel = $this->main->load(Models\Panel::class);
 
     $dashboard = $mDashboard->record->recordCreate([
       'id_owner' => 1,
@@ -47,7 +47,7 @@ class Loader extends \HubletoMain\App
       'is_default' => true,
     ]);
 
-    $boards = $this->main->di->create(Manager::class);
+    $boards = $this->main->load(Manager::class);
     foreach ($boards->getBoards() as $board) {
       $mPanel->record->recordCreate([
         'id_dashboard' => $dashboard['id'],

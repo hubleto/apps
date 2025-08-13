@@ -15,7 +15,7 @@ class DailyActivityChart extends \HubletoMain\Controllers\ApiController
     //   if (rand(0, 1) == 0) $y += rand(12, 18) / 10;
     //   else $y -= rand(10, 15) / 10;
     // }
-    $mActivity = $this->main->di->create(\HubletoApp\Community\Worksheets\Models\Activity::class);
+    $mActivity = $this->main->load(\HubletoApp\Community\Worksheets\Models\Activity::class);
     $worked = $mActivity->record
       ->groupBy(DB::raw('date(datetime_created)'))
       ->selectRaw('sum(duration) as worked, date(datetime_created) as date')

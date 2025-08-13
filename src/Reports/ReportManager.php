@@ -25,7 +25,7 @@ class ReportManager
    */
   public function addReport(\Hubleto\Framework\Interfaces\AppInterface $hubletoApp, string $reportClass): void
   {
-    $report = $this->main->di->create($reportClass);
+    $report = $this->main->load($reportClass);
     if ($report instanceof \HubletoMain\Report) {
       $report->hubletoApp = $hubletoApp;
       $this->reports[$reportClass] = $report;

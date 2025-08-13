@@ -56,7 +56,7 @@ class Order extends \Hubleto\Framework\Models\Model
 
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
-    $mSettings = $this->main->di->create(Setting::class);
+    $mSettings = $this->main->load(Setting::class);
     $defaultCurrency = (int) $mSettings->record
       ->where("key", "Apps\Community\Settings\Currency\DefaultCurrency")
       ->first()
@@ -73,7 +73,7 @@ class Order extends \Hubleto\Framework\Models\Model
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
 
-    $mProduct = $this->main->di->create(Product::class);
+    $mProduct = $this->main->load(Product::class);
     $longDescription = "";
 
     if (isset($savedRecord["PRODUCTS"])) {
@@ -90,7 +90,7 @@ class Order extends \Hubleto\Framework\Models\Model
       $longDescription = "The order had no products or all products were deleted";
     }
 
-    $mHistory = $this->main->di->create(History::class);
+    $mHistory = $this->main->load(History::class);
     $mHistory->record->recordCreate([
       "id_order" => $savedRecord["id"],
       "short_description" => "Order has been updated",
@@ -109,7 +109,7 @@ class Order extends \Hubleto\Framework\Models\Model
     $order->order_number = $order->id;
     $order->save();
 
-    $mHistory = $this->main->di->create(History::class);
+    $mHistory = $this->main->load(History::class);
     $mHistory->record->recordCreate([
       "id_order" => $order->id,
       "short_description" => "Order created",

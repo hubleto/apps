@@ -28,7 +28,7 @@ class Loader extends \HubletoMain\App
       Calendar::class
     );
 
-    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     $help->addContextHelpUrls('/^customers\/?$/', [
       'en' => 'en/apps/community/customers',
     ]);
@@ -44,10 +44,10 @@ class Loader extends \HubletoMain\App
   {
 
     if ($round == 1) {
-      $mCustomer = $this->main->di->create(\HubletoApp\Community\Customers\Models\Customer::class);
-      $mCustomerDocument = $this->main->di->create(\HubletoApp\Community\Customers\Models\CustomerDocument::class);
-      $mCustomerTag = $this->main->di->create(\HubletoApp\Community\Customers\Models\Tag::class);
-      $mCrossCustomerTag = $this->main->di->create(\HubletoApp\Community\Customers\Models\CustomerTag::class);
+      $mCustomer = $this->main->load(\HubletoApp\Community\Customers\Models\Customer::class);
+      $mCustomerDocument = $this->main->load(\HubletoApp\Community\Customers\Models\CustomerDocument::class);
+      $mCustomerTag = $this->main->load(\HubletoApp\Community\Customers\Models\Tag::class);
+      $mCrossCustomerTag = $this->main->load(\HubletoApp\Community\Customers\Models\CustomerTag::class);
 
       $mCustomer->dropTableIfExists()->install();
       $mCustomerTag->dropTableIfExists()->install();
@@ -60,7 +60,7 @@ class Loader extends \HubletoMain\App
     }
 
     if ($round == 2) {
-      $mCustomerActivity = $this->main->di->create(\HubletoApp\Community\Customers\Models\CustomerActivity::class);
+      $mCustomerActivity = $this->main->load(\HubletoApp\Community\Customers\Models\CustomerActivity::class);
       $mCustomerActivity->dropTableIfExists()->install();
     }
   }

@@ -77,7 +77,7 @@ class Project extends \Hubleto\Framework\Models\Model
     $description->ui['showFulltextSearch'] = true;
     $description->ui['showFooter'] = false;
 
-    // \$mPhase = $this->main->di->create(Phase::class);
+    // \$mPhase = $this->main->load(Phase::class);
     // $fPhaseOptions = [ ];//0 => 'All' ];
     // foreach ($mPhase->record->orderBy('order', 'asc')->get()?->toArray() as $phase) {
     //   $fPhaseOptions[$phase['id']] = $phase['name'];
@@ -108,7 +108,7 @@ class Project extends \Hubleto\Framework\Models\Model
   public function onAfterCreate(array $savedRecord): array
   {
 
-    $mPipeline = $this->main->di->create(Pipeline::class);
+    $mPipeline = $this->main->load(Pipeline::class);
     list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_PROJECT_MANAGEMENT);
     $savedRecord['id_pipeline'] = $idPipeline;
     $savedRecord['id_pipeline_step'] = $idPipelineStep;

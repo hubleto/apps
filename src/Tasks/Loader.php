@@ -19,7 +19,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Task::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Task::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       // do something in the 2nd round, if required

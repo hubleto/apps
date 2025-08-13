@@ -11,8 +11,8 @@ class SendMessage extends \HubletoMain\Controllers\ApiController
 
     $idUser = $this->main->auth->getUserId();
 
-    $mMessage = $this->main->di->create(\HubletoApp\Community\Discussions\Models\Message::class);
-    $mMember = $this->main->di->create(\HubletoApp\Community\Discussions\Models\Member::class);
+    $mMessage = $this->main->load(\HubletoApp\Community\Discussions\Models\Message::class);
+    $mMember = $this->main->load(\HubletoApp\Community\Discussions\Models\Member::class);
 
     $sentMessage = [
       'id_discussion' => $idDiscussion,

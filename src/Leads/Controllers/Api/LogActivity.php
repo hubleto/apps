@@ -12,11 +12,11 @@ class LogActivity extends \HubletoMain\Controllers\ApiController
     $idLead = $this->main->urlParamAsInteger("idLead");
     $activity = $this->main->urlParamAsString("activity");
     if ($idLead > 0 && $activity != '') {
-      $mLead = $this->main->di->create(Lead::class);
+      $mLead = $this->main->load(Lead::class);
       $lead = $mLead->record->find($idLead)->first()?->toArray();
 
       if ($lead && $lead['id'] > 0) {
-        $mLeadActivity = $this->main->di->create(LeadActivity::class);
+        $mLeadActivity = $this->main->load(LeadActivity::class);
         $mLeadActivity->record->recordCreate([
           'id_lead' => $idLead,
           'subject' => $activity,

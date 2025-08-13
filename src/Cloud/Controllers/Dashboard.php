@@ -8,7 +8,7 @@ class Dashboard extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $premiumAccount = $this->main->di->create(\HubletoApp\Community\Cloud\PremiumAccount::class);
+    $premiumAccount = $this->main->load(\HubletoApp\Community\Cloud\PremiumAccount::class);
 
     $premiumAccount->updatePremiumInfo();
     $premiumAccount->recalculateCredit();
@@ -18,7 +18,7 @@ class Dashboard extends \HubletoMain\Controller
 
     $premiumInfo = $premiumAccount->getPremiumInfo();
 
-    $mLog = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Log::class);
+    $mLog = $this->main->load(\HubletoApp\Community\Cloud\Models\Log::class);
     $this->viewParams['log'] = $mLog->record
       ->selectRaw('
         month(log_datetime) as month,

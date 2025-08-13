@@ -7,7 +7,7 @@ class GetConfig extends \HubletoMain\Controllers\ApiController
   public function renderJson(): ?array
   {
     $model = $this->main->urlParamAsString("model");
-    $modelObj = $this->main->di->create($model::class);
+    $modelObj = $this->main->load($model::class);
 
     $fields = [];
     foreach ($modelObj->getColumns() as $colName => $column) {

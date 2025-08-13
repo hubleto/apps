@@ -10,12 +10,12 @@ class ActivateSubscriptionRenewal extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
     $premiumAccount->activateSubscriptionRenewal();
 
     // $currentCredit = $premiumAccount->recalculateCredit();
 
-    // $mPayment = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Payment::class);
+    // $mPayment = $this->main->load(\HubletoApp\Community\Cloud\Models\Payment::class);
     // $mPayment->record->recordCreate([
     //   'datetime_charged' => date('Y-m-d H:i:s'),
     //   'full_amount' => -$currentCredit,

@@ -8,7 +8,7 @@ class GetCustomer extends \HubletoMain\Controllers\ApiController
 {
   public function renderJson(): ?array
   {
-    $mCustomer = $this->main->di->create(Customer::class);
+    $mCustomer = $this->main->load(Customer::class);
     $customers = null;
     $customerArray = [];
 

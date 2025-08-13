@@ -14,7 +14,7 @@ class Loader extends \HubletoMain\App
       '/^inventory\/transactions\/?$/' => Controllers\Transactions::class,
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'inventory', $this->translate('Warehouses'), 'fas fa-boxes-stacked');
     $appMenu->addItem($this, 'inventory/transactions', $this->translate('Transactions'), 'fas fa-arrows-turn-to-dots');
 
@@ -24,12 +24,12 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Status::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Inventory::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Transaction::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Status::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Inventory::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Transaction::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
-      $mStatus = $this->main->di->create(Models\Status::class);
+      $mStatus = $this->main->load(Models\Status::class);
       $mStatus->record->recordCreate(['name' => 'Available']);
       $mStatus->record->recordCreate(['name' => 'Quarantined']);
       $mStatus->record->recordCreate(['name' => 'Damaged']);

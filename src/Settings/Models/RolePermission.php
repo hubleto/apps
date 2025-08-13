@@ -36,11 +36,11 @@ class RolePermission extends \Hubleto\Framework\Models\Model
 
   public function findPermissionByString(string $permission): array
   {
-    $mPermission = $this->main->di->create(Permission::class);
+    $mPermission = $this->main->load(Permission::class);
     $pData = $mPermission->record->where('permission', $permission)->first()?->toArray();
 
     if (!is_array($pData)) {
-      $mPermission = $this->main->di->create(Permission::class);
+      $mPermission = $this->main->load(Permission::class);
       $mPermission->record->recordCreate(['permission' => $permission]);
 
       $pData = $mPermission->record->where('permission', $permission)->first()?->toArray();
@@ -73,7 +73,7 @@ class RolePermission extends \Hubleto\Framework\Models\Model
 
   public function grantPermissionsLike(int $idRole, string $permission): void
   {
-    $mPermission = $this->main->di->create(Permission::class);
+    $mPermission = $this->main->load(Permission::class);
     $permissions = $mPermission->record->where('permission', 'like', $permission)->get()?->toArray();
 
     foreach ($permissions as $prm) {

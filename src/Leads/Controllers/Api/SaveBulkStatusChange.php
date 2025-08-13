@@ -11,7 +11,7 @@ class SaveBulkStatusChange extends \HubletoMain\Controllers\ApiController
   {
 
     $records = $this->main->urlParamAsArray("record");
-    $mLead = $this->main->di->create(Lead::class);
+    $mLead = $this->main->load(Lead::class);
 
     try {
       foreach ($records as $key => $lead) {

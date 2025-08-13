@@ -26,7 +26,7 @@ class Loader extends \HubletoMain\App
       'url' => 'issues/mail-accounts',
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'issues', $this->translate('Issues'), 'fas fa-table');
     $appMenu->addItem($this, 'issues/mail-accounts', $this->translate('Mail accounts'), 'fas fa-list');
   }
@@ -35,8 +35,8 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Issue::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\MailAccount::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Issue::class)->dropTableIfExists()->install();
+      $this->main->load(Models\MailAccount::class)->dropTableIfExists()->install();
    }
   }
 

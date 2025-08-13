@@ -7,7 +7,7 @@ class Events extends \HubletoMain\CoreClass
 
   public function loadRemindersSummary(int $idUser = 0): array
   {
-    $getCalendarEvents = $this->main->di->create(Controllers\Api\GetCalendarEvents::class);
+    $getCalendarEvents = $this->main->load(Controllers\Api\GetCalendarEvents::class);
 
     $remindersToday = $getCalendarEvents->loadEventsFromMultipleCalendars(
       date("Y-m-d", strtotime("-1 year")),

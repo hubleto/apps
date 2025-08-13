@@ -23,7 +23,7 @@ class User implements UserRepositoryInterface
     ClientEntityInterface $clientEntity
   ): ?UserEntityInterface {
 
-    $mUser = $this->main->di->create(\HubletoApp\Community\Settings\User::class);
+    $mUser = $this->main->load(\HubletoApp\Community\Settings\User::class);
 
     $users = $mUser->record
       ->whereRaw("UPPER(email) LIKE '" . strtoupper(str_replace("'", "", $value)))

@@ -17,7 +17,7 @@ class Loader extends \HubletoMain\App
       '/^usage\/log\/?$/' => Controllers\Log::class,
     ]);
 
-    $tools = $this->main->di->create(\HubletoApp\Community\Tools\Manager::class);
+    $tools = $this->main->load(\HubletoApp\Community\Tools\Manager::class);
     $tools->addTool($this, [
       'title' => $this->translate('Usage log'),
       'icon' => 'fas fa-chart-bar',
@@ -29,7 +29,7 @@ class Loader extends \HubletoMain\App
   {
     if ((bool) $this->main->auth->getUserId()) {
       $urlParams = $this->main->getUrlParams();
-      $mLog = $this->main->di->create(Models\Log::class);
+      $mLog = $this->main->load(Models\Log::class);
 
       $paramsStr = count($urlParams) == 0 ? '' : json_encode($urlParams);
       $mLog->record->recordCreate([
@@ -46,7 +46,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Log::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Log::class)->dropTableIfExists()->install();
     }
   }
 
@@ -54,7 +54,7 @@ class Loader extends \HubletoMain\App
   {
     $usedAppNamespaces = [];
 
-    $mLog = $this->main->di->create(Models\Log::class);
+    $mLog = $this->main->load(Models\Log::class);
     $usageLogs = $mLog->record
       ->where('id_user', $this->main->auth->getUserId())
       ->where('datetime', '>=', date("Y-m-d", strtotime("-7 days")))

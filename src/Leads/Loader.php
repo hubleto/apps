@@ -40,7 +40,7 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/lead-lost-reasons',
     ]);
 
-    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
     $externalModels->registerExternalModel($this, Models\Lead::class);
 
     $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
@@ -50,16 +50,16 @@ class Loader extends \HubletoMain\App
       Calendar::class
     );
 
-    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard( $this, 'Lead value by score', 'leads/boards/lead-value-by-score');
     $boards->addBoard( $this, 'Lead warnings', 'leads/boards/lead-warnings');
 
-    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     $help->addContextHelpUrls('/^leads\/?$/', [
       'en' => 'en/apps/community/leads',
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'leads', $this->translate('Active leads'), 'fas fa-people-arrows');
     $appMenu->addItem($this, 'leads/archive', $this->translate('Archived leads'), 'fas fa-box-archive');
   }
@@ -67,14 +67,14 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mLevel = $this->main->di->create(\HubletoApp\Community\Leads\Models\Level::class);
-      $mLead = $this->main->di->create(\HubletoApp\Community\Leads\Models\Lead::class);
-      $mLeadHistory = $this->main->di->create(\HubletoApp\Community\Leads\Models\LeadHistory::class);
-      $mLeadTag = $this->main->di->create(\HubletoApp\Community\Leads\Models\Tag::class);
-      $mCrossLeadTag = $this->main->di->create(\HubletoApp\Community\Leads\Models\LeadTag::class);
-      $mLeadActivity = $this->main->di->create(\HubletoApp\Community\Leads\Models\LeadActivity::class);
-      $mLeadDocument = $this->main->di->create(\HubletoApp\Community\Leads\Models\LeadDocument::class);
-      $mLostReasons = $this->main->di->create(\HubletoApp\Community\Leads\Models\LostReason::class);
+      $mLevel = $this->main->load(\HubletoApp\Community\Leads\Models\Level::class);
+      $mLead = $this->main->load(\HubletoApp\Community\Leads\Models\Lead::class);
+      $mLeadHistory = $this->main->load(\HubletoApp\Community\Leads\Models\LeadHistory::class);
+      $mLeadTag = $this->main->load(\HubletoApp\Community\Leads\Models\Tag::class);
+      $mCrossLeadTag = $this->main->load(\HubletoApp\Community\Leads\Models\LeadTag::class);
+      $mLeadActivity = $this->main->load(\HubletoApp\Community\Leads\Models\LeadActivity::class);
+      $mLeadDocument = $this->main->load(\HubletoApp\Community\Leads\Models\LeadDocument::class);
+      $mLostReasons = $this->main->load(\HubletoApp\Community\Leads\Models\LostReason::class);
 
       $mLevel->dropTableIfExists()->install();
       $mLostReasons->dropTableIfExists()->install();

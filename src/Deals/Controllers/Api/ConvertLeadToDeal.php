@@ -25,16 +25,16 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
 
     $leadId = $this->main->urlParamAsInteger("recordId");
 
-    $mLead = $this->main->di->create(Lead::class);
-    $mLeadHistory = $this->main->di->create(LeadHistory::class);
-    $mLeadDocument = $this->main->di->create(LeadDocument::class);
+    $mLead = $this->main->load(Lead::class);
+    $mLeadHistory = $this->main->load(LeadHistory::class);
+    $mLeadDocument = $this->main->load(LeadDocument::class);
 
-    $mDeal = $this->main->di->create(Deal::class);
-    $mDealHistory = $this->main->di->create(DealHistory::class);
-    $mDealDocument = $this->main->di->create(DealDocument::class);
+    $mDeal = $this->main->load(Deal::class);
+    $mDealHistory = $this->main->load(DealHistory::class);
+    $mDealDocument = $this->main->load(DealDocument::class);
     $deal = null;
 
-    $mPipeline = $this->main->di->create(Pipeline::class);
+    $mPipeline = $this->main->load(Pipeline::class);
     list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_DEAL_MANAGEMENT);
 
     try {

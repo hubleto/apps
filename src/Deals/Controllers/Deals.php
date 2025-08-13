@@ -16,7 +16,7 @@ class Deals extends \HubletoMain\Controller
   public function prepareView(): void
   {
 
-    $mDeal = $this->main->di->create(Deal::class);
+    $mDeal = $this->main->load(Deal::class);
 
     $result = $mDeal->record
       ->selectRaw("COUNT(id) as count, SUM(price) as price")

@@ -30,7 +30,7 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/contact-tags',
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'contacts', $this->translate('Contacts'), 'fas fa-user');
     $appMenu->addItem($this, 'contacts/import', $this->translate('Import contacts'), 'fas fa-file-import');
   }
@@ -38,11 +38,11 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mCategory = $this->main->di->create(Models\Category::class);
-      $mContact = $this->main->di->create(Models\Contact::class);
-      $mValue = $this->main->di->create(Models\Value::class);
-      $mTag = $this->main->di->create(Models\Tag::class);
-      $mContactTag = $this->main->di->create(Models\ContactTag::class);
+      $mCategory = $this->main->load(Models\Category::class);
+      $mContact = $this->main->load(Models\Contact::class);
+      $mValue = $this->main->load(Models\Value::class);
+      $mTag = $this->main->load(Models\Tag::class);
+      $mContactTag = $this->main->load(Models\ContactTag::class);
 
       $mCategory->dropTableIfExists()->install();
       $mContact->dropTableIfExists()->install();
@@ -73,7 +73,7 @@ class Loader extends \HubletoMain\App
    */
   public function search(array $expressions): array
   {
-    $mContact = $this->main->di->create(Models\Contact::class);
+    $mContact = $this->main->load(Models\Contact::class);
     $qContacts = $mContact->record;
     
     foreach ($expressions as $e) {

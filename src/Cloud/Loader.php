@@ -16,7 +16,7 @@ class Loader extends \HubletoMain\App
   {
     parent::init();
 
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
 
     $this->main->isPremium = $premiumAccount->premiumAccountActivated();
 
@@ -48,7 +48,7 @@ class Loader extends \HubletoMain\App
         if (!$this->main->config->getAsBool('legalDocumentsAccepted')) {
           $this->main->router->redirectTo('cloud');
         } elseif ($this->main->isPremium) {
-          $premiumAccount = $this->main->di->create(PremiumAccount::class);
+          $premiumAccount = $this->main->load(PremiumAccount::class);
           $subscriptionInfo = $premiumAccount->getSubscriptionInfo();
           if (!$subscriptionInfo['isActive']) {
             $this->main->router->redirectTo('cloud');
@@ -61,17 +61,17 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\BillingAccount::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Log::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Credit::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Payment::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Discount::class)->dropTableIfExists()->install();
+      $this->main->load(Models\BillingAccount::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Log::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Credit::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Payment::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Discount::class)->dropTableIfExists()->install();
     }
   }
 
   public function dangerouslyInjectDesktopHtmlContent(string $where): string
   {
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
 
     $freeTrialInfo = $premiumAccount->getFreeTrialInfo();
     $isTrialPeriod = $freeTrialInfo['isTrialPeriod'];

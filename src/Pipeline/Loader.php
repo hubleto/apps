@@ -26,8 +26,8 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mPipeline = $this->main->di->create(Models\Pipeline::class);
-      $mPipelineStep = $this->main->di->create(Models\PipelineStep::class);
+      $mPipeline = $this->main->load(Models\Pipeline::class);
+      $mPipelineStep = $this->main->load(Models\PipelineStep::class);
 
       $mPipeline->dropTableIfExists()->install();
       $mPipelineStep->dropTableIfExists()->install();

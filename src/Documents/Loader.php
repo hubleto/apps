@@ -15,14 +15,14 @@ class Loader extends \HubletoMain\App
       '/^documents\/api\/get-folder-content\/?$/' => Controllers\Api\GetFolderContent::class,
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'documents/browse', $this->translate('Browse'), 'fas fa-table');
     $appMenu->addItem($this, 'documents/list', $this->translate('List'), 'fas fa-list');
   }
 
   public function getRootFolderId(): int|null
   {
-    $mFolder = $this->main->di->create(Models\Folder::class);
+    $mFolder = $this->main->load(Models\Folder::class);
     $rootFolder = $mFolder->record->where('uid', '_ROOT_')->first()->toArray();
     if (!isset($rootFolder['id'])) {
       return null;
@@ -34,9 +34,9 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mFolder = $this->main->di->create(Models\Folder::class);
+      $mFolder = $this->main->load(Models\Folder::class);
       $mFolder->dropTableIfExists()->install();
-      $this->main->di->create(Models\Document::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Document::class)->dropTableIfExists()->install();
 
       $mFolder->record->recordCreate([
         'id_parent_folder' => null,
@@ -49,8 +49,8 @@ class Loader extends \HubletoMain\App
 
   public function generateDemoData(): void
   {
-    $mFolder = $this->main->di->create(Models\Folder::class);
-    $mDocument = $this->main->di->create(Models\Document::class);
+    $mFolder = $this->main->load(Models\Folder::class);
+    $mDocument = $this->main->load(Models\Document::class);
 
     $mDocument->record->recordCreate([
       'id_folder' => $this->getRootFolderId(),

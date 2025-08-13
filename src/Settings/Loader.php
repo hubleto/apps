@@ -54,19 +54,19 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mCompany = $this->main->di->create(Models\Company::class);
-      $mUser = $this->main->di->create(Models\User::class);
-      $mUserRole = $this->main->di->create(Models\UserRole::class);
-      $mUserHasRole = $this->main->di->create(Models\UserHasRole::class);
-      $mPermission = $this->main->di->create(Models\Permission::class);
-      $mRolePermission = $this->main->di->create(Models\RolePermission::class);
-      $mCountry = $this->main->di->create(Models\Country::class);
-      $mSetting = $this->main->di->create(Models\Setting::class);
-      $mActivityTypes = $this->main->di->create(Models\ActivityType::class);
-      $mCurrency = $this->main->di->create(Models\Currency::class);
-      $mInvoiceProfile = $this->main->di->create(Models\InvoiceProfile::class);
-      $mTeam = $this->main->di->create(Models\Team::class);
-      $mTeamMember = $this->main->di->create(Models\TeamMember::class);
+      $mCompany = $this->main->load(Models\Company::class);
+      $mUser = $this->main->load(Models\User::class);
+      $mUserRole = $this->main->load(Models\UserRole::class);
+      $mUserHasRole = $this->main->load(Models\UserHasRole::class);
+      $mPermission = $this->main->load(Models\Permission::class);
+      $mRolePermission = $this->main->load(Models\RolePermission::class);
+      $mCountry = $this->main->load(Models\Country::class);
+      $mSetting = $this->main->load(Models\Setting::class);
+      $mActivityTypes = $this->main->load(Models\ActivityType::class);
+      $mCurrency = $this->main->load(Models\Currency::class);
+      $mInvoiceProfile = $this->main->load(Models\InvoiceProfile::class);
+      $mTeam = $this->main->load(Models\Team::class);
+      $mTeamMember = $this->main->load(Models\TeamMember::class);
 
       $mCompany->dropTableIfExists()->install();
       $mUser->dropTableIfExists()->install();
@@ -380,8 +380,8 @@ class Loader extends \HubletoMain\App
         ]);
       }
 
-      $mUserRole = $this->main->di->create(Models\UserRole::class);
-      $mPermission = $this->main->di->create(Models\Permission::class);
+      $mUserRole = $this->main->load(Models\UserRole::class);
+      $mPermission = $this->main->load(Models\Permission::class);
 
       $mUserRole->record->recordCreate([
         'id' => Models\UserRole::ROLE_ADMINISTRATOR,

@@ -9,7 +9,7 @@ class DeactivateSubscriptionRenewal extends \HubletoMain\Controller
   public function prepareView(): void
   {
     parent::prepareView();
-    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount = $this->main->load(PremiumAccount::class);
     $premiumAccount->deactivateSubscriptionRenewal();
     $this->main->router->redirectTo('cloud');
   }

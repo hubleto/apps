@@ -6,7 +6,7 @@ class Home extends \HubletoMain\Controller
 {
   public function init(): void
   {
-    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     switch ($this->main->auth->getUserLanguage()) {
       case 'sk':
         $help->addHotTip('sk/zakaznici/vytvorenie-noveho-kontaktu', 'Pridať nový kontakt');
@@ -20,7 +20,7 @@ class Home extends \HubletoMain\Controller
 
     $dashboardsApp = $this->main->apps->community('Dashboards');
     if ($dashboardsApp) {
-      $mDashboard = $this->main->di->create(\HubletoApp\Community\Dashboards\Models\Dashboard::class);
+      $mDashboard = $this->main->load(\HubletoApp\Community\Dashboards\Models\Dashboard::class);
 
       $defaultDashboard = $mDashboard->record->prepareReadQuery()
         ->where('is_default', true)

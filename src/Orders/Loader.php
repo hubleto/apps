@@ -30,7 +30,7 @@ class Loader extends \HubletoMain\App
     }
 
     if ($round == 2) {
-      $mState = $this->main->di->create(Models\State::class);
+      $mState = $this->main->load(Models\State::class);
       $mState->record->recordCreate(['title' => 'New', 'code' => 'N', 'color' => '#444444']);
       $mState->record->recordCreate(['title' => 'Sent to customer', 'code' => 'S', 'color' => '#444444']);
       $mState->record->recordCreate(['title' => 'Requires modification', 'code' => 'M', 'color' => '#444444']);
@@ -43,7 +43,7 @@ class Loader extends \HubletoMain\App
 
   // public function installDefaultPermissions(): void
   // {
-  //   $mPermission = $this->main->di->create(\HubletoApp\Community\Settings\Models\Permission::class);
+  //   $mPermission = $this->main->load(\HubletoApp\Community\Settings\Models\Permission::class);
   //   $permissions = [
   //     "HubletoApp/Community/Orders/Models/Order:Create",
   //     "HubletoApp/Community/Orders/Models/Order:Read",
@@ -74,18 +74,18 @@ class Loader extends \HubletoMain\App
 
   public function generateDemoData(): void
   {
-    $mUser = $this->main->di->create(\HubletoApp\Community\Settings\Models\User::class);
+    $mUser = $this->main->load(\HubletoApp\Community\Settings\Models\User::class);
     $userCount = $mUser->record->count();
 
-    $mCustomer = $this->main->di->create(\HubletoApp\Community\Customers\Models\Customer::class);
+    $mCustomer = $this->main->load(\HubletoApp\Community\Customers\Models\Customer::class);
     $customerCount = $mCustomer->record->count();
 
-    $mState = $this->main->di->create(Models\State::class);
+    $mState = $this->main->load(Models\State::class);
     $stateCount = $mState->record->count();
 
-    $mOrder = $this->main->di->create(Models\Order::class);
-    $mHistory = $this->main->di->create(Models\History::class);
-    $mOrderProduct = $this->main->di->create(Models\OrderProduct::class);
+    $mOrder = $this->main->load(Models\Order::class);
+    $mHistory = $this->main->load(Models\History::class);
+    $mOrderProduct = $this->main->load(Models\OrderProduct::class);
 
     for ($i = 1; $i <= 9; $i++) {
 

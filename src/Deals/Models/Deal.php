@@ -167,7 +167,7 @@ class Deal extends \Hubleto\Framework\Models\Model
 
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
-    $mSettings = $this->main->di->create(Setting::class);
+    $mSettings = $this->main->load(Setting::class);
     $defaultCurrency = (int) $mSettings->record
       ->where("key", "Apps\Community\Settings\Currency\DefaultCurrency")
       ->first()
@@ -184,7 +184,7 @@ class Deal extends \Hubleto\Framework\Models\Model
   {
     $savedRecord = parent::onAfterCreate($savedRecord);
 
-    $mDealHistory = $this->main->di->create(DealHistory::class);
+    $mDealHistory = $this->main->load(DealHistory::class);
     $mDealHistory->record->recordCreate([
       "change_date" => date("Y-m-d"),
       "id_deal" => $savedRecord["id"],
@@ -238,7 +238,7 @@ class Deal extends \Hubleto\Framework\Models\Model
   public function getOwnership(array $record): void
   {
     if (isset($record["id_customer"]) && !isset($record["checkOwnership"])) {
-      $mCustomer = $this->main->di->create(Customer::class);
+      $mCustomer = $this->main->load(Customer::class);
       $customer = $mCustomer->record
         ->where("id", $record["id_customer"])
         ->first()
@@ -259,7 +259,7 @@ class Deal extends \Hubleto\Framework\Models\Model
   public function onBeforeUpdate(array $record): array
   {
     $oldRecord = $this->record->find($record["id"])->toArray();
-    $mDealHistory = $this->main->di->create(DealHistory::class);
+    $mDealHistory = $this->main->load(DealHistory::class);
 
     $diff = $this->diffRecords($oldRecord, $record);
     $columns = $this->getColumns();

@@ -10,7 +10,7 @@ class ChangePipeline extends \HubletoMain\Controllers\ApiController
 {
   public function renderJson(): ?array
   {
-    $mPipeline = $this->main->di->create(Pipeline::class);
+    $mPipeline = $this->main->load(Pipeline::class);
     $newPipeline = null;
 
     if ($this->main->isUrlParam('idPipeline')) {

@@ -16,7 +16,7 @@ class CalendarManager
 
   public function addCalendar(string $source, string $color, string $calendarClass): void
   {
-    $calendar = $this->main->di->create($calendarClass);
+    $calendar = $this->main->load($calendarClass);
     $calendar->setColor($color);
     if ($calendar instanceof \HubletoMain\Calendar) {
       $this->calendars[$source] = $calendar;

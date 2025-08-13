@@ -10,7 +10,7 @@ class Reminders extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $events = $this->main->di->create(\HubletoApp\Community\Calendar\Events::class);
+    $events = $this->main->load(\HubletoApp\Community\Calendar\Events::class);
     list($remindersToday, $remindersTomorrow, $remindersLater) = $events->loadRemindersSummary();
 
     $this->viewParams['today'] = date("Y-m-d");

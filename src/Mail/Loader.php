@@ -32,7 +32,7 @@ class Loader extends \HubletoMain\App
       '/^mail\/api\/mark-as-unread\/?$/' => Controllers\Api\MarkAsUnread::class,
     ]);
 
-    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
     $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
 
@@ -42,16 +42,16 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Account::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Mailbox::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Mail::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\Index::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Account::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Mailbox::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Mail::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Index::class)->dropTableIfExists()->install();
     }
   }
 
   public function getNotificationsCount(): int
   {
-    $mMail = $this->main->di->create(\HubletoApp\Community\Mail\Models\Mail::class);
+    $mMail = $this->main->load(\HubletoApp\Community\Mail\Models\Mail::class);
     return $mMail->record->prepareReadQuery()
       ->where(function ($q) {
         $q->where('midx.id_to', $this->main->auth->getUserId());
@@ -100,7 +100,7 @@ class Loader extends \HubletoMain\App
     $idUser = $user['id'] ?? 0;
     $fromEmail = $user['email'] ?? '';
 
-    $mUser = $this->main->di->create(\HubletoApp\Community\Settings\Models\User::class);
+    $mUser = $this->main->load(\HubletoApp\Community\Settings\Models\User::class);
     $users = $mUser->record->get()->toArray();
     $usersByEmail = [];
     $emailsByUserId = [];
@@ -131,8 +131,8 @@ class Loader extends \HubletoMain\App
         $bccEmails = [ $emailsByUserId[$bcc] ];
       }
 
-      $mMail = $this->main->di->create(Models\Mail::class);
-      $mIndex = $this->main->di->create(Models\Index::class);
+      $mMail = $this->main->load(Models\Mail::class);
+      $mIndex = $this->main->load(Models\Index::class);
 
       $mailData = [
         'priority' => $priority,

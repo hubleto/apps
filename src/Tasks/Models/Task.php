@@ -135,20 +135,20 @@ class Task extends \Hubleto\Framework\Models\Model
   public function onAfterCreate(array $savedRecord): array
   {
 
-    $mPipeline = $this->main->di->create(Pipeline::class);
+    $mPipeline = $this->main->load(Pipeline::class);
     list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_TASK_MANAGEMENT);
     $savedRecord['id_pipeline'] = $idPipeline;
     $savedRecord['id_pipeline_step'] = $idPipelineStep;
 
     if (empty($savedRecord['identifier'])) {
-      // \$mProject = $this->main->di->create(\HubletoApp\Community\Projects\Models\Project::class);
+      // \$mProject = $this->main->load(\HubletoApp\Community\Projects\Models\Project::class);
       // $project = $mProject->record->where("id", $savedRecord["id_project"])->first()?->toArray();
       // $savedRecord["identifier"] = ($project["identifier"] ?? 'T') . '#' . $savedRecord["id"];
       $tasksApp = $this->main->apps->community('Tasks');
       $externalModelApp = $tasksApp->getRegisteredExternalModels()[$savedRecord['external_model']] ?? null;
       if ($externalModelApp) {
         $externalModelClass = $savedRecord['external_model'];
-        $externalModel = $this->main->di->create($externalModelClass);
+        $externalModel = $this->main->load($externalModelClass);
         $externalRecord = $externalModel->record->prepareReadQuery()->where($externalModel->table.'.id', $savedRecord['external_id'])->first()?->toArray();
         $savedRecord["identifier"] =
           ($externalModelApp->manifest['name'] ?? 'X')

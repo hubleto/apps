@@ -48,7 +48,7 @@ class Panel extends \Hubleto\Framework\Models\Model
     $description = parent::describeInput($columnName);
     switch ($columnName) {
       case 'board_url_slug':
-        $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+        $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
         $enumValues = [
           '' => $this->translate('-- Select board to be displayed in panel --'),
         ];

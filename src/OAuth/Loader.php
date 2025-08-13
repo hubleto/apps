@@ -37,7 +37,7 @@ class Loader extends \HubletoMain\App
       (new Models\Scope($this->main))->dropTableIfExists()->install();
     }
     if ($round == 1) {
-      $mClient = $this->main->di->create(Models\Client::class);
+      $mClient = $this->main->load(Models\Client::class);
       $mClient->record->recordCreate([
         'client_id' => 'test_client_id',
         'client_secret' => 'test_client_secret',

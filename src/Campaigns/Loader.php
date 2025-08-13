@@ -14,7 +14,7 @@ class Loader extends \HubletoMain\App
       '/^campaigns\/?$/' => Controllers\Campaigns::class,
     ]);
 
-    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
     $externalModels->registerExternalModel($this, Models\Campaign::class);
 
   }
@@ -22,7 +22,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $this->main->di->create(Models\Campaign::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Campaign::class)->dropTableIfExists()->install();
     }
   }
 
