@@ -7,6 +7,9 @@
         "issues": "https://github.com/hubleto/main/issues",
         "source": "https://github.com/hubleto/main"
     },
+    "require": {
+        "ddeboer/imap": "^1"
+    },
     "keywords": ["hubleto", "crm", "erp", "application", "hub"],
     "autoload": {
         "psr-4": {

@@ -87,10 +87,6 @@ class GetMails extends \HubletoMain\Cron
           $mailId = $message->getId();
           $mailHeaders = $message->getHeaders();
 
-          // echo $mailNumber . ' ' . $mailId . ' ' . $message->getSubject() . "\n";
-          // var_dump($message->getHeaders());
-          // var_dump($message->getHeaders()['toaddress']);
-
           if (
             !in_array($mailNumber, $mailNumbers)
             && !in_array($mailId, $mailIds)
