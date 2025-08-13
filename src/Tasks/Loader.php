@@ -4,7 +4,13 @@ namespace HubletoApp\Community\Tasks;
 
 class Loader extends \HubletoMain\App
 {
-  // init
+
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -20,12 +26,6 @@ class Loader extends \HubletoMain\App
   {
     if ($round == 1) {
       $this->main->load(Models\Task::class)->dropTableIfExists()->install();
-    }
-    if ($round == 2) {
-      // do something in the 2nd round, if required
-    }
-    if ($round == 3) {
-      // do something in the 3rd round, if required
     }
   }
 

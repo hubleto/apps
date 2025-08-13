@@ -4,10 +4,13 @@ namespace HubletoApp\Community\Contacts;
 
 class Loader extends \HubletoMain\App
 {
-  // const DEFAULT_INSTALLATION_CONFIG = [
-  //   'sidebarOrder' => 0,
-  // ];
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

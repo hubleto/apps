@@ -4,11 +4,13 @@ namespace HubletoApp\Community\Worksheets;
 
 class Loader extends \HubletoMain\App
 {
-  // Uncomment following if you want a button for app's settings
-  // to be rendered next in sidebar, right next to your app's button.
-  // public bool $hasCustomSettings = true;
 
-  // init
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -32,12 +34,6 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $this->main->load(Models\ActivityType::class)->dropTableIfExists()->install();
       $this->main->load(Models\Activity::class)->dropTableIfExists()->install();
-    }
-    if ($round == 2) {
-      // do something in the 2nd round, if required
-    }
-    if ($round == 3) {
-      // do something in the 3rd round, if required
     }
   }
 

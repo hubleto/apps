@@ -6,7 +6,7 @@ class Loader extends \HubletoMain\App
 {
 
   /**
-   * Initialize Issues app
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
    *
    * @return void
    * 

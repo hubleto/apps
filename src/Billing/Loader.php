@@ -6,6 +6,13 @@ use HubletoApp\Community\Settings\Models\Permission;
 
 class Loader extends \HubletoMain\App
 {
+
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

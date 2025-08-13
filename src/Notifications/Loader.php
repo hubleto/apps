@@ -4,11 +4,13 @@ namespace HubletoApp\Community\Notifications;
 
 class Loader extends \HubletoMain\App
 {
-  public function __construct(\HubletoMain\Loader $main)
-  {
-    parent::__construct($main);
-  }
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -28,7 +30,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Notification($this->main))->dropTableIfExists()->install();
+      $this->main->load(Models\Notification::class)->dropTableIfExists()->install();
     }
   }
 

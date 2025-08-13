@@ -4,6 +4,13 @@ namespace HubletoApp\Community\Orders;
 
 class Loader extends \HubletoMain\App
 {
+
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -23,10 +30,10 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\State($this->main))->dropTableIfExists()->install();
-      (new Models\Order($this->main))->dropTableIfExists()->install();
-      (new Models\OrderProduct($this->main))->dropTableIfExists()->install();
-      (new Models\History($this->main))->dropTableIfExists()->install();
+      $this->main->load(Models\State::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Order::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderProduct::class)->dropTableIfExists()->install();
+      $this->main->load(Models\History::class)->dropTableIfExists()->install();
     }
 
     if ($round == 2) {
@@ -40,37 +47,6 @@ class Loader extends \HubletoMain\App
       $mState->record->recordCreate(['title' => 'Rejected', 'code' => 'R', 'color' => '#444444']);
     }
   }
-
-  // public function installDefaultPermissions(): void
-  // {
-  //   $mPermission = $this->main->load(\HubletoApp\Community\Settings\Models\Permission::class);
-  //   $permissions = [
-  //     "HubletoApp/Community/Orders/Models/Order:Create",
-  //     "HubletoApp/Community/Orders/Models/Order:Read",
-  //     "HubletoApp/Community/Orders/Models/Order:Update",
-  //     "HubletoApp/Community/Orders/Models/Order:Delete",
-
-  //     "HubletoApp/Community/Orders/Models/History:Create",
-  //     "HubletoApp/Community/Orders/Models/History:Read",
-  //     "HubletoApp/Community/Orders/Models/History:Update",
-  //     "HubletoApp/Community/Orders/Models/History:Delete",
-
-  //     "HubletoApp/Community/Orders/Models/OrderProduct:Create",
-  //     "HubletoApp/Community/Orders/Models/OrderProduct:Read",
-  //     "HubletoApp/Community/Orders/Models/OrderProduct:Update",
-  //     "HubletoApp/Community/Orders/Models/OrderProduct:Delete",
-
-  //     "HubletoApp/Community/Orders/Controllers/Orders",
-
-  //     "HubletoApp/Community/Orders/Orders",
-  //   ];
-
-  //   foreach ($permissions as $permission) {
-  //     $mPermission->record->recordCreate([
-  //       "permission" => $permission
-  //     ]);
-  //   }
-  // }
 
   public function generateDemoData(): void
   {

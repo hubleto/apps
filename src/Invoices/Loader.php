@@ -5,6 +5,12 @@ namespace HubletoApp\Community\Invoices;
 class Loader extends \HubletoMain\App
 {
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -18,8 +24,8 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Invoice($this->main))->dropTableIfExists()->install();
-      (new Models\InvoiceItem($this->main))->dropTableIfExists()->install();
+      $this->main->load(Models\Invoice::class)->dropTableIfExists()->install();
+      $this->main->load(Models\InvoiceItem::class)->dropTableIfExists()->install();
     }
   }
 

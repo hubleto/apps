@@ -4,6 +4,13 @@ namespace HubletoApp\Community\Desktop\Controllers;
 
 class Home extends \HubletoMain\Controller
 {
+
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);

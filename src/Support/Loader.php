@@ -4,6 +4,13 @@ namespace HubletoApp\Community\Support;
 
 class Loader extends \HubletoMain\App
 {
+  
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -13,22 +20,5 @@ class Loader extends \HubletoMain\App
     ]);
 
   }
-
-  // public function installDefaultPermissions(): void
-  // {
-  //   $mPermission = $this->main->load(\HubletoApp\Community\Settings\Models\Permission::class);
-  //   $permissions = [
-
-  //     "HubletoApp/Community/Support/Controllers/Dashboard",
-
-  //     "HubletoApp/Community/Support/Dashboard",
-  //   ];
-
-  //   foreach ($permissions as $permission) {
-  //     $mPermission->record->recordCreate([
-  //       "permission" => $permission
-  //     ]);
-  //   }
-  // }
 
 }

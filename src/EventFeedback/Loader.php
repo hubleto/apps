@@ -4,11 +4,13 @@ namespace HubletoApp\Community\EventFeedback;
 
 class Loader extends \HubletoMain\App
 {
-  // Uncomment following if you want a button for app's settings
-  // to be rendered next in sidebar, right next to your app's button.
-  // public bool $hasCustomSettings = true;
 
-  // init
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

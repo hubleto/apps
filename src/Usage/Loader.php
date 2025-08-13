@@ -8,6 +8,12 @@ class Loader extends \HubletoMain\App
     'sidebarOrder' => 0,
   ];
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

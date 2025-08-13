@@ -5,11 +5,12 @@ namespace HubletoApp\Community\Dashboards;
 class Loader extends \HubletoMain\App
 {
 
-  public function __construct(\HubletoMain\Loader $main)
-  {
-    parent::__construct($main);
-  }
-
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

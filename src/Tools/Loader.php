@@ -6,6 +6,12 @@ class Loader extends \HubletoMain\App
 {
   public bool $canBeDisabled = false;
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();

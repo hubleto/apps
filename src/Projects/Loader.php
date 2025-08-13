@@ -4,11 +4,13 @@ namespace HubletoApp\Community\Projects;
 
 class Loader extends \HubletoMain\App
 {
-  // Uncomment following if you want a button for app's settings
-  // to be rendered next in sidebar, right next to your app's button.
-  // public bool $hasCustomSettings = true;
 
-  // init
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -19,15 +21,12 @@ class Loader extends \HubletoMain\App
       '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,
     ]);
 
-    // Add placeholder for custom settings.
-    // This will be displayed in the Settings app, under the "All settings" card.
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => 'Projects', // or $this->translate('Projects')
       'icon' => 'fas fa-table',
       'url' => 'settings/projects',
     ]);
 
-    // Add placeholder for your app's calendar.
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $calendarManager->addCalendar(
       $this,

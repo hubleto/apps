@@ -4,11 +4,13 @@ namespace HubletoApp\Community\OAuth;
 
 class Loader extends \HubletoMain\App
 {
-  // Uncomment following if you want a button for app's settings
-  // to be rendered next in sidebar, right next to your app's button.
-  // public bool $hasCustomSettings = true;
 
-  // init
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -18,8 +20,6 @@ class Loader extends \HubletoMain\App
       '/^oauth\/token\/?$/' => Controllers\Token::class,
     ]);
 
-    // Add placeholder for custom settings.
-    // This will be displayed in the Settings app, under the "All settings" card.
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => 'OAuth', // or $this->translate('OAuth')
       'icon' => 'fas fa-table',
@@ -30,11 +30,11 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\AccessToken($this->main))->dropTableIfExists()->install();
-      (new Models\AuthCode($this->main))->dropTableIfExists()->install();
-      (new Models\Client($this->main))->dropTableIfExists()->install();
-      (new Models\RefreshToken($this->main))->dropTableIfExists()->install();
-      (new Models\Scope($this->main))->dropTableIfExists()->install();
+      $this->main->load(Models\AccessToken::class)->dropTableIfExists()->install();
+      $this->main->load(Models\AuthCode::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Client::class)->dropTableIfExists()->install();
+      $this->main->load(Models\RefreshToken::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Scope::class)->dropTableIfExists()->install();
     }
     if ($round == 1) {
       $mClient = $this->main->load(Models\Client::class);

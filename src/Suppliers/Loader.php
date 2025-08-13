@@ -4,7 +4,13 @@ namespace HubletoApp\Community\Suppliers;
 
 class Loader extends \HubletoMain\App
 {
-  // init
+
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -18,7 +24,7 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Supplier($this->main))->dropTableIfExists()->install();
+      $this->main->load(Models\Supplier::class)->dropTableIfExists()->install();
     }
   }
 

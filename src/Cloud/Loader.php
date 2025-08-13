@@ -12,6 +12,12 @@ class Loader extends \HubletoMain\App
     parent::__construct($main);
   }
 
+  /**
+   * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
+   *
+   * @return void
+   * 
+   */
   public function init(): void
   {
     parent::init();
@@ -33,7 +39,6 @@ class Loader extends \HubletoMain\App
       '/^cloud\/deactivate-subscription-renewal\/?$/' => Controllers\DeactivateSubscriptionRenewal::class,
       '/^cloud\/payments-and-invoices\/?$/' => Controllers\PaymentsAndInvoices::class,
       '/^cloud\/billing-accounts\/?$/' => Controllers\BillingAccounts::class,
-      '/^cloud\/upgrade\/?$/' => Controllers\Upgrade::class,
       '/^cloud\/make-payment\/?$/' => Controllers\MakePayment::class,
     ]);
 
