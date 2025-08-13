@@ -59,7 +59,7 @@ class Loader extends \HubletoMain\App
       'en' => 'en/apps/community/leads',
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'leads', $this->translate('Active leads'), 'fas fa-people-arrows');
     $appMenu->addItem($this, 'leads/archive', $this->translate('Archived leads'), 'fas fa-box-archive');
   }
@@ -102,55 +102,5 @@ class Loader extends \HubletoMain\App
       $mLostReasons->record->recordCreate(["reason" => "Other"]);
     }
   }
-
-  // public function installDefaultPermissions(): void
-  // {
-  //   $mPermission = $this->main->di->create(\HubletoApp\Community\Settings\Models\Permission::class);
-  //   $permissions = [
-  //     "HubletoApp/Community/Leads/Models/Lead:Create",
-  //     "HubletoApp/Community/Leads/Models/Lead:Read",
-  //     "HubletoApp/Community/Leads/Models/Lead:Update",
-  //     "HubletoApp/Community/Leads/Models/Lead:Delete",
-
-  //     "HubletoApp/Community/Leads/Models/LeadActivity:Create",
-  //     "HubletoApp/Community/Leads/Models/LeadActivity:Read",
-  //     "HubletoApp/Community/Leads/Models/LeadActivity:Update",
-  //     "HubletoApp/Community/Leads/Models/LeadActivity:Delete",
-
-  //     "HubletoApp/Community/Leads/Models/LeadDocument:Create",
-  //     "HubletoApp/Community/Leads/Models/LeadDocument:Read",
-  //     "HubletoApp/Community/Leads/Models/LeadDocument:Update",
-  //     "HubletoApp/Community/Leads/Models/LeadDocument:Delete",
-
-  //     "HubletoApp/Community/Leads/Models/LeadHistory:Create",
-  //     "HubletoApp/Community/Leads/Models/LeadHistory:Read",
-  //     "HubletoApp/Community/Leads/Models/LeadHistory:Update",
-  //     "HubletoApp/Community/Leads/Models/LeadHistory:Delete",
-
-  //     "HubletoApp/Community/Leads/Models/LeadProduct:Create",
-  //     "HubletoApp/Community/Leads/Models/LeadProduct:Read",
-  //     "HubletoApp/Community/Leads/Models/LeadProduct:Update",
-  //     "HubletoApp/Community/Leads/Models/LeadProduct:Delete",
-
-  //     "HubletoApp/Community/Leads/Models/LeadTag:Create",
-  //     "HubletoApp/Community/Leads/Models/LeadTag:Read",
-  //     "HubletoApp/Community/Leads/Models/LeadTag:Update",
-  //     "HubletoApp/Community/Leads/Models/LeadTag:Delete",
-
-  //     "HubletoApp/Community/Leads/Controllers/Leads",
-  //     "HubletoApp/Community/Leads/Controllers/LeadsArchive",
-
-  //     "HubletoApp/Community/Leads/Api/ConvertToDeal",
-  //     "HubletoApp/Community/Leads/Api/GetCalendarEvents",
-
-  //     "HubletoApp/Community/Leads/Leads"
-  //   ];
-
-  //   foreach ($permissions as $permission) {
-  //     $mPermission->record->recordCreate([
-  //       "permission" => $permission
-  //     ]);
-  //   }
-  // }
 
 }

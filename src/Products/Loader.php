@@ -14,7 +14,7 @@ class Loader extends \HubletoMain\App
       '/^products\/groups(\/(?<recordId>\d+))?\/?$/' => Controllers\Groups::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'products', $this->translate('Products'), 'fas fa-cart-shopping');
     $appMenu->addItem($this, 'products/groups', $this->translate('Groups'), 'fas fa-burger');
   }

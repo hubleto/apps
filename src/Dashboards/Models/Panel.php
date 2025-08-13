@@ -48,12 +48,11 @@ class Panel extends \Hubleto\Framework\Models\Model
     $description = parent::describeInput($columnName);
     switch ($columnName) {
       case 'board_url_slug':
-        $dashboardsApp = $this->main->apps->community('Dashboards');
-        $boards = $dashboardsApp->getBoards();
+        $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
         $enumValues = [
           '' => $this->translate('-- Select board to be displayed in panel --'),
         ];
-        foreach ($boards as $board) {
+        foreach ($boards->getBoards() as $board) {
           $enumValues[$board['boardUrlSlug']] = $board['app']->manifest['name'] . ': ' . $board['title'];
         }
         $description->setEnumValues($enumValues);

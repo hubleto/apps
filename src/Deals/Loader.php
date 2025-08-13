@@ -57,7 +57,7 @@ class Loader extends \HubletoMain\App
       'en' => 'en/apps/community/deals',
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'deals', $this->translate('Active deals'), 'fas fa-handshake');
     $appMenu->addItem($this, 'deals/archive', $this->translate('Archived deals'), 'fas fa-box-archive');
   }

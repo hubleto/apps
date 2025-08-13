@@ -14,7 +14,7 @@ class Loader extends \HubletoMain\App
       '/^inventory\/transactions\/?$/' => Controllers\Transactions::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'inventory', $this->translate('Warehouses'), 'fas fa-boxes-stacked');
     $appMenu->addItem($this, 'inventory/transactions', $this->translate('Transactions'), 'fas fa-arrows-turn-to-dots');
 
@@ -24,9 +24,9 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Status($this->main))->dropTableIfExists()->install();
-      (new Models\Inventory($this->main))->dropTableIfExists()->install();
-      (new Models\Transaction($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Status::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Inventory::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Transaction::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       $mStatus = $this->main->di->create(Models\Status::class);

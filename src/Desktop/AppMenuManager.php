@@ -2,15 +2,11 @@
 
 namespace HubletoApp\Community\Desktop;
 
-class AppMenuManager implements \Hubleto\Framework\Interfaces\AppMenuManagerInterface
+class AppMenuManager extends \HubletoMain\CoreClass
 {
 
   /** @var array<int, array<string, bool|string>> */
   public array $items = [];
-
-  public function __construct(public \Hubleto\Framework\Loader $main)
-  {
-  }
 
   public function addItem(\Hubleto\Framework\Interfaces\AppInterface $app, string $url, string $title, string $icon): void
   {

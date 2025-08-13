@@ -32,7 +32,7 @@ class Loader extends \HubletoMain\App
       '/^mail\/api\/mark-as-unread\/?$/' => Controllers\Api\MarkAsUnread::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
     $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
 

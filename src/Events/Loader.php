@@ -33,15 +33,7 @@ class Loader extends \HubletoMain\App
       'url' => 'events/settings',
     ]);
 
-    // Add placeholder for your app's calendar.
-    // $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
-    // $calendarManager->addCalendar(
-    //   'Events-calendar', // UID of your app's calendar. Will be referenced as "source" when fetching app's events.
-    //   '#008000', // your app's calendar color
-    //   Calendar::class // your app's Calendar class
-    // );
-
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'events', $this->translate('Events'), 'fas fa-people-group');
     $appMenu->addItem($this, 'events/venues', $this->translate('Venues'), 'fas fa-building-columns');
     $appMenu->addItem($this, 'events/speakers', $this->translate('Speakers'), 'fas fa-user-tie');
@@ -52,15 +44,15 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Type($this->main))->dropTableIfExists()->install();
-      (new Models\Venue($this->main))->dropTableIfExists()->install();
-      (new Models\Speaker($this->main))->dropTableIfExists()->install();
-      (new Models\Attendee($this->main))->dropTableIfExists()->install();
-      (new Models\Event($this->main))->dropTableIfExists()->install();
-      (new Models\EventVenue($this->main))->dropTableIfExists()->install();
-      (new Models\EventSpeaker($this->main))->dropTableIfExists()->install();
-      (new Models\EventAttendee($this->main))->dropTableIfExists()->install();
-      (new Models\Agenda($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Type::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Venue::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Speaker::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Attendee::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Event::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\EventVenue::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\EventSpeaker::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\EventAttendee::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Agenda::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       $mType = $this->main->di->create(Models\Type::class);

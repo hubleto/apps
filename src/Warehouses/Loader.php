@@ -14,12 +14,11 @@ class Loader extends \HubletoMain\App
     $this->main->router->httpGet([
       '/^warehouses\/?$/' => Controllers\Warehouses::class,
       '/^warehouses\/locations\/?$/' => Controllers\Locations::class,
-      '/^warehouses\/settings\/?$/' => Controllers\Settings::class,
       '/^warehouses\/settings\/warehouse-types\/?$/' => Controllers\WarehouseTypes::class,
       '/^warehouses\/settings\/warehouse-location-types\/?$/' => Controllers\LocationTypes::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'warehouses', $this->translate('Warehouses'), 'fas fa-warehouse');
     $appMenu->addItem($this, 'warehouses/locations', $this->translate('Locations'), 'fas fa-pallet');
 
@@ -29,10 +28,10 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\WarehouseType($this->main))->dropTableIfExists()->install();
-      (new Models\LocationType($this->main))->dropTableIfExists()->install();
-      (new Models\Warehouse($this->main))->dropTableIfExists()->install();
-      (new Models\Location($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\WarehouseType::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\LocationType::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Warehouse::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Location::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       $mLocationType = $this->main->di->create(Models\LocationType::class);

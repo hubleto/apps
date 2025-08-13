@@ -15,7 +15,7 @@ class Loader extends \HubletoMain\App
       '/^documents\/api\/get-folder-content\/?$/' => Controllers\Api\GetFolderContent::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'documents/browse', $this->translate('Browse'), 'fas fa-table');
     $appMenu->addItem($this, 'documents/list', $this->translate('List'), 'fas fa-list');
   }
@@ -36,7 +36,7 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $mFolder = $this->main->di->create(Models\Folder::class);
       $mFolder->dropTableIfExists()->install();
-      (new Models\Document($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Document::class)->dropTableIfExists()->install();
 
       $mFolder->record->recordCreate([
         'id_parent_folder' => null,
@@ -46,27 +46,6 @@ class Loader extends \HubletoMain\App
 
     }
   }
-
-  // public function installDefaultPermissions(): void
-  // {
-  //   $mPermission = $this->main->di->create(\HubletoApp\Community\Settings\Models\Permission::class);
-  //   $permissions = [
-  //     "HubletoApp/Community/Documents/Models/Document:Create",
-  //     "HubletoApp/Community/Documents/Models/Document:Read",
-  //     "HubletoApp/Community/Documents/Models/Document:Update",
-  //     "HubletoApp/Community/Documents/Models/Document:Delete",
-
-  //     "HubletoApp/Community/Documents/Controllers/Documents",
-
-  //     "HubletoApp/Community/Documents/Documents",
-  //   ];
-
-  //   foreach ($permissions as $permission) {
-  //     $mPermission->record->recordCreate([
-  //       "permission" => $permission
-  //     ]);
-  //   }
-  // }
 
   public function generateDemoData(): void
   {

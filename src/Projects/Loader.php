@@ -35,7 +35,7 @@ class Loader extends \HubletoMain\App
       Calendar::class // your app's Calendar class
     );
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'projects', $this->translate('Projects'), 'fas fa-diagram-project');
     $appMenu->addItem($this, 'projects/phases', $this->translate('Phases'), 'fas fa-list');
 

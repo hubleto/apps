@@ -21,7 +21,7 @@ class Loader extends \HubletoMain\App
       '/^worksheets\/api\/daily-activity-chart\/?$/' => Controllers\Api\DailyActivityChart::class,
     ]);
 
-    $appMenu = $this->main->apps->community('Desktop')->appMenu;
+    $appMenu = $this->main->di->create(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'worksheets', $this->translate('Worksheets'), 'fas fa-user-clock');
     $appMenu->addItem($this, 'worksheets/activity-types', $this->translate('Activity types'), 'fas fa-table');
   }
@@ -30,8 +30,8 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\ActivityType($this->main))->dropTableIfExists()->install();
-      (new Models\Activity($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\ActivityType::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Activity::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       // do something in the 2nd round, if required

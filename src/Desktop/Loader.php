@@ -14,14 +14,12 @@ class Loader extends \HubletoMain\App
   public bool $permittedForAllUsers = true;
 
   public SidebarManager $sidebar;
-  public AppMenuManagerInterface $appMenu;
   public DashboardManager $dashboard;
 
   public function __construct(\HubletoMain\Loader $main)
   {
     parent::__construct($main);
     $this->sidebar = $main->di->create(SidebarManager::class);
-    $this->appMenu = $main->di->create(AppMenuManager::class);
     $this->dashboard = $main->di->create(DashboardManager::class);
   }
 
