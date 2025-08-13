@@ -22,11 +22,8 @@ class Loader extends \HubletoMain\App
       '/^customers\/api\/log-activity\/?$/' => Controllers\Api\LogActivity::class,
     ]);
 
-    $calendarManager = $this->main->apps->community('Calendar')?->calendarManager?->addCalendar(
-      'customers',
-      $this->configAsString('calendarColor'),
-      Calendar::class
-    );
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
+    $calendarManager->addCalendar('customers', $this->configAsString('calendarColor'), Calendar::class);
 
     $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
     $help->addContextHelpUrls('/^customers\/?$/', [

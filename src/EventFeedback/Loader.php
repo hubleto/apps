@@ -25,7 +25,7 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/eventfeedback',
     ]);
 
-    $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $calendarManager->addCalendar(
       'EventFeedback-calendar', // UID of your app's calendar. Will be referenced as "source" when fetching app's events.
       '#008000', // your app's calendar color

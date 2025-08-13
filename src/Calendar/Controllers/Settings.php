@@ -17,7 +17,7 @@ class Settings extends \HubletoMain\Controller
   public function prepareView(): void
   {
     parent::prepareView();
-    $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $mSharedCalendar = new SharedCalendar();
     foreach ($calendarManager->getCalendars() as $source => $calendar) {
       $calendarConfig = $calendar->calendarConfig;

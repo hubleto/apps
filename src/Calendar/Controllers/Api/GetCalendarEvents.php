@@ -7,15 +7,9 @@ class GetCalendarEvents extends \HubletoMain\Controllers\ApiController
   public string $dateStart = '';
   public string $dateEnd = '';
 
-  public \HubletoApp\Community\Calendar\CalendarManager $calendarManager;
-
   public function __construct(\HubletoMain\Loader $main)
   {
     parent::__construct($main);
-
-    if ($this->main->apps->community('Calendar')) {
-      $this->calendarManager = $this->main->apps->community('Calendar')->calendarManager;
-    }
 
     if ($this->main->isUrlParam("start") && $this->main->isUrlParam("end")) {
       $dateStart = date("Y-m-d H:i:s", (int) strtotime($this->main->urlParamAsString("start")));
@@ -37,7 +31,8 @@ class GetCalendarEvents extends \HubletoMain\Controllers\ApiController
     ];
 
     if ($this->main->isUrlParam('source')) {
-      $calendar = $this->calendarManager->getCalendar($this->main->urlParamAsString('source'));
+      $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
+      $calendar = $calendarManager->getCalendar($this->main->urlParamAsString('source'));
       if ($this->main->isUrlParam('id')) {
         $event = (array) $calendar->loadEvent($this->main->urlParamAsInteger('id'));
         $event['SOURCEFORM'] = $calendar->calendarConfig["formComponent"] ?? null;
@@ -66,7 +61,7 @@ class GetCalendarEvents extends \HubletoMain\Controllers\ApiController
 
     $events = [];
 
-    $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
 
     foreach ($calendarManager->getCalendars() as $source => $calendar) {
       if ($sources !== null && !in_array($source, $sources)) {

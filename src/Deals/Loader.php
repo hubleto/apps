@@ -36,11 +36,8 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/deal-lost-reasons',
     ]);
 
-    $calendarManager = $this->main->apps->community('Calendar')?->calendarManager?->addCalendar(
-      'deals',
-      $this->configAsString('calendarColor'),
-      Calendar::class,
-    );
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
+    $calendarManager->addCalendar('deals', $this->configAsString('calendarColor'), Calendar::class);
 
     $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 

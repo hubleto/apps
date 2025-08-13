@@ -2,17 +2,11 @@
 
 namespace HubletoApp\Community\Calendar;
 
-class CalendarManager
+class Manager extends \HubletoMain\CoreClass
 {
-  public \HubletoMain\Loader $main;
 
   /** @var array<string, \HubletoMain\Calendar> */
   protected array $calendars = [];
-
-  public function __construct(\HubletoMain\Loader $main)
-  {
-    $this->main = $main;
-  }
 
   public function addCalendar(string $source, string $color, string $calendarClass): void
   {
@@ -33,6 +27,5 @@ class CalendarManager
   {
     return $this->calendars[$calendarClass];
   }
-
 
 }

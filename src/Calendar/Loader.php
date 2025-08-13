@@ -7,15 +7,7 @@ use HubletoApp\Community\Calendar\Models\SharedCalendar;
 
 class Loader extends \HubletoMain\App
 {
-  public CalendarManager $calendarManager;
-
   public bool $hasCustomSettings = true;
-
-  public function __construct(\HubletoMain\Loader $main)
-  {
-    parent::__construct($main);
-    $this->calendarManager = $main->di->create(CalendarManager::class);
-  }
 
   public function init(): void
   {
@@ -43,11 +35,8 @@ class Loader extends \HubletoMain\App
       'calendar/boards/reminders'
     );
 
-    $this->main->apps->community('Calendar')?->calendarManager?->addCalendar(
-      'calendar',
-      'blue',
-      Calendar::class
-    );
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
+    $calendarManager->addCalendar('calendar', 'blue', Calendar::class);
 
   }
 

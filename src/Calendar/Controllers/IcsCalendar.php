@@ -21,7 +21,7 @@ class IcsCalendar extends \HubletoMain\Controller
   {
     $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Hubleto " . $this->main->config->getAsString('accountFullName') . "\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n";
     $events = "";
-    $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
+    $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
 
     $calendarKey = $this->main->getUrlParams()['key'];
 
