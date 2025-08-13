@@ -35,6 +35,7 @@ class GetMails extends \HubletoMain\Cron
     $mMail = new Mail($this->main);
 
     foreach ($accounts as $account) {
+      $this->main->logger->info('GetMails: checking account ' . $account['name']);
       $localMailboxes = Helper::keyBy('name', $mMailbox->record->where('id_account', $account['id'])->get()->toArray());
 
       $server = new Server(
@@ -50,6 +51,8 @@ class GetMails extends \HubletoMain\Cron
       $imapMailboxes = $connection->getMailboxes();
 
       foreach ($imapMailboxes as $imapMailbox) {
+        $this->main->logger->info('GetMails: mailbox ' . $account['name'] . ' -> ' . $imapMailbox->getName());
+
         // Skip container-only mailboxes
         // @see https://secure.php.net/manual/en/function.imap-getmailboxes.php
         if ($imapMailbox->getAttributes() & \LATT_NOSELECT) {
@@ -87,10 +90,13 @@ class GetMails extends \HubletoMain\Cron
           $mailId = $message->getId();
           $mailHeaders = $message->getHeaders();
 
+          $this->main->logger->info('GetMails: found mail ' . $mailNumber . ' ' . $mailId);
+
           if (
             !in_array($mailNumber, $mailNumbers)
             && !in_array($mailId, $mailIds)
           ) {
+            $this->main->logger->info('GetMails: creating mail in database');
             $mMail->record->recordCreate([
               'id_mailbox' => $localMailbox['id'],
               'mail_id' => $mailId,

@@ -1,3 +1,3 @@
-import ListFolder from "./Components/ListFolder"
+import TableMails from "./Components/TableMails"
 
-globalThis.main.registerReactComponent('MailListFolder', ListFolder);
+globalThis.main.registerReactComponent('MailTableMails', TableMails);

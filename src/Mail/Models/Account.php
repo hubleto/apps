@@ -7,8 +7,11 @@ use Hubleto\Framework\Db\Column\Password;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Color;
 
+use HubletoApp\Community\Crypto\KeyManager;
+
 class Account extends \Hubleto\Framework\Models\Model
 {
+
   public string $table = 'mails_accounts';
   public string $recordManagerClass = RecordManagers\Account::class;
   public ?string $lookupSqlValue = '{%TABLE%}.name';
@@ -26,14 +29,14 @@ class Account extends \Hubleto\Framework\Models\Model
     ]);
   }
 
-  public function hashPassword(string $original): string
+  public function encryptPassword(string $original): string
   {
-    return strrev($original);
+    return KeyManager::encryptString($original);
   }
 
   public function decryptPassword(string $encrypted): string
   {
-    return strrev($encrypted);
+    return KeyManager::decryptString($encrypted);
   }
 
 }

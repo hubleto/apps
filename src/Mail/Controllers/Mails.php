@@ -2,6 +2,8 @@
 
 namespace HubletoApp\Community\Mail\Controllers;
 
+use HubletoApp\Community\Mail\Models\Mailbox;
+
 class Mails extends \HubletoMain\Controller
 {
   public function getBreadcrumbs(): array
@@ -14,6 +16,11 @@ class Mails extends \HubletoMain\Controller
   public function prepareView(): void
   {
     parent::prepareView();
+
+    $idMailbox = $this->main->urlParamAsInteger('idMailbox');
+    $mMailbox = new Mailbox($this->main);
+
+    $this->viewParams['mailbox'] = $mMailbox->record->find($idMailbox)?->toArray();
 
     $this->setView('@HubletoApp:Community:Mail/Mails.twig');
   }
