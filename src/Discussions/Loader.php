@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Discussions;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public array $externalModels = [];
 
@@ -29,9 +29,9 @@ class Loader extends \Hubleto\Framework\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Discussion($this->main))->dropTableIfExists()->install();
-      (new Models\Member($this->main))->dropTableIfExists()->install();
-      (new Models\Message($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Discussion::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Member::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Message::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
       // do something in the 2nd round, if required
@@ -41,7 +41,7 @@ class Loader extends \Hubleto\Framework\App
     }
   }
 
-  public function registerExternalModel(\Hubleto\Framework\App $app, string $modelClass)
+  public function registerExternalModel(\Hubleto\Framework\Interfaces\AppInterface $app, string $modelClass)
   {
     $this->externalModels[$modelClass] = $app;
   }

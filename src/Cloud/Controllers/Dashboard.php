@@ -8,13 +8,15 @@ class Dashboard extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $this->hubletoApp->updatePremiumInfo();
-    $this->hubletoApp->recalculateCredit();
+    $premiumAccount = $this->main->di->create(\HubletoApp\Community\Cloud\PremiumAccount::class);
 
-    $currentCredit = $this->hubletoApp->getCurrentCredit();
+    $premiumAccount->updatePremiumInfo();
+    $premiumAccount->recalculateCredit();
+
+    $currentCredit = $premiumAccount->getCurrentCredit();
     $this->viewParams['currentCredit'] = $currentCredit;
 
-    $premiumInfo = $this->hubletoApp->getPremiumInfo();
+    $premiumInfo = $premiumAccount->getPremiumInfo();
 
     $mLog = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Log::class);
     $this->viewParams['log'] = $mLog->record
@@ -29,9 +31,9 @@ class Dashboard extends \HubletoMain\Controller
       ->get()->toArray()
     ;
 
-    $this->viewParams['freeTrialInfo'] = $this->hubletoApp->getFreeTrialInfo();
-    $this->viewParams['subscriptionInfo'] = $this->hubletoApp->getSubscriptionInfo();
-    $this->viewParams['priceForThisMonth'] = $this->hubletoApp->getPrice($premiumInfo['activeUsers'], $premiumInfo['paidApps'], 0);
+    $this->viewParams['freeTrialInfo'] = $premiumAccount->getFreeTrialInfo();
+    $this->viewParams['subscriptionInfo'] = $premiumAccount->getSubscriptionInfo();
+    $this->viewParams['priceForThisMonth'] = $premiumAccount->getPrice($premiumInfo['activeUsers'], $premiumInfo['paidApps'], 0);
 
     $this->setView('@HubletoApp:Community:Cloud/Dashboard.twig');
   }

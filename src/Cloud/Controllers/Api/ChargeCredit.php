@@ -2,12 +2,16 @@
 
 namespace HubletoApp\Community\Cloud\Controllers\Api;
 
+use HubletoApp\Community\Cloud\PremiumAccount;
+
 class ChargeCredit extends \HubletoMain\Controllers\ApiController
 {
   public bool $requiresUserAuthentication = false;
 
   public function renderJson(): ?array
   {
+    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+
     $mDiscount = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Discount::class);
     $mPayment = $this->main->di->create(\HubletoApp\Community\Cloud\Models\Payment::class);
 
@@ -26,7 +30,7 @@ class ChargeCredit extends \HubletoMain\Controllers\ApiController
       ?->toArray()
     ;
 
-    $premiumInfo = $this->hubletoApp->getPremiumInfo();
+    $premiumInfo = $premiumAccount->getPremiumInfo();
 
     $amountThisMonth = 0;
     if (is_array($paymentThisMonth)) {
@@ -35,13 +39,13 @@ class ChargeCredit extends \HubletoMain\Controllers\ApiController
 
     $discountPercent = $discountThisMonth['discount_percent'] ?? 0;
 
-    $fullAmount = $this->hubletoApp->getPrice(
+    $fullAmount = $premiumAccount->getPrice(
       $premiumInfo['activeUsers'],
       $premiumInfo['paidApps'],
       0
     );
 
-    $discountedAmount = $this->hubletoApp->getPrice(
+    $discountedAmount = $premiumAccount->getPrice(
       $premiumInfo['activeUsers'],
       $premiumInfo['paidApps'],
       $discountPercent
@@ -63,9 +67,9 @@ class ChargeCredit extends \HubletoMain\Controllers\ApiController
       }
     }
 
-    $this->hubletoApp->recalculateCredit();
+    $premiumAccount->recalculateCredit();
 
-    $currentCredit = $this->hubletoApp->getCurrentCredit();
+    $currentCredit = $premiumAccount->getCurrentCredit();
 
     if ($currentCredit <= 0) {
       // ak je nastavena platba kartou, stiahnut prislusnu sumu a dorovnat kredit na 0
@@ -73,11 +77,6 @@ class ChargeCredit extends \HubletoMain\Controllers\ApiController
 
     return [
       'success' => true,
-      // 'premiumInfo' => $premiumInfo,
-      // 'paymentThisMonth' => $paymentThisMonth,
-      // 'amountThisMonth' => $amountThisMonth,
-      // 'price' => $price,
-      // 'currentCredit' => $currentCredit,
     ];
 
   }

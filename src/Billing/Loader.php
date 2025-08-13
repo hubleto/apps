@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Billing;
 
 use HubletoApp\Community\Settings\Models\Permission;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public function init(): void
   {
@@ -20,7 +20,6 @@ class Loader extends \Hubleto\Framework\App
   {
     if ($round == 1) {
       $this->main->di->create(Models\BillingAccount::class)->dropTableIfExists()->install();
-      $this->main->di->create(Models\BillingAccountService::class)->dropTableIfExists()->install();
     }
   }
 

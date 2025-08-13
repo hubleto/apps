@@ -2,11 +2,15 @@
 
 namespace HubletoApp\Community\Cloud\Controllers\Test;
 
+use HubletoApp\Community\Cloud\PremiumAccount;
+
 class MakeRandomPayment extends \HubletoMain\Controller
 {
   public function prepareView(): void
   {
     parent::prepareView();
+
+    $premiumAccount = $this->main->di->create(PremiumAccount::class);
 
     $amount = rand(15, 20) / 2;
 
@@ -14,7 +18,7 @@ class MakeRandomPayment extends \HubletoMain\Controller
     $mPayment->addPayment(date('Y-m-d H:i:s'), $amount, 'TEST: random payment');
 
     $this->viewParams['amount'] = $amount;
-    $this->hubletoApp->recalculateCredit();
+    $premiumAccount->recalculateCredit();
 
     $this->setView('@HubletoApp:Community:Cloud/Test/MakeRandomPayment.twig');
   }

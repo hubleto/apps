@@ -14,7 +14,8 @@ class Dashboard extends \HubletoMain\Controller
   public function prepareView(): void
   {
     parent::prepareView();
-    $this->viewParams['tools'] = $this->hubletoApp->getTools();
+    $tools = $this->main->di->create(\HubletoApp\Community\Tools\Manager::class);
+    $tools = $tools->getTools();
     $this->setView('@HubletoApp:Community:Tools/Dashboard.twig');
   }
 

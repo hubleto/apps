@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Notifications;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public function __construct(\HubletoMain\Loader $main)
   {

@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Desktop;
 
 use \Hubleto\Framework\Interfaces\AppMenuManagerInterface;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public const DEFAULT_INSTALLATION_CONFIG = [
     'sidebarOrder' => 0,
@@ -35,7 +35,8 @@ class Loader extends \Hubleto\Framework\App
 
     $this->setConfigAsInteger('sidebarOrder', 0);
 
-    $this->main->apps->community('Help')?->addContextHelpUrls('/^\/?$/', [
+    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help->addContextHelpUrls('/^\/?$/', [
       'en' => '',
     ]);
   }

@@ -20,12 +20,12 @@ class Settings extends \HubletoMain\Controller
 
     if ($settingsChanged) {
       $calendarColor = $this->main->urlParamAsString('calendarColor');
-      $this->hubletoApp->setConfigAsString('calendarColor', $calendarColor);
-      $this->hubletoApp->saveConfig('calendarColor', $calendarColor);
+      $this->main->apps->community('Leads')->setConfigAsString('calendarColor', $calendarColor);
+      $this->main->apps->community('Leads')->saveConfig('calendarColor', $calendarColor);
 
       $leadPrefix = $this->main->urlParamAsString('leadPrefix');
-      $this->hubletoApp->setConfigAsString('leadPrefix', $leadPrefix);
-      $this->hubletoApp->saveConfig('leadPrefix', $leadPrefix);
+      $this->main->apps->community('Leads')->setConfigAsString('leadPrefix', $leadPrefix);
+      $this->main->apps->community('Leads')->saveConfig('leadPrefix', $leadPrefix);
 
       $this->viewParams['settingsSaved'] = true;
     }

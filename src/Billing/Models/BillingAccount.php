@@ -13,7 +13,6 @@ class BillingAccount extends \Hubleto\Framework\Models\Model
   public ?string $lookupSqlValue = '{%TABLE%}.description';
 
   public array $relations = [
-    'SERVICES' => [ self::HAS_MANY, BillingAccountService::class, 'id_billing_account', 'id' ],
     'CUSTOMER' => [ self::BELONGS_TO, Customer::class, 'id_customer', 'id'  ],
   ];
 

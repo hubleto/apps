@@ -2,11 +2,14 @@
 
 namespace HubletoApp\Community\Cloud\Controllers\Api;
 
+use HubletoApp\Community\Cloud\PremiumAccount;
+
 class ActivatePremiumAccount extends \HubletoMain\Controllers\ApiController
 {
   public function renderJson(): ?array
   {
-    $this->hubletoApp->activatePremiumAccount();
+    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+    $premiumAccount->activatePremiumAccount();
     $this->main->router->redirectTo('cloud');
   }
 

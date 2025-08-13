@@ -23,7 +23,7 @@ class ReportManager
    * @return void
    * 
    */
-  public function addReport(\Hubleto\Framework\App $hubletoApp, string $reportClass): void
+  public function addReport(\Hubleto\Framework\Interfaces\AppInterface $hubletoApp, string $reportClass): void
   {
     $report = $this->main->di->create($reportClass);
     if ($report instanceof \HubletoMain\Report) {

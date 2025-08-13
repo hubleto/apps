@@ -19,7 +19,8 @@ class DailyDigest extends \HubletoMain\Controllers\ApiController
   {
     $digest = [];
 
-    list($remindersToday, $remindersTomorrow, $remindersLater) = $this->hubletoApp->loadRemindersSummary($this->user['id'] ?? 0);
+    $events = $this->main->di->create(\HubletoApp\Community\Calendar\Events::class);
+    list($remindersToday, $remindersTomorrow, $remindersLater) = $events->loadRemindersSummary($this->user['id'] ?? 0);
 
     foreach ($remindersToday as $reminder) {
       $digest[] = $this->formatReminder('Today', '#EED202', $reminder);

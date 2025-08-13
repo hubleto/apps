@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Customers;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
@@ -28,7 +28,8 @@ class Loader extends \Hubleto\Framework\App
       Calendar::class
     );
 
-    $this->main->apps->community('Help')?->addContextHelpUrls('/^customers\/?$/', [
+    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help->addContextHelpUrls('/^customers\/?$/', [
       'en' => 'en/apps/community/customers',
     ]);
 

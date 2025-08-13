@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\About;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $canBeDisabled = false;
   public bool $permittedForAllUsers = true;

@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Pipeline;
 
 use HubletoApp\Community\Deals\Models\Deal;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public function init(): void
   {

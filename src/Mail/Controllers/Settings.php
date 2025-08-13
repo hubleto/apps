@@ -20,8 +20,8 @@ class Settings extends \HubletoMain\Controller
 
     if ($settingsChanged) {
       $smtpHost = $this->main->urlParamAsString('smtpHost');
-      $this->hubletoApp->setConfigAsString('smtpHost', $smtpHost);
-      $this->hubletoApp->saveConfig('smtpHost', $smtpHost);
+      $this->main->apps->community('Mail')->setConfigAsString('smtpHost', $smtpHost);
+      $this->main->apps->community('Mail')->saveConfig('smtpHost', $smtpHost);
 
       $this->viewParams['settingsSaved'] = true;
     }

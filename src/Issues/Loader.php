@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Issues;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
 
   /**

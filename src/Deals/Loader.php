@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Deals;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
@@ -42,32 +42,18 @@ class Loader extends \Hubleto\Framework\App
       Calendar::class,
     );
 
-    $reportManager = $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
+    $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 
-    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Deal::class);
+    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels->registerExternalModel($this, Models\Deal::class);
 
-    $dashboardsApp = $this->main->apps->community('Dashboards');
-    if ($dashboardsApp) {
-      $dashboardsApp->addBoard(
-        $this,
-        $this->translate('Deal warnings'),
-        'deals/boards/deal-warnings'
-      );
+    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards->addBoard( $this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
+    $boards->addBoard( $this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');
+    $boards->addBoard( $this, $this->translate('Deal value by result'), 'deals/boards/deal-value-by-result');
 
-      $dashboardsApp->addBoard(
-        $this,
-        $this->translate('Most valuable deals'),
-        'deals/boards/most-valuable-deals'
-      );
-
-      $dashboardsApp->addBoard(
-        $this,
-        $this->translate('Deal value by result'),
-        'deals/boards/deal-value-by-result'
-      );
-    }
-
-    $this->main->apps->community('Help')?->addContextHelpUrls('/^deals\/?$/', [
+    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help->addContextHelpUrls('/^deals\/?$/', [
       'en' => 'en/apps/community/deals',
     ]);
 

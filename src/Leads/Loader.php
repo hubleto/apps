@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Leads;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
@@ -40,7 +40,8 @@ class Loader extends \Hubleto\Framework\App
       'url' => 'settings/lead-lost-reasons',
     ]);
 
-    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Lead::class);
+    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels->registerExternalModel($this, Models\Lead::class);
 
     $calendarManager = $this->main->apps->community('Calendar')->calendarManager;
     $calendarManager->addCalendar(
@@ -49,24 +50,12 @@ class Loader extends \Hubleto\Framework\App
       Calendar::class
     );
 
-    $dashboardsApp = $this->main->apps->community('Dashboards');
-    if ($dashboardsApp) {
-      $dashboardsApp->addBoard(
-        $this,
-        'Lead value by score',
-        'leads/boards/lead-value-by-score'
-      );
+    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards->addBoard( $this, 'Lead value by score', 'leads/boards/lead-value-by-score');
+    $boards->addBoard( $this, 'Lead warnings', 'leads/boards/lead-warnings');
 
-      $dashboardsApp->addBoard(
-        $this,
-        'Lead warnings',
-        'leads/boards/lead-warnings'
-      );
-    }
-
-    $dashboard = $this->main->apps->community('Desktop')->dashboard;
-
-    $this->main->apps->community('Help')->addContextHelpUrls('/^leads\/?$/', [
+    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help->addContextHelpUrls('/^leads\/?$/', [
       'en' => 'en/apps/community/leads',
     ]);
 

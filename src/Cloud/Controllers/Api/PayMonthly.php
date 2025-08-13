@@ -2,6 +2,8 @@
 
 namespace HubletoApp\Community\Cloud\Controllers\Api;
 
+use HubletoApp\Community\Cloud\PremiumAccount;
+
 class PayMonthly extends \HubletoMain\Controllers\ApiController
 {
   public const PAYMENT_SUCCESS = 1;
@@ -14,25 +16,29 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
 
   public function renderJson(): ?array
   {
+    $premiumAccount = $this->main->di->create(PremiumAccount::class);
+
     if ($this->main->isUrlParam('today')) {
       $today = date('Y-m-d', strtotime($this->main->urlParamAsString('today')));
     } else {
       $today = date('Y-m-d');
     }
 
-    if (!$this->hubletoApp->premiumAccountActivated() > 0) {
+    if (!$premiumAccount->premiumAccountActivated() > 0) {
       return [ 'result' => self::THIS_IS_NOT_PREMIUM_ACCOUNT ];
     }
 
-    $subscriptionRenewalActive = $this->hubletoApp->configAsBool('subscriptionRenewalActive');
-    $subscriptionActiveUntil = $this->hubletoApp->configAsString('subscriptionActiveUntil');
+    $subscriptionInfo = $premiumAccount->getSubscriptionInfo();
+    $subscriptionRenewalActive = $subscriptionInfo['renewalActive'];
+    $subscriptionActiveUntil = $subscriptionInfo['activeUntil'];
     $subscriptionActive = strtotime($subscriptionActiveUntil) > time();
 
     if (!$subscriptionActive && !$subscriptionRenewalActive) {
       return [ 'result' => self::SUBSCRIPTION_NOT_ACTIVE ];
     }
 
-    $freeTrialPeriodUntil = $this->hubletoApp->configAsString('freeTrialPeriodUntil');
+    $freeTrialInfo = $premiumAccount->getFreeTrialInfo();
+    $freeTrialPeriodUntil = $freeTrialInfo['trialPeriodUntil'];
 
     if (strtotime($freeTrialPeriodUntil) > time()) {
       return [ 'result' => self::FREE_TRIAL_PERIOD ];
@@ -77,10 +83,10 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
       $paymentThisMonthDetails = @json_decode($paymentThisMonth['details'], true) ?? [];
       $paymentPrevMonthDetails = @json_decode($paymentPrevMonth['details'], true) ?? [];
 
-      $this->hubletoApp->updatePremiumInfo($thisMonth, $thisYear);
+      $premiumAccount->updatePremiumInfo($thisMonth, $thisYear);
 
-      $premiumInfoPrevMonth = $this->hubletoApp->getPremiumInfo($prevMonth, $prevYear);
-      $premiumInfoThisMonth = $this->hubletoApp->getPremiumInfo($thisMonth, $thisYear);
+      $premiumInfoPrevMonth = $premiumAccount->getPremiumInfo($prevMonth, $prevYear);
+      $premiumInfoThisMonth = $premiumAccount->getPremiumInfo($thisMonth, $thisYear);
 
       // var_dump($premiumInfoPrevMonth);
       // var_dump($premiumInfoThisMonth);
@@ -88,13 +94,13 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
 
       // suma za pouzivatelov tento mesiac
 
-      $fullPriceForCurrentlyActiveUsers = $this->hubletoApp->getPrice(
+      $fullPriceForCurrentlyActiveUsers = $premiumAccount->getPrice(
         $premiumInfoThisMonth['activeUsers'],
         $premiumInfoThisMonth['paidApps'],
         0
       );
 
-      $discountedPriceForCurrentlyActiveUsers = $this->hubletoApp->getPrice(
+      $discountedPriceForCurrentlyActiveUsers = $premiumAccount->getPrice(
         $premiumInfoThisMonth['activeUsers'],
         $premiumInfoThisMonth['paidApps'],
         $premiumInfoThisMonth['discount']
@@ -118,13 +124,13 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
       $usersAddedPrevMonth = $premiumInfoPrevMonth['activeUsers'] - ($paymentPrevMonthDetails['activeUsers'] ?? 0);
       $paidAppsAddedPrevMonth = $premiumInfoPrevMonth['paidApps'] - ($paymentPrevMonthDetails['paidApps'] ?? 0);
 
-      $fullPriceForActiveUsersAddedPrevMonth = $this->hubletoApp->getPrice(
+      $fullPriceForActiveUsersAddedPrevMonth = $premiumAccount->getPrice(
         $usersAddedPrevMonth,
         $paidAppsAddedPrevMonth,
         0
       );
 
-      $discountedPriceForActiveUsersAddedPrevMonth = $this->hubletoApp->getPrice(
+      $discountedPriceForActiveUsersAddedPrevMonth = $premiumAccount->getPrice(
         $usersAddedPrevMonth,
         $paidAppsAddedPrevMonth,
         $premiumInfoPrevMonth['discount']
@@ -156,11 +162,11 @@ class PayMonthly extends \HubletoMain\Controllers\ApiController
         ]);
       }
 
-      $this->hubletoApp->recalculateCredit();
+      $premiumAccount->recalculateCredit();
 
       // ak vsetko prebehlo v poriadku a ma nastaveny subscription renewal, predlzim subscription
       if ($subscriptionRenewalActive) {
-        $this->hubletoApp->saveConfig('subscriptionActiveUntil', date('Y-m-d H:i:s', strtotime('+1 month')));
+        $premiumAccount->extendSubscriptionByOneMonth();
       }
 
       return [

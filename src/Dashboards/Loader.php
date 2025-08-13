@@ -2,11 +2,8 @@
 
 namespace HubletoApp\Community\Dashboards;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
-  // public bool $hasCustomSettings = true;
-
-  protected array $boards = [];
 
   public function __construct(\HubletoMain\Loader $main)
   {
@@ -33,23 +30,9 @@ class Loader extends \Hubleto\Framework\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Dashboard($this->main))->dropTableIfExists()->install();
-      (new Models\Panel($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Dashboard::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Panel::class)->dropTableIfExists()->install();
     }
-  }
-
-  public function getBoards(): array
-  {
-    return $this->boards;
-  }
-
-  public function addBoard(\Hubleto\Framework\App $app, string $title, string $boardUrlSlug): void
-  {
-    $this->boards[$boardUrlSlug] = [
-      'app' => $app,
-      'title' => $title,
-      'boardUrlSlug' => $boardUrlSlug,
-    ];
   }
 
   public function generateDemoData(): void
@@ -63,7 +46,9 @@ class Loader extends \Hubleto\Framework\App
       'slug' => 'default',
       'is_default' => true,
     ]);
-    foreach ($this->boards as $board) {
+
+    $boards = $this->main->di->create(Manager::class);
+    foreach ($boards->getBoards() as $board) {
       $mPanel->record->recordCreate([
         'id_dashboard' => $dashboard['id'],
         'title' => $board['title'],

@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Developer;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   // init
   public function init(): void
@@ -24,13 +24,12 @@ class Loader extends \Hubleto\Framework\App
     // $appMenu->addItem($this, 'developer/item-2', $this->translate('Item 2'), 'fas fa-list');
 
 
-    if ($this->main->apps->community('Tools')) {
-      $this->main->apps->community('Tools')->addTool($this, [
-        'title' => $this->translate('Developer tools'),
-        'icon' => 'fas fa-screwdriver-wrench',
-        'url' => 'developer',
-      ]);
-    }
+    $tools = $this->main->di->create(\HubletoApp\Community\Tools\Manager::class);
+    $tools->addTool($this, [
+      'title' => $this->translate('Developer tools'),
+      'icon' => 'fas fa-screwdriver-wrench',
+      'url' => 'developer',
+    ]);
 
   }
 

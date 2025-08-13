@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Mail;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
@@ -42,10 +42,10 @@ class Loader extends \Hubleto\Framework\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Account($this->main))->dropTableIfExists()->install();
-      (new Models\Mailbox($this->main))->dropTableIfExists()->install();
-      (new Models\Mail($this->main))->dropTableIfExists()->install();
-      (new Models\Index($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Account::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Mailbox::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Mail::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Index::class)->dropTableIfExists()->install();
     }
   }
 
@@ -162,7 +162,7 @@ class Loader extends \Hubleto\Framework\App
           }
         }
         foreach ($bccEmails as $email) {
-          $idUserTo = $usersByEmail[$email] ?? 0;
+          $idUserBcc = $usersByEmail[$email] ?? 0;
           if ($idUserBcc > 0) {
             $mIndex->record->create(['id_mail' => $idMail, 'id_from' => $idUser, 'id_bcc' => $idUserBcc]);
           }

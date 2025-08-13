@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Calendar;
 use HubletoApp\Community\Calendar\Models\Activity;
 use HubletoApp\Community\Calendar\Models\SharedCalendar;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public CalendarManager $calendarManager;
 
@@ -31,11 +31,13 @@ class Loader extends \Hubleto\Framework\App
       '/^calendar\/api\/stop-sharing-calendar\/?$/' => Controllers\Api\StopSharingCalendar::class,
     ]);
 
-    $this->main->apps->community('Help')?->addContextHelpUrls('/^calendar\/?$/', [
+    $help = $this->main->di->create(\HubletoApp\Community\Help\Manager::class);
+    $help->addContextHelpUrls('/^calendar\/?$/', [
       'en' => 'en/apps/community/calendar',
     ]);
 
-    $this->main->apps->community('Dashboards')?->addBoard(
+    $boards = $this->main->di->create(\HubletoApp\Community\Dashboards\Manager::class);
+    $boards->addBoard(
       $this,
       $this->translate('Reminders'),
       'calendar/boards/reminders'
@@ -57,34 +59,6 @@ class Loader extends \Hubleto\Framework\App
       $mSharedCalendar = $this->main->di->create(SharedCalendar::class);
       $mSharedCalendar->install();
     }
-  }
-
-  public function loadRemindersSummary(int $idUser = 0): array
-  {
-    $getCalendarEvents = $this->main->di->create(Controllers\Api\GetCalendarEvents::class);
-
-    $remindersToday = $getCalendarEvents->loadEventsFromMultipleCalendars(
-      date("Y-m-d", strtotime("-1 year")),
-      date("Y-m-d"),
-      ['completed' => false, 'idUser' => $idUser]
-    );
-
-    $dateTomorrow = date("Y-m-d", time() + 24 * 3600);
-    $remindersTomorrow = $getCalendarEvents->loadEventsFromMultipleCalendars(
-      $dateTomorrow,
-      $dateTomorrow,
-      ['completed' => false, 'idUser' => $idUser]
-    );
-
-    $dateLaterStart = date("Y-m-d", time() + 24 * 3600 * 2);
-    $dateLaterEnd = date("Y-m-d", time() + 24 * 3600 * 7);
-    $remindersLater = $getCalendarEvents->loadEventsFromMultipleCalendars(
-      $dateLaterStart,
-      $dateLaterEnd,
-      ['completed' => false, 'idUser' => $idUser]
-    );
-
-    return [$remindersToday, $remindersTomorrow, $remindersLater];
   }
 
 }

@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Usage;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public const DEFAULT_INSTALLATION_CONFIG = [
     'sidebarOrder' => 0,
@@ -17,13 +17,12 @@ class Loader extends \Hubleto\Framework\App
       '/^usage\/log\/?$/' => Controllers\Log::class,
     ]);
 
-    if ($this->main->apps->community('Tools')) {
-      $this->main->apps->community('Tools')->addTool($this, [
-        'title' => $this->translate('Usage log'),
-        'icon' => 'fas fa-chart-bar',
-        'url' => 'usage/log',
-      ]);
-    }
+    $tools = $this->main->di->create(\HubletoApp\Community\Tools\Manager::class);
+    $tools->addTool($this, [
+      'title' => $this->translate('Usage log'),
+      'icon' => 'fas fa-chart-bar',
+      'url' => 'usage/log',
+    ]);
   }
 
   public function logUsage(string $message = ''): void
@@ -47,7 +46,7 @@ class Loader extends \Hubleto\Framework\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Log($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Log::class)->dropTableIfExists()->install();
     }
   }
 

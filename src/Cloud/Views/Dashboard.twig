@@ -6,7 +6,7 @@
 <br/>
 
 
-{% if viewParams.app.configAsString('legalDocumentsAccepted') == '' %}
+{% if viewParams.main.config.getAsString('legalDocumentsAccepted') == '' %}
 
   <script>
     function acceptLegalDocuments() {
@@ -253,7 +253,7 @@
             </tr>
             <tr>
               <td>{{ translate('Terms of use and privacy policy accepted') }}</td>
-              <td><b>{{ viewParams.app.configAsString('legalDocumentsAccepted')|date('l, F jS Y') }}</b></td>
+              <td><b>{{ viewParams.main.config.getAsString('legalDocumentsAccepted')|date('l, F jS Y') }}</b></td>
             </tr>
             <tr>
               <td>{{ translate('Subscription active until') }}</td>

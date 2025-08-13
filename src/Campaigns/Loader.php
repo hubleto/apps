@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Campaigns;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
@@ -14,7 +14,8 @@ class Loader extends \Hubleto\Framework\App
       '/^campaigns\/?$/' => Controllers\Campaigns::class,
     ]);
 
-    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Campaign::class);
+    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels->registerExternalModel($this, Models\Campaign::class);
 
   }
 

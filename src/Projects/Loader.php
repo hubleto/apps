@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Projects;
 
-class Loader extends \Hubleto\Framework\App
+class Loader extends \HubletoMain\App
 {
   // Uncomment following if you want a button for app's settings
   // to be rendered next in sidebar, right next to your app's button.
@@ -39,7 +39,8 @@ class Loader extends \Hubleto\Framework\App
     $appMenu->addItem($this, 'projects', $this->translate('Projects'), 'fas fa-diagram-project');
     $appMenu->addItem($this, 'projects/phases', $this->translate('Phases'), 'fas fa-list');
 
-    $this->main->apps->community('Tasks')?->registerExternalModel($this, Models\Project::class);
+    $externalModels = $this->main->di->create(\HubletoApp\Community\Tasks\ExternalModels::class);
+    $externalModels->registerExternalModel($this, Models\Project::class);
 
   }
 
@@ -47,8 +48,8 @@ class Loader extends \Hubleto\Framework\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      (new Models\Phase($this->main))->dropTableIfExists()->install();
-      (new Models\Project($this->main))->dropTableIfExists()->install();
+      $this->main->di->create(Models\Phase::class)->dropTableIfExists()->install();
+      $this->main->di->create(Models\Project::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
 
