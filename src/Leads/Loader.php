@@ -44,7 +44,7 @@ class Loader extends \HubletoMain\App
     $externalModels->registerExternalModel($this, Models\Lead::class);
 
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
-    $calendarManager->addCalendar('leads', $this->configAsString('calendarColor'), Calendar::class);
+    $calendarManager->addCalendar($this, 'leads', $this->configAsString('calendarColor'), Calendar::class);
 
     $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard( $this, 'Lead value by score', 'leads/boards/lead-value-by-score');

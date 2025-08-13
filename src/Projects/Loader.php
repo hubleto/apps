@@ -30,6 +30,7 @@ class Loader extends \HubletoMain\App
     // Add placeholder for your app's calendar.
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $calendarManager->addCalendar(
+      $this,
       'Projects-calendar', // UID of your app's calendar. Will be referenced as "source" when fetching app's events.
       '#008000', // your app's calendar color
       Calendar::class // your app's Calendar class

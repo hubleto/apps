@@ -37,7 +37,7 @@ class Loader extends \HubletoMain\App
     ]);
 
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
-    $calendarManager->addCalendar('deals', $this->configAsString('calendarColor'), Calendar::class);
+    $calendarManager->addCalendar($this, 'deals', $this->configAsString('calendarColor'), Calendar::class);
 
     $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 

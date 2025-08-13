@@ -8,10 +8,11 @@ class Manager extends \HubletoMain\CoreClass
   /** @var array<string, \HubletoMain\Calendar> */
   protected array $calendars = [];
 
-  public function addCalendar(string $source, string $color, string $calendarClass): void
+  public function addCalendar(\Hubleto\Framework\Interfaces\AppInterface $app, string $source, string $color, string $calendarClass): void
   {
     $calendar = $this->main->load($calendarClass);
     $calendar->setColor($color);
+    $calendar->setApp($app);
     if ($calendar instanceof \HubletoMain\Calendar) {
       $this->calendars[$source] = $calendar;
     }
