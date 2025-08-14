@@ -13,6 +13,8 @@ class Loader extends \HubletoMain\App
   public bool $canBeDisabled = false;
   public bool $permittedForAllUsers = true;
 
+  public array $appMenu = [];
+
   public SidebarManager $sidebar;
   public DashboardManager $dashboard;
 
@@ -39,10 +41,7 @@ class Loader extends \HubletoMain\App
 
     $this->setConfigAsInteger('sidebarOrder', 0);
 
-    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
-    $help->addContextHelpUrls('/^\/?$/', [
-      'en' => '',
-    ]);
+    $this->appMenu = $this->collectIntegrationItems('AppMenu');
   }
 
 }

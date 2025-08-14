@@ -69,8 +69,13 @@ class Desktop extends \HubletoMain\Controller
       "sk" => [ "flagImage" => "sk.jpg", "name" => "Slovensky" ],
     ]);
 
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $this->viewParams['appMenu'] = $appMenu->getItems();
+    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\Loader::class)->appMenu;
+    $this->viewParams['appMenu'] = [];
+    foreach ($appMenu as $item) {
+      if ($item['app'] === $activatedApp) {
+        $this->viewParams['appMenu'][] = $item;
+      }
+    }
 
     $this->setView('@HubletoApp:Community:Desktop/Desktop.twig');
   }

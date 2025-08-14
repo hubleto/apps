@@ -29,12 +29,6 @@ class Loader extends \HubletoMain\App
       '/^mail\/api\/mark-as-unread\/?$/' => Controllers\Api\MarkAsUnread::class,
     ]);
 
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
-    $appMenu->addItem($this, 'mail/templates', $this->translate('Templates'), 'fas fa-file-import');
-    $appMenu->addItem($this, 'mail/drafts', $this->translate('Drafts'), 'fas fa-file-import');
-    $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
-
     $this->main->crons->addCron(Crons\GetMails::class);
 
     $this->templateVariables = $this->collectIntegrationItems('MailTemplateVariables');

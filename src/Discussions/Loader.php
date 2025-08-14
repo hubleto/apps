@@ -24,10 +24,6 @@ class Loader extends \HubletoMain\App
       '/^discussions\/api\/send-message\/?$/' => Controllers\Api\SendMessage::class,
     ]);
 
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $appMenu->addItem($this, 'discussions', $this->translate('Discussions'), 'fas fa-user');
-    $appMenu->addItem($this, 'discussions/members', $this->translate('Members'), 'fas fa-file-import');
-    $appMenu->addItem($this, 'discussions/messages', $this->translate('Messages'), 'fas fa-file-import');
   }
 
   // installTables

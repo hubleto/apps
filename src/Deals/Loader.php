@@ -54,10 +54,6 @@ class Loader extends \HubletoMain\App
     $boards->addBoard( $this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
     $boards->addBoard( $this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');
     $boards->addBoard( $this, $this->translate('Deal value by result'), 'deals/boards/deal-value-by-result');
-
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $appMenu->addItem($this, 'deals', $this->translate('Active deals'), 'fas fa-handshake');
-    $appMenu->addItem($this, 'deals/archive', $this->translate('Archived deals'), 'fas fa-box-archive');
   }
 
   public function installTables(int $round): void

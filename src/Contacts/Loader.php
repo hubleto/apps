@@ -33,9 +33,6 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/contact-tags',
     ]);
 
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $appMenu->addItem($this, 'contacts', $this->translate('Contacts'), 'fas fa-user');
-    $appMenu->addItem($this, 'contacts/import', $this->translate('Import contacts'), 'fas fa-file-import');
   }
 
   public function installTables(int $round): void
