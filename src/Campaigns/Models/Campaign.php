@@ -33,7 +33,7 @@ class Campaign extends \Hubleto\Framework\Models\Model
       'target_audience' => (new Text($this, $this->translate('Target audience')))->setProperty('defaultVisibility', true),
       'goal' => (new Text($this, $this->translate('Goal')))->setProperty('defaultVisibility', true),
       'notes' => (new Text($this, $this->translate('Notes'))),
-      'mail_body' => (new Text($this, $this->translate('Mail body (HTML)'))),
+      'mail_body' => (new Text($this, $this->translate('Mail body (HTML)')))->setReactComponent('InputWysiwyg'),
       'color' => (new Color($this, $this->translate('Color'))),
       'id_mail_template' => (new Lookup($this, $this->translate('Mail template'), Mail::class))->setProperty('defaultVisibility', true),
       'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setProperty('defaultVisibility', true)->setDefaultValue($this->main->auth->getUserId())->setProperty('defaultVisibility', true),
