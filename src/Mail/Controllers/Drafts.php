@@ -2,6 +2,8 @@
 
 namespace HubletoApp\Community\Mail\Controllers;
 
+use HubletoApp\Community\Mail\Models\Mailbox;
+
 class Drafts extends \HubletoMain\Controller
 {
   public function getBreadcrumbs(): array
@@ -16,10 +18,7 @@ class Drafts extends \HubletoMain\Controller
   {
     parent::prepareView();
 
-    $this->viewParams['title'] = 'Drafts';
-    $this->viewParams['folder'] = 'drafts';
-
-    $this->setView('@HubletoApp:Community:Mail/ListFolder.twig');
+    $this->setView('@HubletoApp:Community:Mail/Drafts.twig');
   }
 
 }

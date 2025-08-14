@@ -17,37 +17,15 @@ class Mail extends \HubletoMain\RecordManager
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
   {
     $main = \HubletoMain\Loader::getGlobalApp();
-    $folder = $main->urlParamAsString('folder');
-    $idUser = $main->auth->getUserId();
+    $idMailbox = $main->urlParamAsInteger('idMailbox');
+    $showOnlyDrafts = $main->urlParamAsBool('showOnlyDrafts');
+    $showOnlyTemplates = $main->urlParamAsBool('showOnlyTemplates');
 
-    $query = parent::prepareReadQuery($query, $level)
-      ->leftJoin('mails_index as midx', 'midx.id_mail', '=', 'mails.id')
-    ;
+    $query = parent::prepareReadQuery($query, $level);
 
-    $user = $main->auth->getUser();
-
-    switch ($folder) {
-      case 'inbox':
-        $query->where(function ($q) use ($idUser) {
-          $q->where('midx.id_to', $idUser);
-          $q->orWhere('midx.id_cc', $idUser);
-          $q->orWhere('midx.id_bcc', $idUser);
-        });
-        break;
-      case 'outbox':
-        $query->where('is_draft', false)->whereNull('datetime_sent');
-        break;
-      case 'drafts':
-        $query->where('is_draft', true);
-        break;
-      case 'templates':
-        $query->where('is_template', true);
-        break;
-      case 'sent':
-        $query->where('midx.id_from', $idUser);
-        break;
-    };
-
+    if ($idMailbox > 0) $query = $query->where('id_mailbox', $idMailbox);
+    if ($showOnlyDrafts) $query = $query->where('is_draft', true);
+    if ($showOnlyTemplates) $query = $query->where('is_template', true);
 
     return $query;
   }

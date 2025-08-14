@@ -22,12 +22,8 @@ class Loader extends \HubletoMain\App
       '/^mail\/mails\/(?<idMailbox>\d+)\/?$/' => Controllers\Mails::class,
 
 
-      '/^mail\/inbox\/?$/' => Controllers\Inbox::class,
-      '/^mail\/sent\/?$/' => Controllers\Sent::class,
       '/^mail\/drafts\/?$/' => Controllers\Drafts::class,
-      '/^mail\/outbox\/?$/' => Controllers\Outbox::class,
       '/^mail\/templates\/?$/' => Controllers\Templates::class,
-      '/^mail\/all\/?$/' => Controllers\All::class,
       '/^mail\/settings\/?$/' => Controllers\Settings::class,
       '/^mail\/api\/mark-as-read\/?$/' => Controllers\Api\MarkAsRead::class,
       '/^mail\/api\/mark-as-unread\/?$/' => Controllers\Api\MarkAsUnread::class,
@@ -35,6 +31,8 @@ class Loader extends \HubletoMain\App
 
     $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'mail', $this->translate('Mail'), 'fas fa-envelope');
+    $appMenu->addItem($this, 'mail/templates', $this->translate('Templates'), 'fas fa-file-import');
+    $appMenu->addItem($this, 'mail/drafts', $this->translate('Drafts'), 'fas fa-file-import');
     $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
 
     $this->main->crons->addCron(Crons\GetMails::class);
@@ -50,19 +48,19 @@ class Loader extends \HubletoMain\App
     }
   }
 
-  public function getNotificationsCount(): int
-  {
-    $mMail = $this->main->load(\HubletoApp\Community\Mail\Models\Mail::class);
-    return $mMail->record->prepareReadQuery()
-      ->where(function ($q) {
-        $q->where('midx.id_to', $this->main->auth->getUserId());
-        $q->orWhere('midx.id_cc', $this->main->auth->getUserId());
-        $q->orWhere('midx.id_bcc', $this->main->auth->getUserId());
-      })
-      ->whereNull('datetime_read')
-      ->count()
-    ;
-  }
+  // public function getNotificationsCount(): int
+  // {
+  //   $mMail = $this->main->load(\HubletoApp\Community\Mail\Models\Mail::class);
+  //   return $mMail->record->prepareReadQuery()
+  //     ->where(function ($q) {
+  //       $q->where('midx.id_to', $this->main->auth->getUserId());
+  //       $q->orWhere('midx.id_cc', $this->main->auth->getUserId());
+  //       $q->orWhere('midx.id_bcc', $this->main->auth->getUserId());
+  //     })
+  //     ->whereNull('datetime_read')
+  //     ->count()
+  //   ;
+  // }
 
   public function parseEmailsFromString(string $emails): array
   {

@@ -50,6 +50,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
               {this.inputWrapper('date_start')}
               {this.inputWrapper('date_deadline')}
               {this.inputWrapper('budget')}
+              {this.inputWrapper('is_closed')}
             </div>
             <div className='flex-1'>
               {this.inputWrapper('id_customer')}

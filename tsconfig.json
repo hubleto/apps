@@ -6,6 +6,7 @@
     "preserveSymlinks": true,
     "baseUrl": ".",
     "paths": {
+      "@hubleto/apps/*": ["./src/*"],
       "@hubleto/react-ui/*": ["../react-ui/*"],
       "*": ["../react-ui/node_modules/*"],
     }

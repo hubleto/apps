@@ -58,24 +58,29 @@ export default class FormMail<P, S> extends HubletoForm<FormMailProps,FormMailSt
   }
 
   renderContent(): JSX.Element {
+
     return <>
       <div className='flex gap-2'>
-        <div className='flex-3'>
-          {this.inputWrapper('to')}
-          {this.inputWrapper('cc')}
-          {this.inputWrapper('bcc')}
-          {this.inputWrapper('subject')}
-          {this.inputWrapper('body')}
-        </div>
         <div className='flex-1'>
-          {/* {this.inputWrapper('id_owner')} */}
-          {this.inputWrapper('from')}
-          {this.inputWrapper('priority')}
-          {this.inputWrapper('datetime_created')}
-          {this.inputWrapper('datetime_sent')}
+          {this.state.record.is_template ? null : <>
+            {this.inputWrapper('from')}
+            {this.inputWrapper('priority')}
+            {this.inputWrapper('datetime_created')}
+            {this.inputWrapper('datetime_sent')}
+          </>}
           {this.inputWrapper('color')}
           {this.inputWrapper('is_draft')}
           {this.inputWrapper('is_template')}
+        </div>
+        <div className='flex-3'>
+          {this.state.record.is_template ? null : <>
+            {this.inputWrapper('to')}
+            {this.inputWrapper('cc')}
+            {this.inputWrapper('bcc')}
+          </>}
+          {this.inputWrapper('subject')}
+          {/* {this.inputWrapper('body_text')} */}
+          {this.inputWrapper('body_html')}
         </div>
       </div>
     </>;

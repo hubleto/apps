@@ -37,7 +37,7 @@ class Task extends \Hubleto\Framework\Models\Model
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'identifier' => (new Varchar($this, $this->translate('Identifier')))->setProperty('defaultVisibility', true)->setCssClass('badge badge-warning text-xl')->setDescription('Leave empty to generate automatically.'),
+      'identifier' => (new Varchar($this, $this->translate('Identifier')))->setProperty('defaultVisibility', true)->setCssClass('font-bold')->setDescription('Leave empty to generate automatically.'),
       'title' => (new Varchar($this, $this->translate('Title')))->setProperty('defaultVisibility', true)->setRequired(),
       'description' => (new Text($this, $this->translate('Description'))),
       'id_developer' => (new Lookup($this, $this->translate('Developer'), User::class))->setProperty('defaultVisibility', true)->setRequired()
@@ -47,7 +47,7 @@ class Task extends \Hubleto\Framework\Models\Model
         ->setDefaultValue($this->main->auth->getUserId())
       ,
       'priority' => (new Integer($this, $this->translate('Priority'))),
-      'hours_estimation' => (new Decimal($this, $this->translate('Estimation')))->setProperty('defaultVisibility', true)->setUnit('hours'),
+      'hours_estimation' => (new Decimal($this, $this->translate('Estimation')))->setProperty('defaultVisibility', true)->setUnit('h')->setDecimals(2),
       'duration_days' => (new Integer($this, $this->translate('Duration')))->setProperty('defaultVisibility', true)->setUnit('days'),
       'date_start' => (new Date($this, $this->translate('Start')))->setDefaultValue(date("Y-m-d")),
       'date_deadline' => (new Date($this, $this->translate('Deadline')))->setDefaultValue(date("Y-m-d")),
@@ -79,11 +79,11 @@ class Task extends \Hubleto\Framework\Models\Model
     $description->ui['showColumnSearch'] = true;
     $description->ui['showFooter'] = false;
 
-    $tasksApp = $this->main->apps->community('Tasks');
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
 
     if (isset($description->columns['external_model'])) {
       $enumExternalModels = ['' => '-- No external relation --'];
-      foreach ($tasksApp->getRegisteredExternalModels() as $modelClass => $app) {
+      foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
         $enumExternalModels[$modelClass] = $app->manifest['nameTranslated'];
       }
 
@@ -91,7 +91,7 @@ class Task extends \Hubleto\Framework\Models\Model
     }
 
     $fExternalModels = [];
-    foreach ($tasksApp->getRegisteredExternalModels() as $modelClass => $app) {
+    foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
       $fExternalModels[$modelClass] = $app->manifest['name'];
     }
     $description->ui['defaultFilters'] = [
@@ -105,10 +105,10 @@ class Task extends \Hubleto\Framework\Models\Model
   {
     $description = parent::describeForm();
 
-    $tasksApp = $this->main->apps->community('Tasks');
+    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
 
     $enumExternalModels = ['' => '-- No external relation --'];
-    foreach ($tasksApp->getRegisteredExternalModels() as $modelClass => $app) {
+    foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
       $enumExternalModels[$modelClass] = $app->manifest['nameTranslated'];
     }
 
@@ -144,8 +144,8 @@ class Task extends \Hubleto\Framework\Models\Model
       // \$mProject = $this->main->load(\HubletoApp\Community\Projects\Models\Project::class);
       // $project = $mProject->record->where("id", $savedRecord["id_project"])->first()?->toArray();
       // $savedRecord["identifier"] = ($project["identifier"] ?? 'T') . '#' . $savedRecord["id"];
-      $tasksApp = $this->main->apps->community('Tasks');
-      $externalModelApp = $tasksApp->getRegisteredExternalModels()[$savedRecord['external_model']] ?? null;
+      $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
+      $externalModelApp = $externalModels->getRegisteredExternalModels()[$savedRecord['external_model']] ?? null;
       if ($externalModelApp) {
         $externalModelClass = $savedRecord['external_model'];
         $externalModel = $this->main->load($externalModelClass);

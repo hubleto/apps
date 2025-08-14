@@ -7,6 +7,8 @@ import FormMail from './FormMail';
 interface TableMailsProps extends TableProps {
   idMailbox?: number,
   mailboxName?: string,
+  showOnlyDrafts?: boolean,
+  showOnlyTemplates?: boolean,
 }
 interface TableMailsState extends TableState {
 }
@@ -37,13 +39,15 @@ export default class TableMails extends Table<TableMailsProps, TableMailsState> 
   getEndpointParams() {
     return {
       ...super.getEndpointParams(),
-      idMailbox: this.props.idMailbox
+      idMailbox: this.props.idMailbox,
+      showOnlyDrafts: this.props.showOnlyDrafts,
+      showOnlyTemplates: this.props.showOnlyTemplates,
     }
   }
 
   getFormModalProps(): any {
     let params = super.getFormModalProps();
-    params.type = 'right';
+    params.type = 'right wide';
     return params;
   }
 
@@ -86,6 +90,12 @@ export default class TableMails extends Table<TableMailsProps, TableMailsState> 
 
   renderForm(): JSX.Element {
     let formProps: FormProps = this.getFormProps();
+    if (this.props.showOnlyTemplates) {
+      formProps.description = {};
+      formProps.description.defaultValues = {
+        'is_template': true
+      };
+    }
     return <FormMail {...formProps}/>;
   }
 
