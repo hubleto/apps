@@ -5,6 +5,8 @@ namespace HubletoApp\Community\Products;
 class Loader extends \HubletoMain\App
 {
 
+  public array $productTypes = [];
+
   /**
    * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
    *
@@ -24,6 +26,8 @@ class Loader extends \HubletoMain\App
     $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'products', $this->translate('Products'), 'fas fa-cart-shopping');
     $appMenu->addItem($this, 'products/groups', $this->translate('Groups'), 'fas fa-burger');
+
+    $this->productTypes = $this->collectIntegrationItems('ProductTypes');
   }
 
   public function installTables(int $round): void

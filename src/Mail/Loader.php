@@ -6,6 +6,8 @@ class Loader extends \HubletoMain\App
 {
   public bool $hasCustomSettings = true;
 
+  public array $templateVariables = [];
+
   /**
    * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
    *
@@ -20,8 +22,6 @@ class Loader extends \HubletoMain\App
       '/^mail\/?$/' => Controllers\Mailboxes::class,
       '/^mail\/accounts\/?$/' => Controllers\Accounts::class,
       '/^mail\/mails\/(?<idMailbox>\d+)\/?$/' => Controllers\Mails::class,
-
-
       '/^mail\/drafts\/?$/' => Controllers\Drafts::class,
       '/^mail\/templates\/?$/' => Controllers\Templates::class,
       '/^mail\/settings\/?$/' => Controllers\Settings::class,
@@ -36,6 +36,8 @@ class Loader extends \HubletoMain\App
     $appMenu->addItem($this, 'mail/accounts', $this->translate('Accounts'), 'fas fa-file-import');
 
     $this->main->crons->addCron(Crons\GetMails::class);
+
+    $this->templateVariables = $this->collectIntegrationItems('MailTemplateVariables');
   }
 
   public function installTables(int $round): void

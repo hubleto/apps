@@ -56,11 +56,6 @@ class Loader extends \HubletoMain\App
     $boards->addBoard( $this, 'Lead value by score', 'leads/boards/lead-value-by-score');
     $boards->addBoard( $this, 'Lead warnings', 'leads/boards/lead-warnings');
 
-    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
-    $help->addContextHelpUrls('/^leads\/?$/', [
-      'en' => 'en/apps/community/leads',
-    ]);
-
     $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
     $appMenu->addItem($this, 'leads', $this->translate('Active leads'), 'fas fa-people-arrows');
     $appMenu->addItem($this, 'leads/archive', $this->translate('Archived leads'), 'fas fa-box-archive');

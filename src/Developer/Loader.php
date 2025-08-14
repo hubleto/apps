@@ -21,12 +21,12 @@ class Loader extends \HubletoMain\App
       '/^developer\/form-designer\/?$/' => Controllers\FormDesigner::class,
     ]);
 
-    $tools = $this->main->load(\HubletoApp\Community\Tools\Manager::class);
-    $tools->addTool($this, [
-      'title' => $this->translate('Developer tools'),
-      'icon' => 'fas fa-screwdriver-wrench',
-      'url' => 'developer',
-    ]);
+    // $tools = $this->main->load(\HubletoApp\Community\Tools\Manager::class);
+    // $tools->addTool($this, [
+    //   'title' => $this->translate('Developer tools'),
+    //   'icon' => 'fas fa-screwdriver-wrench',
+    //   'url' => 'developer',
+    // ]);
 
   }
 

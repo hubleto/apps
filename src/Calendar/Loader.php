@@ -29,11 +29,6 @@ class Loader extends \HubletoMain\App
       '/^calendar\/api\/stop-sharing-calendar\/?$/' => Controllers\Api\StopSharingCalendar::class,
     ]);
 
-    $help = $this->main->load(\HubletoApp\Community\Help\Manager::class);
-    $help->addContextHelpUrls('/^calendar\/?$/', [
-      'en' => 'en/apps/community/calendar',
-    ]);
-
     $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard(
       $this,

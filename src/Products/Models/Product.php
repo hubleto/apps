@@ -43,6 +43,11 @@ class Product extends \Hubleto\Framework\Models\Model
 
   public function describeColumns(): array
   {
+    $typeEnumValues = array_merge(
+      self::TYPE_ENUM_VALUES,
+      $this->main->load(\HubletoApp\Community\Products\Loader::class)->productTypes
+    );
+
     $typeDescription = 
       'Consumables are physical products for which you do not manage inventory levels - they are always available. '
       . 'Storable products are physical items for which you manage inventory levels.'
@@ -57,7 +62,7 @@ class Product extends \Hubleto\Framework\Models\Model
     return array_merge(parent::describeColumns(), [
       'name' => (new Varchar($this, $this->translate('Name')))->setRequired(),
       'id_product_group' => (new Lookup($this, $this->translate('Product Group'), Group::class)),
-      'type' => (new Integer($this, $this->translate('Product Type')))->setEnumValues(self::TYPE_ENUM_VALUES)->setDescription($typeDescription),
+      'type' => (new Integer($this, $this->translate('Product Type')))->setEnumValues($typeEnumValues)->setDescription($typeDescription),
       'invoicing_policy' => (new Integer($this, $this->translate('Invoicing policy')))->setEnumValues(self::INVOICING_POLICY_ENUM_VALUES)->setDescription($invoicingPolicyDescription),
       'is_on_sale' => new Boolean($this, $this->translate('On sale')),
       'image' => new Image($this, $this->translate('Image') . ' [540x600px]'),

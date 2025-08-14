@@ -23,12 +23,12 @@ class Loader extends \HubletoMain\App
       '/^usage\/log\/?$/' => Controllers\Log::class,
     ]);
 
-    $tools = $this->main->load(\HubletoApp\Community\Tools\Manager::class);
-    $tools->addTool($this, [
-      'title' => $this->translate('Usage log'),
-      'icon' => 'fas fa-chart-bar',
-      'url' => 'usage/log',
-    ]);
+    // $tools = $this->main->load(\HubletoApp\Community\Tools\Manager::class);
+    // $tools->addTool($this, [
+    //   'title' => $this->translate('Usage log'),
+    //   'icon' => 'fas fa-chart-bar',
+    //   'url' => 'usage/log',
+    // ]);
   }
 
   public function logUsage(string $message = ''): void
