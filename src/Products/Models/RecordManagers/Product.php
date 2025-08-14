@@ -2,7 +2,6 @@
 
 namespace HubletoApp\Community\Products\Models\RecordManagers;
 
-use HubletoApp\Community\Suppliers\Models\RecordManagers\Supplier;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends \HubletoMain\RecordManager
@@ -15,12 +14,6 @@ class Product extends \HubletoMain\RecordManager
     return $this->hasOne(Group::class, 'id', 'id_product_group');
   }
 
-  /** @return HasOne<Supplier, covariant Product> */
-  public function SUPPLIER(): HasOne
-  {
-    return $this->hasOne(Supplier::class, 'id', 'id_supplier');
-  }
-
   public function prepareLookupQuery(string $search): mixed
   {
     $query = parent::prepareLookupQuery($search);
@@ -29,7 +22,7 @@ class Product extends \HubletoMain\RecordManager
     if ($main->urlParamAsBool("getServices") == true) {
       $query->where("type", \HubletoApp\Community\Products\Models\Product::TYPE_SERVICE);
     } elseif ($main->urlParamAsBool("getProducts") == true) {
-      $query->where("type", \HubletoApp\Community\Products\Models\Product::TYPE_PRODUCT);
+      $query->where("type", \HubletoApp\Community\Products\Models\Product::TYPE_CONSUMABLE);
     }
     return $query;
   }

@@ -84,7 +84,7 @@ class Deal extends \HubletoMain\RecordManager
   {
     return $this->hasMany(DealProduct::class, 'id_deal', 'id')
         ->whereHas("PRODUCT", function ($query) {
-          $query->where('type', \HubletoApp\Community\Products\Models\Product::TYPE_PRODUCT);
+          $query->where('type', \HubletoApp\Community\Products\Models\Product::TYPE_CONSUMABLE);
         });
     ;
   }

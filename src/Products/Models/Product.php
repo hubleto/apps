@@ -2,7 +2,6 @@
 
 namespace HubletoApp\Community\Products\Models;
 
-use HubletoApp\Community\Suppliers\Models\Supplier;
 use Hubleto\Framework\Db\Column\Boolean;
 use Hubleto\Framework\Db\Column\Date;
 use Hubleto\Framework\Db\Column\Decimal;
@@ -14,35 +13,63 @@ use Hubleto\Framework\Db\Column\Varchar;
 
 class Product extends \Hubleto\Framework\Models\Model
 {
-  public const TYPE_PRODUCT = 1;
-  public const TYPE_SERVICE = 2;
+  public const TYPE_CONSUMABLE = 1;
+  public const TYPE_STORABLE = 2;
+  public const TYPE_SERVICE = 3;
+
+  public const INVOICING_POLICY_ORDER = 1;
+  public const INVOICING_POLICY_DELIVERY = 2;
+  public const INVOICING_POLICY_MANUAL = 99;
+
+  const TYPE_ENUM_VALUES = [
+    self::TYPE_CONSUMABLE => "Consumable",
+    self::TYPE_STORABLE => "Storable",
+    self::TYPE_SERVICE => "Service",
+  ];
+
+  const INVOICING_POLICY_ENUM_VALUES = [
+    self::INVOICING_POLICY_ORDER => "Order",
+    self::INVOICING_POLICY_DELIVERY => "Delivery",
+    self::INVOICING_POLICY_MANUAL => "Manual",
+  ];
 
   public string $table = 'products';
   public string $recordManagerClass = RecordManagers\Product::class;
-  public ?string $lookupSqlValue = '{%TABLE%}.title';
+  public ?string $lookupSqlValue = '{%TABLE%}.name';
 
   public array $relations = [
     'GROUP' => [ self::HAS_ONE, Group::class, 'id', 'id_product_group'],
-    'SUPPLIER' => [ self::HAS_ONE, Supplier::class, 'id', 'id_supplier'],
   ];
 
   public function describeColumns(): array
   {
+    $typeDescription = 
+      'Consumables are physical products for which you do not manage inventory levels - they are always available. '
+      . 'Storable products are physical items for which you manage inventory levels.'
+    ;
+
+    $invoicingPolicyDescription = 
+      'Order: An invoice is generated immediately after a sales order is confirmed. '
+      . 'Delivery: An invoice is generated immediately after the delivery is completed. '
+      . 'Manual: Invoice is not automatically generated.'
+    ;
+
     return array_merge(parent::describeColumns(), [
-      'title' => (new Varchar($this, $this->translate('Title')))->setRequired(),
+      'name' => (new Varchar($this, $this->translate('Name')))->setRequired(),
       'id_product_group' => (new Lookup($this, $this->translate('Product Group'), Group::class)),
-      'type' => (new Integer($this, $this->translate('Product Type')))->setRequired()->setEnumValues(
-        [$this::TYPE_PRODUCT => "Single Item", $this::TYPE_SERVICE => "Service"]
-      ),
-      'id_supplier' => (new Lookup($this, $this->translate('Supplier'), Supplier::class)),
+      'type' => (new Integer($this, $this->translate('Product Type')))->setEnumValues(self::TYPE_ENUM_VALUES)->setDescription($typeDescription),
+      'invoicing_policy' => (new Integer($this, $this->translate('Invoicing policy')))->setEnumValues(self::INVOICING_POLICY_ENUM_VALUES)->setDescription($invoicingPolicyDescription),
       'is_on_sale' => new Boolean($this, $this->translate('On sale')),
       'image' => new Image($this, $this->translate('Image') . ' [540x600px]'),
       'description' => new Text($this, $this->translate('Description')),
-      'count_in_package' => new Decimal($this, $this->translate('Number of items in package')),
-      'unit_price' => (new Decimal($this, $this->translate('Single unit price')))->setRequired(),
+      'notes' => new Text($this, $this->translate('Internal notes')),
+      'amount_in_package' => new Decimal($this, $this->translate('Amount of items in package')),
+      'sales_price' => (new Decimal($this, $this->translate('Sales price')))->setRequired(),
       'unit' => new Varchar($this, $this->translate('Unit')),
       'margin' => (new Decimal($this, $this->translate('Margin')))->setUnit("%")->setColorScale('bg-light-blue-to-dark-blue'),
-      'vat' => (new Decimal($this, $this->translate('Vat')))->setUnit("%")->setRequired(),
+      'vat' => (new Decimal($this, $this->translate('VAT')))->setUnit("%")->setRequired(),
+      'bar_code' => new Varchar($this, $this->translate('Bar code')),
+      'qr_code_data' => new Varchar($this, $this->translate('Data ')),
       'is_single_order_possible' => new Boolean($this, $this->translate('Single unit order possible')),
       'packaging' => new Varchar($this, $this->translate('Packaging')),
       'sale_ended' => new Date($this, $this->translate('Sale ended')),
@@ -62,7 +89,6 @@ class Product extends \Hubleto\Framework\Models\Model
     $description->ui['showFulltextSearch'] = true;
     $description->ui['showColumnSearch'] = true;
     $description->ui["addButtonText"] = $this->translate("Add product");
-    $description->ui['title'] = '';
 
     return $description;
   }
