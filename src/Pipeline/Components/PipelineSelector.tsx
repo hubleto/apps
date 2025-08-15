@@ -89,13 +89,13 @@ export default class PipelineSelector<P, S> extends TranslatedComponent<Pipeline
                       key={key}
                       className={"btn " + (this.state.idPipeline == idPipeline ? "btn-primary" : "btn-transparent")}
                       onClick={() => { this.onPipelineChange(idPipeline); }}
-                    ><span className="text">{pipelines[idPipeline].name}</span></button>
+                    ><span className="text">{pipelines[idPipeline]?.name}</span></button>
                   })}
                 </div>
               </div></div>
             </div>
           : <div>
-            {pipelines[this.state.idPipeline].name}
+            {pipelines[this.state.idPipeline]?.name}
             <button className="btn btn-transparent btn-small ml-2" onClick={() => { this.setState({changePipeline: true}); }}>
               <span className="text">Change pipeline</span>
             </button>

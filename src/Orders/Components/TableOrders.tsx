@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import Table, { TableProps, TableState } from '@hubleto/react-ui/core/Table';
+import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import FormOrder, { FormOrderProps } from './FormOrder';
 import request from '@hubleto/react-ui/core/Request';
 
-interface TableOrdersProps extends TableProps {}
+interface TableOrdersProps extends HubletoTableProps {}
 
-interface TableOrdersState extends TableState {
+interface TableOrdersState extends HubletoTableState {
   tableOrderProductsDescription?: any,
 }
 
-export default class TableOrders extends Table<TableOrdersProps, TableOrdersState> {
+export default class TableOrders extends HubletoTable<TableOrdersProps, TableOrdersState> {
   static defaultProps = {
-    ...Table.defaultProps,
+    ...HubletoTable.defaultProps,
     orderBy: {
       field: "id",
       direction: "desc"

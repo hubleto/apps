@@ -28,6 +28,9 @@ interface CalendarState {
 }
 
 export default class CalendarComponent extends Component<CalendarProps, CalendarState> {
+  state: CalendarState;
+  props: CalendarProps;
+
   constructor(props) {
     super(props);
 

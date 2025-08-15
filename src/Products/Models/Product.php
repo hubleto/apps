@@ -60,17 +60,17 @@ class Product extends \Hubleto\Framework\Models\Model
     ;
 
     return array_merge(parent::describeColumns(), [
-      'name' => (new Varchar($this, $this->translate('Name')))->setRequired(),
+      'name' => (new Varchar($this, $this->translate('Name')))->setRequired()->setProperty('defaultVisibility', true),
       'id_product_group' => (new Lookup($this, $this->translate('Product Group'), Group::class)),
-      'type' => (new Integer($this, $this->translate('Product Type')))->setEnumValues($typeEnumValues)->setDescription($typeDescription),
+      'type' => (new Integer($this, $this->translate('Product Type')))->setEnumValues($typeEnumValues)->setDescription($typeDescription)->setProperty('defaultVisibility', true),
       'invoicing_policy' => (new Integer($this, $this->translate('Invoicing policy')))->setEnumValues(self::INVOICING_POLICY_ENUM_VALUES)->setDescription($invoicingPolicyDescription),
-      'is_on_sale' => new Boolean($this, $this->translate('On sale')),
+      'is_on_sale' => new Boolean($this, $this->translate('On sale'))->setProperty('defaultVisibility', true),
       'image' => new Image($this, $this->translate('Image') . ' [540x600px]'),
       'description' => new Text($this, $this->translate('Description')),
       'notes' => new Text($this, $this->translate('Internal notes')),
       'amount_in_package' => new Decimal($this, $this->translate('Amount of items in package')),
-      'sales_price' => (new Decimal($this, $this->translate('Sales price')))->setRequired(),
-      'unit' => new Varchar($this, $this->translate('Unit')),
+      'sales_price' => (new Decimal($this, $this->translate('Sales price')))->setRequired()->setProperty('defaultVisibility', true),
+      'unit' => new Varchar($this, $this->translate('Unit'))->setProperty('defaultVisibility', true),
       'margin' => (new Decimal($this, $this->translate('Margin')))->setUnit("%")->setColorScale('bg-light-blue-to-dark-blue'),
       'vat' => (new Decimal($this, $this->translate('VAT')))->setUnit("%")->setRequired(),
       'bar_code' => new Varchar($this, $this->translate('Bar code')),

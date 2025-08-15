@@ -12,6 +12,11 @@ use HubletoApp\Community\Products\Models\Product;
 use HubletoApp\Community\Settings\Models\Currency;
 use HubletoApp\Community\Settings\Models\Setting;
 
+use HubletoApp\Community\Pipeline\Models\Pipeline;
+use HubletoApp\Community\Pipeline\Models\PipelineStep;
+use HubletoApp\Community\Invoices\Models\Invoice;
+use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
+
 class Order extends \Hubleto\Framework\Models\Model
 {
   public string $table = 'orders';
@@ -20,19 +25,23 @@ class Order extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'PRODUCTS' => [ self::HAS_MANY, OrderProduct::class, 'id_order', 'id' ],
+    'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
     'HISTORY' => [ self::HAS_MANY, History::class, 'id_order', 'id' ],
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
+    'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
+    'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'order_number' => (new Varchar($this, $this->translate('Order number')))->setCssClass('badge badge-info'),
-      'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setRequired(),
-      'title' => (new Varchar($this, $this->translate('Title')))->setCssClass('font-bold'),
-      'id_state' => (new Lookup($this, $this->translate('State'), State::class)),
-      'price' => (new Decimal($this, $this->translate('Price')))->setReadonly()->setRequired()->setDefaultValue(0),
+      'order_number' => (new Varchar($this, $this->translate('Order number')))->setCssClass('badge badge-info')->setProperty('defaultVisibility', true),
+      'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setRequired()->setProperty('defaultVisibility', true),
+      'title' => (new Varchar($this, $this->translate('Title')))->setCssClass('font-bold')->setProperty('defaultVisibility', true),
+      'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'price' => (new Decimal($this, $this->translate('Price')))->setReadonly()->setRequired()->setDefaultValue(0)->setProperty('defaultVisibility', true),
       'id_currency' => (new Lookup($this, $this->translate('Currency'), Currency::class))->setReadonly(),
       'date_order' => (new Date($this, $this->translate('Order date')))->setRequired()->setDefaultValue(date("Y-m-d")),
       'required_delivery_date' => (new Date($this, $this->translate('Required delivery date'))),
@@ -103,6 +112,15 @@ class Order extends \Hubleto\Framework\Models\Model
 
   public function onAfterCreate(array $savedRecord): array
   {
+    $mPipeline = $this->main->load(Pipeline::class);
+
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_ORDER_MANAGEMENT);
+
+    $savedRecord['id_pipeline'] = $idPipeline;
+    $savedRecord['id_pipeline_step'] = $idPipelineStep;
+
+    $this->record->recordUpdate($savedRecord);
+
     $savedRecord = parent::onAfterCreate($savedRecord);
 
     $order = $this->record->find($savedRecord["id"]);
@@ -118,4 +136,29 @@ class Order extends \Hubleto\Framework\Models\Model
 
     return $savedRecord;
   }
+
+  public function generateInvoice(int $idOrder): void
+  {
+    $mInvoice = $this->main->load(Invoice::class);
+
+    $order = $this->record->prepareReadQuery()->where('id', $idOrder)->first();
+
+    if ($order) {
+      $mInvoice->generateInvoice(new InvoiceDto(
+        1, // $idProfile
+        $this->main->auth->getUserId(), // $idIssuedBy
+        (int) $order['id_customer'], // $idCustomer
+        'ORD/' . $order->number, // $number
+        null, // $vs
+        '', // $cs
+        '', // $ss
+        null, // $dateIssue
+        new \DateTimeImmutable()->add(new \DateInterval('P14D')), // $dateDelivery
+        new \DateTimeImmutable()->add(new \DateInterval('P14D')), // $dateDue
+        null, // $datePayment
+        '', // $note
+      ));
+    }
+  }
+
 }

@@ -6,6 +6,7 @@ import FormInput from '@hubleto/react-ui/core/FormInput';
 import Lookup from '@hubleto/react-ui/core/Inputs/Lookup';
 import { TabPanel, TabView } from 'primereact/tabview';
 import TableHistories from './TableHistories';
+import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 
 export interface FormOrderProps extends HubletoFormProps {
   tableOrderProductsDescription?: any,
@@ -19,6 +20,12 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Orders/Models/Order',
+    tabs: {
+      'default': { title: 'Order' },
+      'products': { title: 'Products' },
+      'invoices': { title: 'Invoices' },
+      'history': { title: 'History' },
+    }
   };
 
   props: FormOrderProps;
@@ -62,22 +69,31 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   }
 
 
-  renderContent(): JSX.Element {
-    const lookupElement = createRef();
-    var lookupData;
-
-    const getLookupData = () => {
-      if (lookupElement.current) {
-        lookupData = lookupElement.current.state.data;
-      }
-    }
-
+  renderTab(tab: string) {
     const R = this.state.record;
     const showAdditional = R.id > 0 ? true : false;
 
-    return (<>
-      <TabView>
-        <TabPanel header={this.translate('Order')}>
+    switch (tab) {
+      case 'default':
+
+        const pipeline = <PipelineSelector
+          idPipeline={R.id_pipeline}
+          idPipelineStep={R.id_pipeline_step}
+          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+            //
+          }}
+          onPipelineStepChange={(idPipelineStep: number, step: any) => {
+            if (!R.is_archived) {
+              if (this.state.isInlineEditing == false) this.setState({isInlineEditing: true});
+              R.id_pipeline_step = idPipelineStep;
+              R.deal_result = step.set_result;
+              R.PIPELINE_STEP = step;
+              this.updateRecord(R);
+            }
+          }}
+        ></PipelineSelector>;
+
+        return <>
           <div className='card'>
             <div className='card-body flex flex-row gap-2'>
               <div className='grow'>
@@ -99,169 +115,186 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
               </div>
             </div>
 
-            {R.id > 0 ?
-              <>
-                <div className='card-body border-t border-gray-200'>
-                  <a
-                    className="btn btn-add-outline mb-2"
-                    onClick={() => {
-                      this.setState({ isInlineEditing: true});
-                      if (!R.PRODUCTS) R.PRODUCTS = [];
-                      R.PRODUCTS.push({
-                        id: this.state.newEntryId,
-                        id_order: { _useMasterRecordId_: true },
-                        amount: 1,
-                        unit_price: 0,
-                        vat: 0,
-                        discount: 0,
-                      });
-                      this.setState({ record: R });
-                      this.setState({ newEntryId: this.state.newEntryId - 1 } as FormOrderState);
-                    }}
-                  >
-                    <span className="icon"><i className="fas fa-add"></i></span>
-                    <span className="text">Add product</span>
-                  </a>
-                  <div className='w-full h-full overflow-x-auto'>
-                    <TableOrderProducts
-                      sum={"Total: " + R.price + " " + R.CURRENCY.code}
-                      uid={this.props.uid + "_table_order_products"}
-                      readonly={!this.state.isInlineEditing}
-                      isUsedAsInput={true}
-                      isInlineEditing={this.state.isInlineEditing}
-                      data={{ data: R.PRODUCTS }}
-                      customEndpointParams={{idOrder: R.id}}
-                      descriptionSource='props'
-                      description={{
-                        permissions: this.props.tableOrderProductsDescription.permissions,
-                        ui: {
-                          showHeader: false,
-                          showFooter: true,
-                          addButtonText: "Add Product"
-                        },
-                        columns: {
-                          title: { type: "varchar", title: this.translate('Title') },
-                          id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
-                            cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-                              return (
-                                <FormInput>
-                                  <Lookup {...this.getInputProps()}
-                                    ref={lookupElement}
-                                    model='HubletoApp/Community/Products/Models/Product'
-                                    cssClass='min-w-44'
-                                    value={data.id_product}
-                                    onChange={(input: any, value: any) => {
-                                      getLookupData();
-
-                                      if (lookupData[value]) {
-                                        data.id_product = value;
-                                        data.unit_price = lookupData[value].unit_price;
-                                        data.vat = lookupData[value].vat;
-                                        this.updateRecord({ PRODUCTS: table.state.data?.data });
-                                        this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
-                                      }
-                                    }}
-                                  ></Lookup>
-                                </FormInput>
-                              )
-                            }
-                          },
-                          amount: { type: "int", title: "Amount" },
-                          unit_price: { type: "float", title: "Unit Price"},
-                          vat: { type: "float", title: "Vat (%)"},
-                          discount: { type: "float", title: "Discount (%)" },
-                          __sum: { type: "none", title: "Sum after vat",
-                            cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-                              if (data.unit_price && data.amount) {
-                                let sum = data.unit_price * data.amount;
-                                if (data.vat) sum = sum + (sum * (data.vat / 100));
-                                if (data.discount) sum = sum - (sum * (data.discount / 100));
-                                sum = Number(sum.toFixed(2));
-                                return (<><span>{sum + " " + R.CURRENCY.code}</span></>);
-                              }
-                            }
-                          },
-                        },
-                        inputs: {
-                          id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
-                            cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-                              return (
-                                <FormInput>
-                                  <Lookup {...this.getInputProps('product_lookup')}
-                                    ref={lookupElement}
-                                    model='HubletoApp/Community/Products/Models/Product'
-                                    cssClass='min-w-44'
-                                    value={data.id_product}
-                                    onChange={(input: any, value: any) => {
-                                      getLookupData();
-
-                                      if (lookupData[value]) {
-                                        data.id_product = value;
-                                        data.unit_price = lookupData[value].unit_price;
-                                        data.vat = lookupData[value].vat;
-                                        this.updateRecord({ PRODUCTS: table.state.data?.data });
-                                        this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
-                                      }
-                                    }}
-                                  ></Lookup>
-                                </FormInput>
-                              )
-                            }
-                          },
-                          amount: { type: "int", title: "Amount" },
-                          unit_price: { type: "float", title: "Unit Price"},
-                          vat: { type: "float", title: "Vat (%)"},
-                          discount: { type: "float", title: "Discount (%)" },
-                          __sum: { type: "none", title: "Sum after vat" },
-                        }
-                      }}
-                      onRowClick={() => this.setState({isInlineEditing: true})}
-                      onChange={(table: TableOrderProducts) => {
-                        this.updateRecord({ price: this.getSumPrice( R.PRODUCTS ), PRODUCTS: table.state.data?.data });
-                      }}
-                      onDeleteSelectionChange={(table: TableOrderProducts) => {
-                        this.updateRecord({ PRODUCTS: table.state.data?.data ?? [], price: this.getSumPrice(R.PRODUCTS) });
-                      }}
-                    />
-                  </div>
-                </div>
-              </>
-            : <></>}
+            {pipeline}
           </div>
-        </TabPanel>
-        {showAdditional ?
-          <TabPanel header={this.translate('History')}>
-            <TableHistories
-              uid={this.props.uid + "_table_order_history"}
-              data={{ data: R.HISTORY }}
-              descriptionSource='props'
-              description={{
-                ui: {
-                  showHeader: false,
-                  showFooter: false,
-                },
-                permissions: {
-                  canCreate: false,
-                  canUpdate: false,
-                  canDelete: false,
-                  canRead: true,
-                },
-                columns: {
-                  short_description: { type: "text", title: "Short Description" },
-                  date: { type: "datetime", title: "Date Time"},
-                },
-                inputs: {
-                  short_description: { type: "text", title: "Short Description" },
-                  date: { type: "datetime", title: "Date Time"},
-                }
+        </>;
+      break;
+
+      case 'products':
+
+        const lookupElement = createRef();
+        var lookupData;
+
+        const getLookupData = () => {
+          if (lookupElement.current) {
+            lookupData = lookupElement.current.state.data;
+          }
+        }
+
+        return <>
+          <div className='card-body border-t border-gray-200'>
+            <a
+              className="btn btn-add-outline mb-2"
+              onClick={() => {
+                this.setState({ isInlineEditing: true});
+                if (!R.PRODUCTS) R.PRODUCTS = [];
+                R.PRODUCTS.push({
+                  id: this.state.newEntryId,
+                  id_order: { _useMasterRecordId_: true },
+                  amount: 1,
+                  unit_price: 0,
+                  vat: 0,
+                  discount: 0,
+                });
+                this.setState({ record: R });
+                this.setState({ newEntryId: this.state.newEntryId - 1 } as FormOrderState);
               }}
-              isUsedAsInput={true}
-              isInlineEditing={false}
-              onRowClick={(table: TableHistories, row: any) => table.openForm(row.id)}
-            />
-          </TabPanel>
-        : <></>}
-      </TabView>
-    </>);
+            >
+              <span className="icon"><i className="fas fa-add"></i></span>
+              <span className="text">Add product</span>
+            </a>
+            <div className='w-full h-full overflow-x-auto'>
+              <TableOrderProducts
+                sum={"Total: " + R.price + " " + R.CURRENCY.code}
+                uid={this.props.uid + "_table_order_products"}
+                readonly={!this.state.isInlineEditing}
+                isUsedAsInput={true}
+                isInlineEditing={this.state.isInlineEditing}
+                data={{ data: R.PRODUCTS }}
+                customEndpointParams={{idOrder: R.id}}
+                descriptionSource='props'
+                description={{
+                  permissions: this.props.tableOrderProductsDescription.permissions,
+                  ui: {
+                    showHeader: false,
+                    showFooter: true,
+                    addButtonText: "Add Product"
+                  },
+                  columns: {
+                    title: { type: "varchar", title: this.translate('Title') },
+                    id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
+                      cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
+                        return (
+                          <FormInput>
+                            <Lookup {...this.getInputProps('id_product_1')}
+                              ref={lookupElement}
+                              model='HubletoApp/Community/Products/Models/Product'
+                              cssClass='min-w-44'
+                              value={data.id_product}
+                              onChange={(input: any, value: any) => {
+                                getLookupData();
+
+                                if (lookupData[value]) {
+                                  data.id_product = value;
+                                  data.unit_price = lookupData[value].unit_price;
+                                  data.vat = lookupData[value].vat;
+                                  this.updateRecord({ PRODUCTS: table.state.data?.data });
+                                  this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
+                                }
+                              }}
+                            ></Lookup>
+                          </FormInput>
+                        )
+                      }
+                    },
+                    amount: { type: "int", title: "Amount" },
+                    unit_price: { type: "float", title: "Unit Price"},
+                    vat: { type: "float", title: "Vat (%)"},
+                    discount: { type: "float", title: "Discount (%)" },
+                    __sum: { type: "none", title: "Sum after vat",
+                      cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
+                        if (data.unit_price && data.amount) {
+                          let sum = data.unit_price * data.amount;
+                          if (data.vat) sum = sum + (sum * (data.vat / 100));
+                          if (data.discount) sum = sum - (sum * (data.discount / 100));
+                          sum = Number(sum.toFixed(2));
+                          return (<><span>{sum + " " + R.CURRENCY.code}</span></>);
+                        }
+                      }
+                    },
+                  },
+                  inputs: {
+                    id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
+                      cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
+                        return (
+                          <FormInput>
+                            <Lookup {...this.getInputProps('product_lookup')}
+                              ref={lookupElement}
+                              model='HubletoApp/Community/Products/Models/Product'
+                              cssClass='min-w-44'
+                              value={data.id_product}
+                              onChange={(input: any, value: any) => {
+                                getLookupData();
+
+                                if (lookupData[value]) {
+                                  data.id_product = value;
+                                  data.unit_price = lookupData[value].unit_price;
+                                  data.vat = lookupData[value].vat;
+                                  this.updateRecord({ PRODUCTS: table.state.data?.data });
+                                  this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
+                                }
+                              }}
+                            ></Lookup>
+                          </FormInput>
+                        )
+                      }
+                    },
+                    amount: { type: "int", title: "Amount" },
+                    unit_price: { type: "float", title: "Unit Price"},
+                    vat: { type: "float", title: "Vat (%)"},
+                    discount: { type: "float", title: "Discount (%)" },
+                    __sum: { type: "none", title: "Sum after vat" },
+                  }
+                }}
+                onRowClick={() => this.setState({isInlineEditing: true})}
+                onChange={(table: TableOrderProducts) => {
+                  this.updateRecord({ price: this.getSumPrice( R.PRODUCTS ), PRODUCTS: table.state.data?.data });
+                }}
+                onDeleteSelectionChange={(table: TableOrderProducts) => {
+                  this.updateRecord({ PRODUCTS: table.state.data?.data ?? [], price: this.getSumPrice(R.PRODUCTS) });
+                }}
+              />
+            </div>
+            </div>
+        </>;
+      break;
+
+      case 'invoices':
+        return <>invoices</>;
+      break;
+
+      case 'history':
+        return <>
+          <TableHistories
+            uid={this.props.uid + "_table_order_history"}
+            data={{ data: R.HISTORY }}
+            descriptionSource='props'
+            description={{
+              ui: {
+                showHeader: false,
+                showFooter: false,
+              },
+              permissions: {
+                canCreate: false,
+                canUpdate: false,
+                canDelete: false,
+                canRead: true,
+              },
+              columns: {
+                short_description: { type: "text", title: "Short Description" },
+                date: { type: "datetime", title: "Date Time"},
+              },
+              inputs: {
+                short_description: { type: "text", title: "Short Description" },
+                date: { type: "datetime", title: "Date Time"},
+              }
+            }}
+            isUsedAsInput={true}
+            isInlineEditing={false}
+            onRowClick={(table: TableHistories, row: any) => table.openForm(row.id)}
+          />
+        </>;
+      break;
+    }
   }
 }

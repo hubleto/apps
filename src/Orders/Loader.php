@@ -17,6 +17,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^orders\/?$/' => Controllers\Orders::class,
+      '/^orders\/api\/generate-invoice\/?$/' => Controllers\Api\GenerateInvoice::class,
       '/^settings\/order-states\/?$/' => Controllers\States::class,
     ]);
 
@@ -33,6 +34,7 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\State::class)->dropTableIfExists()->install();
       $this->main->load(Models\Order::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderProduct::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderInvoice::class)->dropTableIfExists()->install();
       $this->main->load(Models\History::class)->dropTableIfExists()->install();
     }
 

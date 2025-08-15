@@ -4,6 +4,9 @@ namespace HubletoApp\Community\Orders\Models\RecordManagers;
 
 use HubletoApp\Community\Customers\Models\RecordManagers\Customer;
 use HubletoApp\Community\Settings\Models\RecordManagers\Currency;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\PipelineStep;
+
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -11,10 +14,28 @@ class Order extends \HubletoMain\RecordManager
 {
   public $table = 'orders';
 
+  /** @return HasOne<Pipeline, covariant Deal> */
+  public function PIPELINE(): HasOne
+  {
+    return $this->hasOne(Pipeline::class, 'id', 'id_pipeline');
+  }
+
+  /** @return HasOne<PipelineStep, covariant Deal> */
+  public function PIPELINE_STEP(): HasOne
+  {
+    return $this->hasOne(PipelineStep::class, 'id', 'id_pipeline_step');
+  }
+
   /** @return HasMany<OrderProduct, covariant Order> */
   public function PRODUCTS(): HasMany
   {
     return $this->hasMany(OrderProduct::class, 'id_order', 'id');
+  }
+
+  /** @return HasMany<OrderInvoice, covariant Order> */
+  public function INVOICES(): HasMany
+  {
+    return $this->hasMany(OrderInvoice::class, 'id_invoice', 'id');
   }
 
   /** @return HasMany<History, covariant Order> */

@@ -66,6 +66,13 @@ class Loader extends \HubletoMain\App
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Ready to deploy', 'order' => 5, 'color' => '#a38f9a']);
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Deployed', 'order' => 6, 'color' => '#44879a']);
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Confirmed', 'order' => 7, 'color' => '#74809a']);
+
+      $idPipeline = $mPipeline->record->recordCreate([ "name" => "Order stage", "type" => $mPipeline::TYPE_ORDER_MANAGEMENT ])['id'];
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'In progress', 'order' => 1, 'color' => '#344556']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Delivered', 'order' => 2, 'color' => '#6830a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Ready to send invoice', 'order' => 3, 'color' => '#3068a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Invoice sent', 'order' => 4, 'color' => '#ae459f']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Paid', 'order' => 5, 'color' => '#a38f9a']);
     }
   }
 

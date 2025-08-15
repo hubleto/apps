@@ -81,37 +81,6 @@ class Invoice extends \Hubleto\Framework\Models\Model {
     return $record;
   }
 
-  public function prepareLoadRecordQuery(array $includeRelations = [], int $maxRelationLevel = 0, mixed $query = null, int $level = 0): mixed
-  {
-
-    $query = parent::prepareLoadRecordQuery($includeRelations, $maxRelationLevel, $query, $level);
-
-    $idCustomer = $this->main->urlParamAsInteger('idCustomer');
-    if ($idCustomer > 0) $query->where('id_customer', $idCustomer);
-
-    $idProfile = $this->main->urlParamAsInteger('idProfile');
-    if ($idProfile > 0) $query->where('id_profil', $idProfile);
-
-    if ($this->main->isUrlParam('number')) $query->where('number', 'like', '%' . $this->main->urlParamAsString('number') . '%');
-    if ($this->main->isUrlParam('vs')) $query->where('vs', 'like', '%' . $this->main->urlParamAsString('vs') . '%');
-
-    if ($this->main->isUrlParam('dateIssueFrom')) $query->whereDate('date_issue', '>=', $this->main->urlParamAsString('dateIssueFrom'));
-    if ($this->main->isUrlParam('dateIssueTo')) $query->whereDate('date_issue', '<=', $this->main->urlParamAsString('dateIssueTo'));
-    if ($this->main->isUrlParam('dateDeliveryFrom')) $query->whereDate('date_delivery', '>=', $this->main->urlParamAsString('dateDeliveryFrom'));
-    if ($this->main->isUrlParam('dateDeliveryTo')) $query->whereDate('date_delivery', '<=', $this->main->urlParamAsString('dateDeliveryTo'));
-    if ($this->main->isUrlParam('dateTueFrom')) $query->whereDate('date_due', '>=', $this->main->urlParamAsString('dateTueFrom'));
-    if ($this->main->isUrlParam('dateTueTo')) $query->whereDate('date_due', '<=', $this->main->urlParamAsString('dateTueTo'));
-    if ($this->main->isUrlParam('datePaymentFrom')) $query->whereDate('date_payment', '>=', $this->main->urlParamAsString('datePaymentFrom'));
-    if ($this->main->isUrlParam('datePaymentTo')) $query->whereDate('date_payment', '<=', $this->main->urlParamAsString('datePaymentTo'));
-
-    $query
-      ->first()
-      ?->toArray()
-    ;
-
-    return $query;
-  }
-
   public function onAfterLoadRecord(array $record): array {
     $vatPercent = 20;
 
@@ -142,4 +111,33 @@ class Invoice extends \Hubleto\Framework\Models\Model {
     return $record;
 
   }
+
+  /**
+   * Generates invoice and return ID of generated invoice
+   *
+   * @param InvoiceInterface $invoice
+   * 
+   * @return int ID of generated invoice
+   * 
+   */
+  public function generateInvoice(Dto\Invoice $invoice): int
+  {
+    $idInvoice = $this->record->recordCreate([
+      'id_profile' => $invoice->idProfile,
+      'id_issued_by' => $invoice->idIssuedBy,
+      'id_customer' => $invoice->idCustomer,
+      'number' => $invoice->number,
+      'vs' => $invoice->vs,
+      'cs' => $invoice->cs,
+      'ss' => $invoice->ss,
+      'date_issue' => $invoice->date_issue,
+      'date_delivery' => $invoice->date_delivery,
+      'date_due' => $invoice->date_due,
+      'date_payment' => $invoice->date_payment,
+      'notes' => $invoice->notes,
+    ])['id'];
+
+    return $idInvoice;
+  }
+
 }

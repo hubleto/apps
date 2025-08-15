@@ -10,11 +10,13 @@ class Pipeline extends \Hubleto\Framework\Models\Model
   public const TYPE_DEAL_MANAGEMENT = 1;
   public const TYPE_PROJECT_MANAGEMENT = 2;
   public const TYPE_TASK_MANAGEMENT = 3;
+  public const TYPE_ORDER_MANAGEMENT = 4;
 
   public const TYPE_ENUM_VALUES = [
     self::TYPE_DEAL_MANAGEMENT => 'deal management',
     self::TYPE_PROJECT_MANAGEMENT => 'project management',
     self::TYPE_TASK_MANAGEMENT => 'task management',
+    self::TYPE_ORDER_MANAGEMENT => 'order management',
   ];
 
   public string $table = 'pipelines';

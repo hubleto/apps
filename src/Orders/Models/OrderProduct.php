@@ -10,7 +10,7 @@ use HubletoApp\Community\Products\Models\Product;
 
 class OrderProduct extends \Hubleto\Framework\Models\Model
 {
-  public string $table = 'order_products';
+  public string $table = 'orders_products';
   public string $recordManagerClass = RecordManagers\OrderProduct::class;
   public ?string $lookupSqlValue = '{%TABLE%}.id';
 
