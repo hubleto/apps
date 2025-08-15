@@ -100,4 +100,40 @@ class Loader extends \HubletoMain\App
     }
   }
 
+  /**
+   * Implements fulltext search functionality for tasks
+   *
+   * @param array $expressions List of expressions to be searched and glued with logical 'or'.
+   * 
+   * @return array
+   * 
+   */
+  public function search(array $expressions): array
+  {
+    $mLead = $this->main->load(Models\Lead::class);
+    $qLeads = $mLead->record->prepareReadQuery();
+    
+    foreach ($expressions as $e) {
+      $qLeads = $qLeads
+        ->orWhere('identifier', 'like', '%' . $e . '%')
+        ->orWhere('title', 'like', '%' . $e . '%')
+      ;
+    }
+
+    $leads = $qLeads->get()->toArray();
+
+    $results = [];
+
+    foreach ($leads as $lead) {
+      $results[] = [
+        "id" => $lead['id'],
+        "label" => $lead['identifier'] . ' ' . $lead['title'],
+        "url" => 'leads/' . $lead['id'],
+        // "description" => $task[''],
+      ];
+    }
+
+    return $results;
+  }
+
 }

@@ -90,52 +90,40 @@ class Loader extends \HubletoMain\App
     }
   }
 
-  // public function installDefaultPermissions(): void
-  // {
-  //   $mPermission = $this->main->load(\HubletoApp\Community\Settings\Models\Permission::class);
-  //   $permissions = [
-  //     "HubletoApp/Community/Deals/Models/Deal:Create",
-  //     "HubletoApp/Community/Deals/Models/Deal:Read",
-  //     "HubletoApp/Community/Deals/Models/Deal:Update",
-  //     "HubletoApp/Community/Deals/Models/Deal:Delete",
+  /**
+   * Implements fulltext search functionality for tasks
+   *
+   * @param array $expressions List of expressions to be searched and glued with logical 'or'.
+   * 
+   * @return array
+   * 
+   */
+  public function search(array $expressions): array
+  {
+    $mDeal = $this->main->load(Models\Deal::class);
+    $qDeals = $mDeal->record->prepareReadQuery();
+    
+    foreach ($expressions as $e) {
+      $qDeals = $qDeals
+        ->orWhere('identifier', 'like', '%' . $e . '%')
+        ->orWhere('title', 'like', '%' . $e . '%')
+      ;
+    }
 
-  //     "HubletoApp/Community/Deals/Models/DealActivity:Create",
-  //     "HubletoApp/Community/Deals/Models/DealActivity:Read",
-  //     "HubletoApp/Community/Deals/Models/DealActivity:Update",
-  //     "HubletoApp/Community/Deals/Models/DealActivity:Delete",
+    $deals = $qDeals->get()->toArray();
 
-  //     "HubletoApp/Community/Deals/Models/DealDocument:Create",
-  //     "HubletoApp/Community/Deals/Models/DealDocument:Read",
-  //     "HubletoApp/Community/Deals/Models/DealDocument:Update",
-  //     "HubletoApp/Community/Deals/Models/DealDocument:Delete",
+    $results = [];
 
-  //     "HubletoApp/Community/Deals/Models/DealHistory:Create",
-  //     "HubletoApp/Community/Deals/Models/DealHistory:Read",
-  //     "HubletoApp/Community/Deals/Models/DealHistory:Update",
-  //     "HubletoApp/Community/Deals/Models/DealHistory:Delete",
+    foreach ($deals as $deal) {
+      $results[] = [
+        "id" => $deal['id'],
+        "label" => $deal['identifier'] . ' ' . $deal['title'],
+        "url" => 'deals/' . $deal['id'],
+        // "description" => $task[''],
+      ];
+    }
 
-  //     "HubletoApp/Community/Deals/Models/DealProduct:Create",
-  //     "HubletoApp/Community/Deals/Models/DealProduct:Read",
-  //     "HubletoApp/Community/Deals/Models/DealProduct:Update",
-  //     "HubletoApp/Community/Deals/Models/DealProduct:Delete",
+    return $results;
+  }
 
-  //     "HubletoApp/Community/Deals/Models/DealTag:Create",
-  //     "HubletoApp/Community/Deals/Models/DealTag:Read",
-  //     "HubletoApp/Community/Deals/Models/DealTag:Update",
-  //     "HubletoApp/Community/Deals/Models/DealTag:Delete",
-
-  //     "HubletoApp/Community/Deals/Controllers/Deals",
-  //     "HubletoApp/Community/Deals/Controllers/DealsArchive",
-
-  //     "HubletoApp/Community/Deals/Api/GetCalendarEvents",
-
-  //     "HubletoApp/Community/Deals/Deals",
-  //   ];
-
-  //   foreach ($permissions as $permission) {
-  //     $mPermission->record->recordCreate([
-  //       "permission" => $permission
-  //     ]);
-  //   }
-  // }
 }

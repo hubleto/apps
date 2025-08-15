@@ -40,7 +40,7 @@ class Loader extends \HubletoMain\App
   public function search(array $expressions): array
   {
     $mTask = $this->main->load(Models\Task::class);
-    $qTasks = $mTask->record;
+    $qTasks = $mTask->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
       $qTasks = $qTasks

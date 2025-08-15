@@ -74,7 +74,7 @@ class Loader extends \HubletoMain\App
   public function search(array $expressions): array
   {
     $mContact = $this->main->load(Models\Contact::class);
-    $qContacts = $mContact->record;
+    $qContacts = $mContact->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
       $qContacts = $qContacts
