@@ -78,8 +78,8 @@ class Loader extends \HubletoMain\App
     
     foreach ($expressions as $e) {
       $qContacts = $qContacts
-        ->orWhere('first_name', 'like', '%' . $e . '%')
-        ->orWhere('last_name', 'like', '%' . $e . '%')
+        ->orWhere('contacts.first_name', 'like', '%' . $e . '%')
+        ->orWhere('contacts.last_name', 'like', '%' . $e . '%')
       ;
     }
 
