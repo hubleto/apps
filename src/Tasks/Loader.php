@@ -43,10 +43,10 @@ class Loader extends \HubletoMain\App
     $qTasks = $mTask->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
-      $qTasks = $qTasks
-        ->where('tasks.identifier', 'like', '%' . $e . '%')
-        ->where('tasks.title', 'like', '%' . $e . '%')
-      ;
+      $qTasks = $qTasks->orWhere(function($q) use ($e) {
+        $q->where('tasks.identifier', 'like', '%' . $e . '%');
+        $q->where('tasks.title', 'like', '%' . $e . '%');
+      });
     }
 
     $tasks = $qTasks->get()->toArray();

@@ -77,10 +77,10 @@ class Loader extends \HubletoMain\App
     $qContacts = $mContact->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
-      $qContacts = $qContacts
-        ->where('contacts.first_name', 'like', '%' . $e . '%')
-        ->where('contacts.last_name', 'like', '%' . $e . '%')
-      ;
+      $qContacts = $qContacts->orWhere(function($q) use ($e) {
+        $q->where('contacts.first_name', 'like', '%' . $e . '%');
+        $q->where('contacts.last_name', 'like', '%' . $e . '%');
+      });
     }
 
     $contacts = $qContacts->get()->toArray();

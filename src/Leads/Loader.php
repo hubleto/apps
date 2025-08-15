@@ -114,10 +114,10 @@ class Loader extends \HubletoMain\App
     $qLeads = $mLead->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
-      $qLeads = $qLeads
-        ->where('leads.identifier', 'like', '%' . $e . '%')
-        ->where('leads.title', 'like', '%' . $e . '%')
-      ;
+      $qLeads = $qLeads->orWhere(function($q) use ($e) {
+        $q->where('leads.identifier', 'like', '%' . $e . '%');
+        $q->where('leads.title', 'like', '%' . $e . '%');
+      });
     }
 
     $leads = $qLeads->get()->toArray();
