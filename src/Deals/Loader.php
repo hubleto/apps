@@ -104,9 +104,9 @@ class Loader extends \HubletoMain\App
     $qDeals = $mDeal->record->prepareReadQuery();
     
     foreach ($expressions as $e) {
-      $qDeals = $qDeals->orWhere(function($q) use ($e) {
-        $q->where('deals.identifier', 'like', '%' . $e . '%');
-        $q->where('deals.title', 'like', '%' . $e . '%');
+      $qDeals = $qDeals->where(function($q) use ($e) {
+        $q->orWhere('deals.identifier', 'like', '%' . $e . '%');
+        $q->orWhere('deals.title', 'like', '%' . $e . '%');
       });
     }
 
