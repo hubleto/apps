@@ -15,7 +15,7 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
   public ?string $lookupSqlValue = '{%TABLE%}.id';
 
   public array $relations = [
-    'ORDER'   => [ self::BELONGS_TO, Order::class, 'id_order', 'id'],
+    'ORDER' => [ self::BELONGS_TO, Order::class, 'id_order', 'id'],
     'PRODUCT' => [ self::BELONGS_TO, Product::class, 'id_product', 'id'],
   ];
 
@@ -28,7 +28,7 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
       'unit_price' => (new Decimal($this, $this->translate('Unit price')))->setRequired(),
       'amount' => (new Integer($this, $this->translate('Amount')))->setRequired(),
       'discount' => (new Integer($this, $this->translate('Discount')))->setUnit('%'),
-      'vat' => (new Integer($this, $this->translate('Vat')))->setUnit('%')->setRequired(),
+      'vat' => (new Integer($this, $this->translate('Vat')))->setUnit('%'),
     ]);
   }
 

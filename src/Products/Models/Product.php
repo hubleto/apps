@@ -72,7 +72,7 @@ class Product extends \Hubleto\Framework\Models\Model
       'sales_price' => (new Decimal($this, $this->translate('Sales price')))->setRequired()->setProperty('defaultVisibility', true),
       'unit' => new Varchar($this, $this->translate('Unit'))->setProperty('defaultVisibility', true),
       'margin' => (new Decimal($this, $this->translate('Margin')))->setUnit("%")->setColorScale('bg-light-blue-to-dark-blue'),
-      'vat' => (new Decimal($this, $this->translate('VAT')))->setUnit("%")->setRequired(),
+      'vat' => (new Decimal($this, $this->translate('VAT')))->setUnit("%"),
       'bar_code' => new Varchar($this, $this->translate('Bar code')),
       'qr_code_data' => new Varchar($this, $this->translate('Data ')),
       'is_single_order_possible' => new Boolean($this, $this->translate('Single unit order possible')),

@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import FormOrder, { FormOrderProps } from './FormOrder';
-import request from '@hubleto/react-ui/core/Request';
 
 interface TableOrdersProps extends HubletoTableProps {}
 
 interface TableOrdersState extends HubletoTableState {
-  tableOrderProductsDescription?: any,
 }
 
 export default class TableOrders extends HubletoTable<TableOrdersProps, TableOrdersState> {
@@ -48,31 +46,18 @@ export default class TableOrders extends HubletoTable<TableOrdersProps, TableOrd
     }
   }
 
+  setRecordFormUrl(id: number) {
+    window.history.pushState({}, "", globalThis.main.config.projectUrl + '/orders/' + id);
+  }
+
   renderHeaderRight(): Array<JSX.Element> {
     let elements: Array<JSX.Element> = super.renderHeaderRight();
 
     return elements;
   }
 
-  onAfterLoadTableDescription(description: any) {
-
-    request.get(
-      'api/table/describe',
-      {
-        model: 'HubletoApp/Community/Orders/Models/OrderProduct',
-        idOrder: this.props.recordId,
-      },
-      (description: any) => {
-        this.setState({tableOrderProductsDescription: description} as TableOrdersState);
-      }
-    );
-
-    return description;
-  }
-
   renderForm(): JSX.Element {
     let formProps = this.getFormProps() as FormOrderProps;
-    formProps.tableOrderProductsDescription = this.state.tableOrderProductsDescription;
     return <FormOrder {...formProps}/>;
   }
 }

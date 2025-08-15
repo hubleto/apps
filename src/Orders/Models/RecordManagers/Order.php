@@ -2,6 +2,7 @@
 
 namespace HubletoApp\Community\Orders\Models\RecordManagers;
 
+use HubletoApp\Community\Documents\Models\RecordManagers\Template;
 use HubletoApp\Community\Customers\Models\RecordManagers\Customer;
 use HubletoApp\Community\Settings\Models\RecordManagers\Currency;
 use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
@@ -35,7 +36,19 @@ class Order extends \HubletoMain\RecordManager
   /** @return HasMany<OrderInvoice, covariant Order> */
   public function INVOICES(): HasMany
   {
-    return $this->hasMany(OrderInvoice::class, 'id_invoice', 'id');
+    return $this->hasMany(OrderInvoice::class, 'id_order', 'id');
+  }
+
+  /** @return HasMany<OrderDocument, covariant Order> */
+  public function DOCUMENTS(): HasMany
+  {
+    return $this->hasMany(OrderDocument::class, 'id_order', 'id');
+  }
+
+  /** @return HasMany<OrderProject, covariant Order> */
+  public function PROJECTS(): HasMany
+  {
+    return $this->hasMany(OrderProject::class, 'id_order', 'id');
   }
 
   /** @return HasMany<History, covariant Order> */
@@ -54,5 +67,11 @@ class Order extends \HubletoMain\RecordManager
   public function CURRENCY(): HasOne
   {
     return $this->hasOne(Currency::class, 'id', 'id_currency');
+  }
+
+  /** @return hasOne<Currency, covariant Lead> */
+  public function TEMPLATE(): HasOne
+  {
+    return $this->hasOne(Template::class, 'id', 'id_template');
   }
 }

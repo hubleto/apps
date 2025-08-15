@@ -18,7 +18,8 @@ class Loader extends \HubletoMain\App
     $this->main->router->httpGet([
       '/^documents\/?$/' => Controllers\Browse::class,
       '/^documents\/browse\/?$/' => Controllers\Browse::class,
-      '/^documents\/list\/?$/' => Controllers\Table::class,
+      '/^documents\/list\/?$/' => Controllers\Documents::class,
+      '/^documents\/(?<recordId>\d+)\/?$/' => Controllers\Documents::class,
       '/^documents\/templates\/?$/' => Controllers\Templates::class,
       '/^documents\/api\/get-folder-content\/?$/' => Controllers\Api\GetFolderContent::class,
     ]);

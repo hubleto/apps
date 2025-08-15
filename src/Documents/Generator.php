@@ -48,8 +48,6 @@ class Generator extends \HubletoMain\CoreClass
     $twigTemplate = $this->main->twig->createTemplate($template->content);
     $documentHtmlContent = $twigTemplate->render($vars);
 
-    $idDocument = $this->saveFromString($documentHtmlContent, $outputFilename);
-
     $dompdf = new Dompdf();
     $dompdf->loadHtml($documentHtmlContent);
     $dompdf->setPaper('A4', 'landscape');

@@ -2,6 +2,8 @@
 
 namespace HubletoApp\Community\Orders;
 
+use HubletoApp\Community\Documents\Models\Template;
+
 class Loader extends \HubletoMain\App
 {
 
@@ -17,6 +19,8 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^orders\/?$/' => Controllers\Orders::class,
+      '/^orders\/(?<recordId>\d+)\/?$/' => Controllers\Orders::class,
+      '/^orders\/api\/generate-pdf\/?$/' => Controllers\Api\GeneratePdf::class,
       '/^orders\/api\/generate-invoice\/?$/' => Controllers\Api\GenerateInvoice::class,
       '/^settings\/order-states\/?$/' => Controllers\States::class,
     ]);
@@ -35,6 +39,8 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\Order::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderProduct::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderInvoice::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderDocument::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderProject::class)->dropTableIfExists()->install();
       $this->main->load(Models\History::class)->dropTableIfExists()->install();
     }
 
@@ -64,6 +70,16 @@ class Loader extends \HubletoMain\App
     $mOrder = $this->main->load(Models\Order::class);
     $mHistory = $this->main->load(Models\History::class);
     $mOrderProduct = $this->main->load(Models\OrderProduct::class);
+    $mTemplate = $this->main->load(Template::class);
+
+    $idTemplate = $mTemplate->record->recordCreate([
+      'name' => 'Demo template for order PDF',
+      'content' => '
+        <div>1 {{ identifier }}</div>
+        <div>2 {{ title }}</div>
+        <div>3 {{ CUSTOMER.first_name }}</div>
+      '
+    ])['id'];
 
     for ($i = 1; $i <= 9; $i++) {
 
@@ -75,6 +91,7 @@ class Loader extends \HubletoMain\App
         'price' => rand(1000, 2000) / rand(3, 5),
         'id_currency' => 1,
         'date_order' => date('Y-m-d', strtotime('-' . rand(0, 10) . ' days')),
+        'id_template' => $idTemplate,
       ])['id'];
 
       $mHistory->record->recordCreate([ 'id_order' => $idOrder, 'short_description' => 'Order created', 'date_time' => date('Y-m-d H:i:s') ]);

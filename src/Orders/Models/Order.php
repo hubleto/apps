@@ -2,6 +2,7 @@
 
 namespace HubletoApp\Community\Orders\Models;
 
+use DateTimeImmutable;
 use Hubleto\Framework\Db\Column\Date;
 use Hubleto\Framework\Db\Column\Decimal;
 use Hubleto\Framework\Db\Column\Lookup;
@@ -12,6 +13,8 @@ use HubletoApp\Community\Products\Models\Product;
 use HubletoApp\Community\Settings\Models\Currency;
 use HubletoApp\Community\Settings\Models\Setting;
 
+use HubletoApp\Community\Documents\Generator;
+use HubletoApp\Community\Documents\Models\Template;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
 use HubletoApp\Community\Pipeline\Models\PipelineStep;
 use HubletoApp\Community\Invoices\Models\Invoice;
@@ -26,11 +29,14 @@ class Order extends \Hubleto\Framework\Models\Model
   public array $relations = [
     'PRODUCTS' => [ self::HAS_MANY, OrderProduct::class, 'id_order', 'id' ],
     'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
+    'DOCUMENTS' => [ self::HAS_MANY, OrderDocument::class, 'id_order', 'id' ],
+    'PROJECTS' => [ self::HAS_MANY, OrderProject::class, 'id_order', 'id' ],
     'HISTORY' => [ self::HAS_MANY, History::class, 'id_order', 'id' ],
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
     'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
     'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
+    'TEMPLATE' => [ self::HAS_ONE, Template::class, 'id', 'id_template'],
   ];
 
   public function describeColumns(): array
@@ -47,6 +53,7 @@ class Order extends \Hubleto\Framework\Models\Model
       'required_delivery_date' => (new Date($this, $this->translate('Required delivery date'))),
       'shipping_info' => (new Varchar($this, $this->translate('Shipping information'))),
       'note' => (new Text($this, $this->translate('Notes'))),
+      'id_template' => (new Lookup($this, $this->translate('Template'), Template::class)),
     ]);
   }
 
@@ -82,28 +89,29 @@ class Order extends \Hubleto\Framework\Models\Model
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
 
-    $mProduct = $this->main->load(Product::class);
-    $longDescription = "";
+    // TODO: manazment produktov bude treba spravit odznovu
+    // $mProduct = $this->main->load(Product::class);
+    // $longDescription = "";
 
-    if (isset($savedRecord["PRODUCTS"])) {
-      foreach ($savedRecord["PRODUCTS"] as $product) {
-        if (isset($product["_toBeDeleted_"])) {
-          continue;
-        }
-        $productTitle = (string) $mProduct->record->find((int) $product["id_product"])->title;
-        $longDescription .=  "{$productTitle} - Amount: ".(string) $product["amount"]." - Unit Price: ".(string) $product["unit_price"]." - Vat: ".(string) $product["vat"]." - Discount: ".(string) $product["discount"]." \n\n";
-      }
-    }
+    // if (isset($savedRecord["PRODUCTS"])) {
+    //   foreach ($savedRecord["PRODUCTS"] as $product) {
+    //     if (isset($product["_toBeDeleted_"])) {
+    //       continue;
+    //     }
+    //     $productTitle = (string) $mProduct->record->find((int) $product["id_product"])->title;
+    //     $longDescription .=  "{$productTitle} - Amount: ".(string) $product["amount"]." - Unit Price: ".(string) $product["unit_price"]." - Vat: ".(string) $product["vat"]." - Discount: ".(string) $product["discount"]." \n\n";
+    //   }
+    // }
 
-    if ($longDescription == "") {
-      $longDescription = "The order had no products or all products were deleted";
-    }
+    // if ($longDescription == "") {
+    //   $longDescription = "The order had no products or all products were deleted";
+    // }
 
     $mHistory = $this->main->load(History::class);
     $mHistory->record->recordCreate([
       "id_order" => $savedRecord["id"],
       "short_description" => "Order has been updated",
-      "long_description" => $longDescription,
+      // "long_description" => $longDescription,
       "date_time" => date("Y-m-d H:i:s"),
     ]);
 
@@ -137,14 +145,60 @@ class Order extends \Hubleto\Framework\Models\Model
     return $savedRecord;
   }
 
-  public function generateInvoice(int $idOrder): void
+  /**
+   * Generates PDF document from given order and returns ID of generated document
+   *
+   * @param int $idOrder Order for which the PDF should be generated.
+   * 
+   * @return int ID of generated document.
+   * 
+   */
+  public function generatePdf(int $idOrder): int
+  {
+    $mOrder = $this->main->load(Order::class);
+    $order = $mOrder->record->prepareReadQuery()->where('orders.id', $idOrder)->first();
+    if (!$order) throw new \Exception('Order was not found.');
+
+    $mTemplate = $this->main->load(Template::class);
+    $template = $mTemplate->record->prepareReadQuery()->where('documents_templates.id', $order->id_template)->first();
+    if (!$template) throw new \Exception('Template was not found.');
+
+    $generator = $this->main->load(Generator::class);
+    $idDocument = $generator->generatePdfFromTemplate(
+      $template->id,
+      'order-' . $order->id . '-' . new DateTimeImmutable()->format('Ymd-His') . '.pdf',
+      $order->toArray()
+    );
+
+    if ($idDocument > 0) {
+      $mOrderDocument = $this->main->load(OrderDocument::class);
+      $mOrderDocument->record->recordCreate([
+        'id_order' => $idOrder,
+        'id_document' => $idDocument,
+      ]);
+    }
+
+    return $idDocument;
+  }
+
+  /**
+   * Generates invoice for given order.
+   *
+   * @param int $idOrder
+   * 
+   * @return void
+   * 
+   */
+  public function generateInvoice(int $idOrder): int
   {
     $mInvoice = $this->main->load(Invoice::class);
 
     $order = $this->record->prepareReadQuery()->where('id', $idOrder)->first();
 
+    $idInvoice = 0;
+
     if ($order) {
-      $mInvoice->generateInvoice(new InvoiceDto(
+      $idInvoice = $mInvoice->generateInvoice(new InvoiceDto(
         1, // $idProfile
         $this->main->auth->getUserId(), // $idIssuedBy
         (int) $order['id_customer'], // $idCustomer
@@ -159,6 +213,8 @@ class Order extends \Hubleto\Framework\Models\Model
         '', // $note
       ));
     }
+
+    return $idInvoice;
   }
 
 }
