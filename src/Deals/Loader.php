@@ -105,8 +105,8 @@ class Loader extends \HubletoMain\App
     
     foreach ($expressions as $e) {
       $qDeals = $qDeals
-        ->orWhere('deals.identifier', 'like', '%' . $e . '%')
-        ->orWhere('deals.title', 'like', '%' . $e . '%')
+        ->where('deals.identifier', 'like', '%' . $e . '%')
+        ->where('deals.title', 'like', '%' . $e . '%')
       ;
     }
 

@@ -44,8 +44,8 @@ class Loader extends \HubletoMain\App
     
     foreach ($expressions as $e) {
       $qTasks = $qTasks
-        ->orWhere('tasks.identifier', 'like', '%' . $e . '%')
-        ->orWhere('tasks.title', 'like', '%' . $e . '%')
+        ->where('tasks.identifier', 'like', '%' . $e . '%')
+        ->where('tasks.title', 'like', '%' . $e . '%')
       ;
     }
 
