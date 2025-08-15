@@ -16,9 +16,9 @@ class Document extends \Hubleto\Framework\Models\Model
   {
     return array_merge(parent::describeColumns(), [
       'uid' => (new Varchar($this, $this->translate('Uid')))->setRequired()->setReadonly()->setDefaultValue(\Hubleto\Framework\Helper::generateUuidV4()),
-      'id_folder' => (new Lookup($this, $this->translate("Folder"), Folder::class))->setRequired()->setDefaultValue($this->main->urlParamAsInteger('idFolder')),
-      'name' => (new Varchar($this, $this->translate('Document name')))->setRequired(),
-      'file' => (new File($this, $this->translate('File'))),
+      'id_folder' => (new Lookup($this, $this->translate("Folder"), Folder::class))->setRequired()->setDefaultValue($this->main->urlParamAsInteger('idFolder'))->setProperty('defaultVisibility', true),
+      'name' => (new Varchar($this, $this->translate('Document name')))->setRequired()->setProperty('defaultVisibility', true),
+      'file' => (new File($this, $this->translate('File')))->setProperty('defaultVisibility', true),
       'hyperlink' => (new Varchar($this, $this->translate('File Link'))),
       'origin_link' => (new Varchar($this, $this->translate('Origin Link'))),
     ]);

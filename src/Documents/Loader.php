@@ -19,12 +19,10 @@ class Loader extends \HubletoMain\App
       '/^documents\/?$/' => Controllers\Browse::class,
       '/^documents\/browse\/?$/' => Controllers\Browse::class,
       '/^documents\/list\/?$/' => Controllers\Table::class,
+      '/^documents\/templates\/?$/' => Controllers\Templates::class,
       '/^documents\/api\/get-folder-content\/?$/' => Controllers\Api\GetFolderContent::class,
     ]);
 
-    $appMenu = $this->main->load(\HubletoApp\Community\Desktop\AppMenuManager::class);
-    $appMenu->addItem($this, 'documents/browse', $this->translate('Browse'), 'fas fa-table');
-    $appMenu->addItem($this, 'documents/list', $this->translate('List'), 'fas fa-list');
   }
 
   public function getRootFolderId(): int|null
@@ -43,7 +41,6 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $mFolder = $this->main->load(Models\Folder::class);
       $mFolder->dropTableIfExists()->install();
-      $this->main->load(Models\Document::class)->dropTableIfExists()->install();
 
       $mFolder->record->recordCreate([
         'id_parent_folder' => null,
@@ -51,6 +48,8 @@ class Loader extends \HubletoMain\App
         'name' => '_ROOT_',
       ]);
 
+      $this->main->load(Models\Document::class)->dropTableIfExists()->install();
+      $this->main->load(Models\Template::class)->dropTableIfExists()->install();
     }
   }
 

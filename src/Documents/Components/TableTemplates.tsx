@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import { FormProps } from '@hubleto/react-ui/core/Form';
-import FormDocument from './FormDocument';
+import FormTemplate from './FormTemplate';
 
-interface TableDocumentsProps extends HubletoTableProps {}
-interface TableDocumentsState extends HubletoTableState {}
+interface TableTemplatesProps extends HubletoTableProps {}
+interface TableTemplatesState extends HubletoTableState {}
 
-export default class TableDocuments extends HubletoTable<TableDocumentsProps, TableDocumentsState> {
+export default class TableTemplates extends HubletoTable<TableTemplatesProps, TableTemplatesState> {
   static defaultProps = {
     ...HubletoTable.defaultProps,
     formUseModalSimple: true,
@@ -14,20 +14,20 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
       field: "id",
       direction: "desc"
     },
-    model: 'HubletoApp/Community/Documents/Models/Document',
+    model: 'HubletoApp/Community/Documents/Models/Template',
   }
 
-  props: TableDocumentsProps;
-  state: TableDocumentsState;
+  props: TableTemplatesProps;
+  state: TableTemplatesState;
 
-  translationContext: string = 'HubletoApp\\Community\\Documents\\Loader::Components\\TableDocuments';
+  translationContext: string = 'HubletoApp\\Community\\Documents\\Loader::Components\\TableTemplates';
 
-  constructor(props: TableDocumentsProps) {
+  constructor(props: TableTemplatesProps) {
     super(props);
     this.state = this.getStateFromProps(props);
   }
 
-  getStateFromProps(props: TableDocumentsProps) {
+  getStateFromProps(props: TableTemplatesProps) {
     return {
       ...super.getStateFromProps(props),
     }
@@ -41,6 +41,6 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
 
   renderForm(): JSX.Element {
     let formProps: FormProps = this.getFormProps();
-    return <FormDocument {...formProps}/>;
+    return <FormTemplate {...formProps}/>;
   }
 }
