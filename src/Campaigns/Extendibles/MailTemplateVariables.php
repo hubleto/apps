@@ -1,8 +1,8 @@
 <?php
 
-namespace HubletoApp\Community\Campaigns\Integrations;
+namespace HubletoApp\Community\Campaigns\Extendibles;
 
-class MailTemplateVariables extends \HubletoMain\Integration
+class MailTemplateVariables extends \HubletoMain\Extendible
 {
   public function getItems(): array
   {

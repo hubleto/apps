@@ -1,8 +1,8 @@
 <?php
 
-namespace HubletoApp\Community\Leads\Integrations;
+namespace HubletoApp\Community\Leads\Extendibles;
 
-class ContextHelp extends \HubletoMain\Integration
+class ContextHelp extends \HubletoMain\Extendible
 {
   public function getItems(): array
   {

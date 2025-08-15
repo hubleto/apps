@@ -23,7 +23,7 @@ class Loader extends \HubletoMain\App
       '/^help\/?$/' => Controllers\Help::class,
     ]);
 
-    $this->contextHelp = $this->collectIntegrationItems('ContextHelp');
+    $this->contextHelp = $this->collectExtendibles('ContextHelp');
   }
 
 }

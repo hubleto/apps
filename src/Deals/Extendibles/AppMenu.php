@@ -1,8 +1,8 @@
 <?php
 
-namespace HubletoApp\Community\Deals\Integrations;
+namespace HubletoApp\Community\Deals\Extendibles;
 
-class AppMenu extends \HubletoMain\Integration
+class AppMenu extends \HubletoMain\Extendible
 {
   public function getItems(): array
   {

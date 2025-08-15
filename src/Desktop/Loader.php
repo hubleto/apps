@@ -41,7 +41,7 @@ class Loader extends \HubletoMain\App
 
     $this->setConfigAsInteger('sidebarOrder', 0);
 
-    $this->appMenu = $this->collectIntegrationItems('AppMenu');
+    $this->appMenu = $this->collectExtendibles('AppMenu');
   }
 
 }

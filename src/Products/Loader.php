@@ -27,7 +27,7 @@ class Loader extends \HubletoMain\App
     $appMenu->addItem($this, 'products', $this->translate('Products'), 'fas fa-cart-shopping');
     $appMenu->addItem($this, 'products/groups', $this->translate('Groups'), 'fas fa-burger');
 
-    $this->productTypes = $this->collectIntegrationItems('ProductTypes');
+    $this->productTypes = $this->collectExtendibles('ProductTypes');
   }
 
   public function installTables(int $round): void

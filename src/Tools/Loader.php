@@ -21,7 +21,7 @@ class Loader extends \HubletoMain\App
       '/^tools\/?$/' => Controllers\Dashboard::class,
     ]);
 
-    $this->tools = $this->collectIntegrationItems('Tools');
+    $this->tools = $this->collectExtendibles('Tools');
   }
 
 }

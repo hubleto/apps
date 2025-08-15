@@ -31,7 +31,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->crons->addCron(Crons\GetMails::class);
 
-    $this->templateVariables = $this->collectIntegrationItems('MailTemplateVariables');
+    $this->templateVariables = $this->collectExtendibles('MailTemplateVariables');
   }
 
   public function installTables(int $round): void
