@@ -17,13 +17,16 @@ class Loader extends \HubletoMain\App
     parent::init();
 
     $this->main->router->httpGet([
+      '/^deals\/api\/log-activity\/?$/' => Controllers\Api\LogActivity::class,
+      '/^deals\/api\/convert-lead-to-deal\/?$/' => Controllers\Api\ConvertLeadToDeal::class,
+      '/^deals\/api\/generate-quotation-pdf\/?$/' => Controllers\Api\GenerateQuotationPdf::class,
+      '/^deals\/api\/generate-invoice\/?$/' => Controllers\Api\GenerateInvoice::class,
+
       '/^deals(\/(?<recordId>\d+))?\/?$/' => Controllers\Deals::class,
       '/^deals\/add\/?$/' => ['controller' => Controllers\Deals::class, 'vars' => ['recordId' => -1]],
       '/^deals\/settings\/?$/' => Controllers\Settings::class,
       '/^deals\/archive\/?$/' => Controllers\DealsArchive::class,
       '/^deals\/change-pipeline\/?$/' => Controllers\Api\ChangePipeline::class,
-      '/^deals\/api\/log-activity\/?$/' => Controllers\Api\LogActivity::class,
-      '/^deals\/api\/convert-lead-to-deal\/?$/' => Controllers\Api\ConvertLeadToDeal::class,
       '/^settings\/deal-tags\/?$/' => Controllers\Tags::class,
       '/^settings\/deal-lost-reasons\/?$/' => Controllers\LostReasons::class,
       '/^deals\/boards\/deal-warnings\/?$/' => Controllers\Boards\DealWarnings::class,

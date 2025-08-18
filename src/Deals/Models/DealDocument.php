@@ -11,14 +11,14 @@ class DealDocument extends \Hubleto\Framework\Models\Model
   public string $recordManagerClass = RecordManagers\DealDocument::class;
 
   public array $relations = [
-    'DEAL' => [ self::BELONGS_TO, Deal::class, 'id_lookup', 'id' ],
+    'DEAL' => [ self::BELONGS_TO, Deal::class, 'id_deal', 'id' ],
     'DOCUMENT' => [ self::BELONGS_TO, Document::class, 'id_document', 'id' ],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_lookup' => (new Lookup($this, $this->translate('Deal'), Deal::class, "CASCADE"))->setRequired(),
+      'id_deal' => (new Lookup($this, $this->translate('Deal'), Deal::class, "CASCADE"))->setRequired(),
       'id_document' => (new Lookup($this, $this->translate('Document'), Document::class, "CASCADE"))->setRequired(),
     ]);
   }

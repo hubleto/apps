@@ -11,14 +11,14 @@ class CustomerDocument extends \Hubleto\Framework\Models\Model
   public string $recordManagerClass = RecordManagers\CustomerDocument::class;
 
   public array $relations = [
-    'CUSTOMER' => [ self::BELONGS_TO, Customer::class, 'id_lookup', 'id' ],
+    'CUSTOMER' => [ self::BELONGS_TO, Customer::class, 'id_customer', 'id' ],
     'DOCUMENT' => [ self::BELONGS_TO, Document::class, 'id_document', 'id' ],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_lookup' => (new Lookup($this, $this->translate('Customer'), Customer::class, "CASCADE"))->setRequired(),
+      'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class, "CASCADE"))->setRequired(),
       'id_document' => (new Lookup($this, $this->translate('Document'), Document::class, "CASCADE"))->setRequired(),
     ]);
   }

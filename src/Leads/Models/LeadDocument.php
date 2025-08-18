@@ -11,14 +11,14 @@ class LeadDocument extends \Hubleto\Framework\Models\Model
   public string $recordManagerClass = RecordManagers\LeadDocument::class;
 
   public array $relations = [
-    'LEAD' => [ self::BELONGS_TO, Lead::class, 'id_lookup', 'id' ],
+    'LEAD' => [ self::BELONGS_TO, Lead::class, 'id_lead', 'id' ],
     'DOCUMENT' => [ self::BELONGS_TO, Document::class, 'id_document', 'id' ],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_lookup' => (new Lookup($this, $this->translate('Lead'), Lead::class, "CASCADE"))->setRequired(),
+      'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class, "CASCADE"))->setRequired(),
       'id_document' => (new Lookup($this, $this->translate('Document'), Document::class, "CASCADE"))->setRequired(),
     ]);
   }

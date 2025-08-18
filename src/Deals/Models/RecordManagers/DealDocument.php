@@ -19,7 +19,7 @@ class DealDocument extends \HubletoMain\RecordManager
   /** @return BelongsTo<Deal, covariant DealDocument> */
   public function DEAL(): BelongsTo
   {
-    return $this->belongsTo(Deal::class, 'id_lookup', 'id');
+    return $this->belongsTo(Deal::class, 'id_deal', 'id');
   }
 
 }

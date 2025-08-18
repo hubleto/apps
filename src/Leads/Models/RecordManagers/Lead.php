@@ -94,7 +94,7 @@ class Lead extends \HubletoMain\RecordManager
   /** @return hasMany<LeadDocument, covariant Lead> */
   public function DOCUMENTS(): HasMany
   {
-    return $this->hasMany(LeadDocument::class, 'id_lookup', 'id');
+    return $this->hasMany(LeadDocument::class, 'id_lead', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed

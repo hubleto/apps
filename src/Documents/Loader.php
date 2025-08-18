@@ -52,12 +52,14 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\Document::class)->dropTableIfExists()->install();
       $this->main->load(Models\Template::class)->dropTableIfExists()->install();
     }
+
   }
 
   public function generateDemoData(): void
   {
     $mFolder = $this->main->load(Models\Folder::class);
     $mDocument = $this->main->load(Models\Document::class);
+    $mTemplate = $this->main->load(Models\Template::class);
 
     $mDocument->record->recordCreate([
       'id_folder' => $this->getRootFolderId(),
@@ -79,6 +81,77 @@ class Loader extends \HubletoMain\App
 
     $mDocument->record->recordCreate([ 'id_folder' => $idFolderCU, 'name' => 'customer_profile_1.pdf', 'hyperlink' => 'https://www.google.com' ]);
     $mDocument->record->recordCreate([ 'id_folder' => $idFolderCU, 'name' => 'customer_profile_2.pdf', 'hyperlink' => 'https://www.google.com' ]);
+
+    $idTemplate = $mTemplate->record->recordCreate([
+      'name' => 'PDF template for quotation',
+      'content' => '
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+  * { font-family: "Helvetica"; font-size: 12px; }
+</style>
+
+<div>
+  <div class="dtop">
+    <div style="font-size:2em"><b>Quotation</b></div>
+    {{ identifier }}
+  </div>
+  <br/>
+  <div style="padding:1em;border:1px solid black;width:100%">
+    <div style="width:50%;float:left;">
+      <b>Supplier</b>
+      <table style="width:100%">
+        <tr>
+          <td>Order number</td>
+          <td>{{ identifier }}</td>
+        </tr>
+        <tr>
+          <td>Generated on</td>
+          <td>{{ now }}</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width:50%; float:left;">
+      <b>Quotation for</b>
+      <table style="width:100%">
+        <tr>
+          <td>Customer</td>
+          <td>{{ CUSTOMER.name }}</td>
+        </tr>
+        <tr>
+          <td>Contact person</td>
+          <td>{{ CONTACT.first_name }} {{ CONTACT.last_name }}</td>
+        </tr>
+      </table>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+
+  <table style="width:100%">
+    <tr>
+      <td style="width:40%">Product</td>
+      <td style="width:10%">Unit price</td>
+      <td style="width:10%">Amount</td>
+      <td style="width:10%">Discount</td>
+      <td style="width:10%">VAT</td>
+      <td style="width:10%">Subtotal</td>
+      <td style="width:10%">Subtotal incl. VAT</td>
+    </tr>
+    {% for product in PRODUCTS %}
+      <tr>
+        <td style="width:40%">{{ product.PRODUCT.name }}</td>
+        <td style="width:10%">{{ product.sales_price }} €</td>
+        <td style="width:10%">{{ product.amount}} </td>
+        <td style="width:10%">{{ product.discount }} %</td>
+        <td style="width:10%">{{ product.vat }} %</td>
+        <td style="width:10%">{{ product.price_excl_vat }} €</td>
+        <td style="width:10%">{{ product.price_incl_vat }} €</td>
+      </tr>
+    {% endfor %}
+  </table>
+      '
+    ])['id'];
+
+
   }
 
 }

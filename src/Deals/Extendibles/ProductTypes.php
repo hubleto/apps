@@ -8,7 +8,7 @@ class ProductTypes extends \HubletoMain\Extendible
   {
     return [
       10 => 'deal.identifier',
-      11 => 'deal.price',
+      11 => 'deal.price_excl_vat',
     ];
   }
 

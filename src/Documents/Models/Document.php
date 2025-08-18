@@ -56,7 +56,7 @@ class Document extends \Hubleto\Framework\Models\Model
     if (isset($savedRecord["creatingForModel"]) && isset($savedRecord["creatingForId"])) {
       $mCrossDocument = $this->main->getModel($savedRecord["creatingForModel"]);
       $mCrossDocument->record->recordCreate([
-        "id_lookup" => $savedRecord["creatingForId"],
+        "id_customer" => $savedRecord["creatingForId"],
         "id_document" => $savedRecord["id"]
       ]);
     }

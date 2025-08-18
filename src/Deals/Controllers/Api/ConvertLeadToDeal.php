@@ -45,7 +45,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
         "title" => $lead->title,
         "id_customer" => $lead->id_customer,
         "id_contact" => $lead->id_contact,
-        "price" => $lead->price,
+        "price_excl_vat" => $lead->price,
         "id_currency" => $lead->id_currency,
         "date_expected_close" => $lead->date_expected_close,
         "date_created" => date("Y-m-d H:i:s"),
@@ -62,7 +62,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
       $lead->status = $mLead::STATUS_CONVERTED_TO_DEAL;
       $lead->save();
 
-      $leadDocuments = $mLeadDocument->record->where("id_lookup", $leadId)->get();
+      $leadDocuments = $mLeadDocument->record->where("id_lead", $leadId)->get();
 
       foreach ($leadDocuments as $leadDocument) { //@phpstan-ignore-line
         $mDealDocument->record->recordCreate([

@@ -30,7 +30,7 @@ class Customer extends \Hubleto\Framework\Models\Model
     'OWNER' => [ self::BELONGS_TO, User::class, 'id_owner', 'id' ],
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, CustomerActivity::class, 'id_customer', 'id' ],
-    'DOCUMENTS' => [ self::HAS_MANY, CustomerDocument::class, 'id_lookup', 'id'],
+    'DOCUMENTS' => [ self::HAS_MANY, CustomerDocument::class, 'id_customer', 'id'],
     'TAGS' => [ self::HAS_MANY, CustomerTag::class, 'id_customer', 'id' ],
     'LEADS' => [ self::HAS_MANY, Lead::class, 'id_customer', 'id'],
     'DEALS' => [ self::HAS_MANY, Deal::class, 'id_customer', 'id'],

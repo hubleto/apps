@@ -60,7 +60,7 @@
     }
   </script>
 
-  <script defer src='{{ config.assetsUrl }}/jquery-3.5.1.js'></script>
+  <script src='{{ config.assetsUrl }}/jquery-3.5.1.js'></script>
   <script defer src='{{ config.assetsUrl }}/compiled/js/main.js'></script>
   <link rel="stylesheet" type="text/css" href="{{ config.assetsUrl }}/compiled/css/main.css">
   <link rel="stylesheet" type="text/css" href="{{ config.assetsUrl }}/css/themes/{{ viewParams.currentTheme }}.css">
@@ -329,13 +329,6 @@
       if (e.keyCode == 13) { b.filter(':visible').get(0).click(); return; }
     }
 
-    {# $(window).on('resize', function() {
-      if ($(window).width() > 768) {
-        $('#default-sidebar').css('translate', '');
-        sidebarState = false;
-      }
-    }); #}
-
     function showSidebar() {
       if (sidebarState == false) {
         $("#default-sidebar").css("translate", 0,0)
@@ -346,7 +339,7 @@
       }
     }
 
-    {# function applyTheme() {
+    function applyTheme() {
       if (localStorage.theme == "dark") {
         $('*').addClass('dark');
         $('#theme-toggle-btn').find('.icon i').removeClass('fa-sun').addClass('fa-moon');
@@ -361,7 +354,7 @@
       applyTheme();
     }
 
-    applyTheme(); #}
+    applyTheme();
 
   </script>
 

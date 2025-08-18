@@ -11,6 +11,8 @@ use HubletoApp\Community\Settings\Models\RecordManagers\User;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealHistory;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealTag;
 use HubletoApp\Community\Leads\Models\RecordManagers\Lead;
+use HubletoApp\Community\Documents\Models\RecordManagers\Template;
+
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -82,21 +84,7 @@ class Deal extends \HubletoMain\RecordManager
   /** @return HasMany<DealProduct, covariant Deal> */
   public function PRODUCTS(): HasMany
   {
-    return $this->hasMany(DealProduct::class, 'id_deal', 'id')
-        ->whereHas("PRODUCT", function ($query) {
-          $query->where('type', \HubletoApp\Community\Products\Models\Product::TYPE_CONSUMABLE);
-        });
-    ;
-  }
-
-  /** @return HasMany<DealProduct, covariant Deal> */
-  public function SERVICES(): HasMany
-  {
-    return $this->hasMany(DealProduct::class, 'id_deal', 'id')
-        ->whereHas("PRODUCT", function ($query) {
-          $query->where('type', \HubletoApp\Community\Products\Models\Product::TYPE_SERVICE);
-        });
-    ;
+    return $this->hasMany(DealProduct::class, 'id_deal', 'id');
   }
 
   /** @return HasMany<DealActivity, covariant Deal> */
@@ -108,7 +96,7 @@ class Deal extends \HubletoMain\RecordManager
   /** @return HasMany<DealDocument, covariant Deal> */
   public function DOCUMENTS(): HasMany
   {
-    return $this->hasMany(DealDocument::class, 'id_lookup', 'id');
+    return $this->hasMany(DealDocument::class, 'id_deal', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
@@ -217,6 +205,12 @@ class Deal extends \HubletoMain\RecordManager
       $query->having('deal_tags.name', 'like', "%{$columnSearch['tags']}%");
     }
     return $query;
+  }
+
+  /** @return hasOne<Currency, covariant Lead> */
+  public function TEMPLATE_QUOTATION(): HasOne
+  {
+    return $this->hasOne(Template::class, 'id', 'id_template_quotation');
   }
 
 }

@@ -39,7 +39,7 @@ class DealValueByResult extends \HubletoMain\Controller
 
     foreach ($deals as $deal) {
       $chartData['labels'][] = $results[$deal['deal_result']]['name'];
-      $chartData['values'][] = $deal['price'];
+      $chartData['values'][] = $deal['price_excl_vat'];
       $chartData['colors'][] = $results[$deal['deal_result']]['color'];
     }
 

@@ -21,6 +21,11 @@ use HubletoApp\Community\Settings\Models\Setting;
 use HubletoApp\Community\Settings\Models\User;
 use Hubleto\Framework\Helper;
 
+use HubletoApp\Community\Documents\Generator;
+use HubletoApp\Community\Documents\Models\Template;
+use HubletoApp\Community\Invoices\Models\Invoice;
+use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
+
 class Deal extends \Hubleto\Framework\Models\Model
 {
   public string $table = 'deals';
@@ -60,9 +65,9 @@ class Deal extends \Hubleto\Framework\Models\Model
     'HISTORY' => [ self::HAS_MANY, DealHistory::class, 'id_deal', 'id'],
     'TAGS' => [ self::HAS_MANY, DealTag::class, 'id_deal', 'id' ],
     'PRODUCTS' => [ self::HAS_MANY, DealProduct::class, 'id_deal', 'id' ],
-    'SERVICES' => [ self::HAS_MANY, DealProduct::class, 'id_deal', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, DealActivity::class, 'id_deal', 'id' ],
-    'DOCUMENTS' => [ self::HAS_MANY, DealDocument::class, 'id_lookup', 'id'],
+    'DOCUMENTS' => [ self::HAS_MANY, DealDocument::class, 'id_deal', 'id'],
+    'TEMPLATE_QUOTATION' => [ self::HAS_ONE, Template::class, 'id', 'id_template_quotation'],
   ];
 
   public function describeColumns(): array
@@ -73,12 +78,15 @@ class Deal extends \Hubleto\Framework\Models\Model
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setDefaultValue($this->main->urlParamAsInteger('idCustomer')),
       'id_contact' => (new Lookup($this, $this->translate('Contact'), Contact::class)),
       'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class))->setReadonly(),
-      'price' => (new Decimal($this, $this->translate('Price')))->setDecimals(2),
+      // 'price' => (new Decimal($this, $this->translate('Price')))->setDecimals(2),
+      'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT')),
+      'price_incl_vat' => new Decimal($this, $this->translate('Price incl. VAT')),
       'id_currency' => (new Lookup($this, $this->translate('Currency'), Currency::class))->setFkOnUpdate('RESTRICT')->setFkOnDelete('SET NULL')->setReadonly(),
       'date_expected_close' => (new Date($this, $this->translate('Expected close date')))->setRequired(),
       'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setDefaultValue($this->main->auth->getUserId()),
       'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setDefaultValue($this->main->auth->getUserId()),
-      'customer_order_number' => (new Varchar($this, $this->translate('Customer\' order number')))->setProperty('defaultVisibility', true),
+      'id_template_quotation' => (new Lookup($this, $this->translate('Template for quotation'), Template::class)),
+      'customer_order_number' => (new Varchar($this, $this->translate('Customer\'s order number')))->setProperty('defaultVisibility', true),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
       'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
       'shared_folder' => new Varchar($this, "Shared folder (online document storage)"),
@@ -214,22 +222,43 @@ class Deal extends \Hubleto\Framework\Models\Model
       );
     }
 
-    $sums = 0;
-    $calculator = new CalculatePrice($this->main);
-    $allProducts = array_merge($savedRecord["PRODUCTS"] ?? [], $savedRecord["SERVICES"] ?? []);
+    $totalExclVat = 0;
+    $totalInclVat = 0;
+
+    $mDealProduct = $this->main->load(DealProduct::class);
+    $allProducts = $mDealProduct->record->where('id_deal', $savedRecord['id'])->get()->toArray();
 
     if (!empty($allProducts)) {
       foreach ($allProducts as $product) {
         if (!isset($product["_toBeDeleted_"])) {
-          $sums += $calculator->calculatePriceIncludingVat(
-            $product["unit_price"],
-            $product["amount"],
-            $product["vat"] ?? 0,
-            $product["discount"] ?? 0
-          );
+          // $productPriceExclVat = $calculator->calculatePriceExcludingVat(
+          //   (float) ($product["unit_price"] ?? 0),
+          //   (float) ($product["amount"] ?? 0),
+          //   (float) ($product["vat"] ?? 0),
+          //   (float) ($product["discount"] ?? 0),
+          // );
+
+          // $productPriceInclVat = $calculator->calculatePriceIncludingVat(
+          //   (float) ($product["unit_price"] ?? 0),
+          //   (float) ($product["amount"] ?? 0),
+          //   (float) ($product["vat"] ?? 0),
+          //   (float) ($product["discount"] ?? 0),
+          // );
+
+          // $mDealProduct->record->where('id_product', $product['id'])->update([
+          //   'price_excl_vat' => $productPriceExclVat,
+          //   'price_incl_vat' => $productPriceInclVat,
+          // ]);
+
+          $totalExclVat += $product['price_excl_vat'];
+          $totalInclVat += $product['price_incl_vat'];
         }
       }
-      $this->record->find($savedRecord["id"])->update(["price" => $sums]);
+
+      $this->record->find($savedRecord["id"])->update([
+        "price_excl_vat" => $totalExclVat,
+        "price_incl_vat" => $totalInclVat,
+      ]);
     }
 
     return $savedRecord;
@@ -312,5 +341,81 @@ class Deal extends \Hubleto\Framework\Models\Model
     }
 
     return $record;
+  }
+
+
+  /**
+   * Generates quotation PDF document from given deal and returns ID of generated document
+   *
+   * @param int $idDeal Deal for which the PDF should be generated.
+   * 
+   * @return int ID of generated document.
+   * 
+   */
+  public function generateQuotationPdf(int $idDeal): int
+  {
+    $mDeal = $this->main->load(Deal::class);
+    $deal = $mDeal->record->prepareReadQuery()->where('deals.id', $idDeal)->first();
+    if (!$deal) throw new \Exception('Deal was not found.');
+
+    $mTemplate = $this->main->load(Template::class);
+    $template = $mTemplate->record->prepareReadQuery()->where('documents_templates.id', $deal->id_template_quotation)->first();
+    if (!$template) throw new \Exception('Template was not found.');
+
+    $vars = $deal->toArray();
+    $vars['now'] = new \DateTimeImmutable()->format('Y-m-d H:i:s');
+
+    $generator = $this->main->load(Generator::class);
+    $idDocument = $generator->generatePdfFromTemplate(
+      $template->id,
+      'quotation-' . Helper::str2url($deal->identifier) . '.pdf',
+      $vars
+    );
+
+    if ($idDocument > 0) {
+      $mDealDocument = $this->main->load(DealDocument::class);
+      $mDealDocument->record->recordCreate([
+        'id_deal' => $idDeal,
+        'id_document' => $idDocument,
+      ]);
+    }
+
+    return $idDocument;
+  }
+
+  /**
+   * Generates invoice for given deal.
+   *
+   * @param int $idDeal
+   * 
+   * @return void
+   * 
+   */
+  public function generateInvoice(int $idDeal): int
+  {
+    $mInvoice = $this->main->load(Invoice::class);
+
+    $deal = $this->record->prepareReadQuery()->where('id', $idDeal)->first();
+
+    $idInvoice = 0;
+
+    if ($deal) {
+      $idInvoice = $mInvoice->generateInvoice(new InvoiceDto(
+        1, // $idProfile
+        $this->main->auth->getUserId(), // $idIssuedBy
+        (int) $deal['id_customer'], // $idCustomer
+        'ORD/' . $deal->number, // $number
+        null, // $vs
+        '', // $cs
+        '', // $ss
+        null, // $dateIssue
+        new \DateTimeImmutable()->add(new \DateInterval('P14D')), // $dateDelivery
+        new \DateTimeImmutable()->add(new \DateInterval('P14D')), // $dateDue
+        null, // $datePayment
+        '', // $note
+      ));
+    }
+
+    return $idInvoice;
   }
 }

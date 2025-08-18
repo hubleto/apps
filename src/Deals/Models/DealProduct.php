@@ -23,50 +23,64 @@ class DealProduct extends \Hubleto\Framework\Models\Model
   {
     return array_merge(parent::describeColumns(), [
       'id_deal' => (new Lookup($this, $this->translate('Deal'), Deal::class))->setRequired(),
-      'id_product' => (new Lookup($this, $this->translate('Product'), Product::class))->setFkOnUpdate("CASCADE")->setFkOnDelete("SET NULL")->setRequired(),
-      'unit_price' => (new Decimal($this, $this->translate('Unit Price')))->setRequired(),
-      'amount' => (new Integer($this, $this->translate('Amount')))->setRequired(),
-      'vat' => (new Decimal($this, $this->translate('Vat')))->setUnit("%"),
-      'discount' => (new Decimal($this, $this->translate('Discount')))->setUnit("%"),
-      'sum' => new Decimal($this, $this->translate('Sum')),
+      'id_product' => (new Lookup($this, $this->translate('Product'), Product::class))->setFkOnUpdate("CASCADE")->setFkOnDelete("SET NULL")->setRequired()->setProperty('defaultVisibility', true),
+      'unit_price' => (new Decimal($this, $this->translate('Unit Price')))->setRequired()->setProperty('defaultVisibility', true),
+      'amount' => (new Integer($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
+      'vat' => (new Decimal($this, $this->translate('Vat')))->setUnit("%")->setProperty('defaultVisibility', true),
+      'discount' => (new Decimal($this, $this->translate('Discount')))->setUnit("%")->setProperty('defaultVisibility', true),
+      'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT'))->setProperty('defaultVisibility', true),
+      'price_incl_vat' => new Decimal($this, $this->translate('Price incl. VAT'))->setProperty('defaultVisibility', true),
     ]);
   }
 
-  public function describeTable(): \Hubleto\Framework\Description\Table
-  {
-    $description = parent::describeTable();
-    if ($this->main->urlParamAsInteger('idDeal') > 0) {
-      // $description->permissions = [
-      //   'canRead' => $this->main->permissions->granted($this->fullName . ':Read'),
-      //   'canCreate' => $this->main->permissions->granted($this->fullName . ':Create'),
-      //   'canUpdate' => $this->main->permissions->granted($this->fullName . ':Update'),
-      //   'canDelete' => $this->main->permissions->granted($this->fullName . ':Delete'),
-      // ];
-      $description->columns = [];
-      $description->inputs = [];
-      $description->ui = [];
-    }
+  // public function describeTable(): \Hubleto\Framework\Description\Table
+  // {
+  //   $description = parent::describeTable();
+  //   if ($this->main->urlParamAsInteger('idDeal') > 0) {
+  //     // $description->permissions = [
+  //     //   'canRead' => $this->main->permissions->granted($this->fullName . ':Read'),
+  //     //   'canCreate' => $this->main->permissions->granted($this->fullName . ':Create'),
+  //     //   'canUpdate' => $this->main->permissions->granted($this->fullName . ':Update'),
+  //     //   'canDelete' => $this->main->permissions->granted($this->fullName . ':Delete'),
+  //     // ];
+  //     $description->columns = [];
+  //     $description->inputs = [];
+  //     $description->ui = [];
+  //   }
 
-    return $description;
-  }
+  //   return $description;
+  // }
 
   public function onBeforeCreate(array $record): array
   {
-    $record["sum"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
-      $record["unit_price"],
-      $record["amount"],
-      $record["vat"] ?? 0,
-      $record["discount"] ?? 0
+    $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
+      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
+      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
     );
     return $record;
   }
+
   public function onBeforeUpdate(array $record): array
   {
-    $record["sum"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
-      $record["unit_price"],
-      $record["amount"],
-      $record["vat"] ?? 0,
-      $record["discount"] ?? 0
+    $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
+      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
+      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
     );
     return $record;
   }

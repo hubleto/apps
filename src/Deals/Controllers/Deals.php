@@ -19,7 +19,7 @@ class Deals extends \HubletoMain\Controller
     $mDeal = $this->main->load(Deal::class);
 
     $result = $mDeal->record
-      ->selectRaw("COUNT(id) as count, SUM(price) as price")
+      ->selectRaw("COUNT(id) as count, SUM(price_excl_vat) as price_excl_vat")
       ->where("is_archived", 0)
       ->where("id_owner", $this->main->auth->getUserId())
       ->first()

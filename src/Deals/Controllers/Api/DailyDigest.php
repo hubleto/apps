@@ -14,7 +14,7 @@ class DailyDigest extends \HubletoMain\Controllers\ApiController
       ->where($mDeal->table . ".is_archived", 0)
       ->where($mDeal->table . ".is_closed", 0)
       ->where($mDeal->table . ".id_owner", $this->main->auth->getUserId())
-      ->orderBy('price', 'desc')
+      ->orderBy('price_excl_vat', 'desc')
       ->get()
       ->toArray()
     ;

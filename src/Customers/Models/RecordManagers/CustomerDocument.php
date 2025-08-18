@@ -18,6 +18,6 @@ class CustomerDocument extends \HubletoMain\RecordManager
   /** @return BelongsTo<Customer, covariant CustomerDocument> */
   public function CUSTOMER(): BelongsTo
   {
-    return $this->belongsTo(Customer::class, 'id_lookup', 'id');
+    return $this->belongsTo(Customer::class, 'id_customer', 'id');
   }
 }

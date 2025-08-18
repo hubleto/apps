@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import Table, { TableProps, TableState } from '@hubleto/react-ui/core/Table';
+import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
+import HubletoForm from '@hubleto/react-ui/ext/HubletoForm';
 
-interface TableDealProductsProps extends TableProps {}
+interface TableDealProductsProps extends HubletoTableProps {
+  idDeal: number
+}
 
-interface TableDealProductsState extends TableState {}
+interface TableDealProductsState extends HubletoTableState {}
 
-export default class TableDealProducts extends Table<TableDealProductsProps, TableDealProductsState> {
+export default class TableDealProducts extends HubletoTable<TableDealProductsProps, TableDealProductsState> {
   static defaultProps = {
-    ...Table.defaultProps,
+    ...HubletoTable.defaultProps,
     formUseModalSimple: true,
     model: 'HubletoApp/Community/Deals/Models/DealProduct',
   }
@@ -21,4 +24,19 @@ export default class TableDealProducts extends Table<TableDealProductsProps, Tab
     super(props);
     this.state = this.getStateFromProps(props);
   }
+
+  getEndpointParams(): any {
+    return {
+      ...super.getEndpointParams(),
+      idDeal: this.props.idDeal,
+    }
+  }
+
+  renderForm(): JSX.Element {
+    let formProps = this.getFormProps();
+    formProps.description = {
+      defaultValues: { id_deal: this.props.idDeal }
+    }
+    return <HubletoForm {...formProps}/>;
+  }  
 }

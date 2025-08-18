@@ -19,7 +19,7 @@ class LeadDocument extends \HubletoMain\RecordManager
   /** @return BelongsTo<Lead, covariant LeadDocument> */
   public function LEAD(): BelongsTo
   {
-    return $this->belongsTo(Lead::class, 'id_lookup', 'id');
+    return $this->belongsTo(Lead::class, 'id_lead', 'id');
   }
 
 }

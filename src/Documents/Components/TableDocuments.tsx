@@ -3,7 +3,11 @@ import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/rea
 import { FormProps } from '@hubleto/react-ui/core/Form';
 import FormDocument from './FormDocument';
 
-interface TableDocumentsProps extends HubletoTableProps {}
+interface TableDocumentsProps extends HubletoTableProps {
+  junctionModel?: string
+  junctionColumn?: string
+  junctionId?: number
+}
 interface TableDocumentsState extends HubletoTableState {}
 
 export default class TableDocuments extends HubletoTable<TableDocumentsProps, TableDocumentsState> {
@@ -30,6 +34,15 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
   getStateFromProps(props: TableDocumentsProps) {
     return {
       ...super.getStateFromProps(props),
+    }
+  }
+
+  getEndpointParams(): any {
+    return {
+      ...super.getEndpointParams(),
+      junctionModel: this.props.junctionModel,
+      junctionColumn: this.props.junctionColumn,
+      junctionId: this.props.junctionId,
     }
   }
 

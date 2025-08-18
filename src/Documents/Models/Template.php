@@ -15,7 +15,7 @@ class Template extends \Hubleto\Framework\Models\Model
   {
     return array_merge(parent::describeColumns(), [
       'name' => (new Varchar($this, $this->translate('Name')))->setRequired()->setProperty('defaultVisibility', true),
-      'content' => (new Text($this, $this->translate('Content')))->setReactComponent('InputWysiwyg'),
+      'content' => (new Text($this, $this->translate('Content'))), // ->setReactComponent('InputWysiwyg'),
       'notes' => (new Text($this, $this->translate('Notes')))->setProperty('defaultVisibility', true),
     ]);
   }

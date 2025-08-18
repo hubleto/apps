@@ -8,7 +8,7 @@ class MailTemplateVariables extends \HubletoMain\Extendible
   {
     return [
       'deal.identifier',
-      'deal.price',
+      'deal.price_excl_vat',
     ];
   }
 

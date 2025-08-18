@@ -32,8 +32,8 @@ class Product extends \HubletoMain\RecordManager
     $data = parent::prepareLookupData($dataRaw);
 
     foreach ($dataRaw as $key => $value) {
-      $data[$key]['unit_price'] = $value['unit_price'];
-      $data[$key]['vat'] = $value['vat'];
+      $data[$key]['sales_price'] = $value['sales_price'];
+      $data[$key]['vat'] = $value['vat'] ?? 0;
     }
 
     return $data;

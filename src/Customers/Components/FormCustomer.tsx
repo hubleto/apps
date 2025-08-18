@@ -7,7 +7,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import CustomerFormActivity, {CustomerFormActivityProps, CustomerFormActivityState} from "./CustomerFormActivity";
 import ModalForm from "@hubleto/react-ui/core/ModalForm";
 import { FormDealState } from "../../Deals/Components/FormDeal";
-import TableCustomerDocuments from "./TableCustomerDocuments";
+import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
 import FormDocument, {FormDocumentProps, FormDocumentState} from "../../Documents/Components/FormDocument";
 import FormContact, {FormContactProps, FormContactState} from "../../Contacts/Components/FormContact";
 import Calendar from '../../Calendar/Components/Calendar'
@@ -24,7 +24,6 @@ export interface FormCustomerProps extends HubletoFormProps {
   tableContactsDescription?: any,
   tableLeadsDescription?: any,
   tableDealsDescription?: any,
-  tableDocumentsDescription?: any,
 }
 
 export interface FormCustomerState extends HubletoFormState {
@@ -493,52 +492,20 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
 
       case 'documents':
         return <>
-          <a
+          {/* <a
             className="btn btn-add-outline mb-2"
             onClick={() => this.setState({showIdDocument: -1} as FormCustomerState)}
           >
             <span className="icon"><i className="fas fa-add"></i></span>
             <span className="text">Add document</span>
-          </a>
-          <TableCustomerDocuments
-            key={this.state.tablesKey + "_table_documents"}
-            uid={this.props.uid + "_table_documents"}
-            data={{ data: R.DOCUMENTS }}
-            descriptionSource="props"
-            customEndpointParams={{idCustomer: R.id}}
-            isUsedAsInput={true}
-            readonly={!this.state.isInlineEditing}
-            description={{
-              permissions: this.props.tableDocumentsDescription?.permissions,
-              ui: {
-                showFooter: false,
-                showHeader: false,
-              },
-              columns: {
-                id_document: { type: "lookup", title: "Document", model: "HubletoApp/Community/Documents/Models/Document" },
-                hyperlink: { type: "varchar", title: "Link", cellRenderer: ( table: TableCustomerDocuments, data: any, options: any): JSX.Element => {
-                  return (
-                    <FormInput>
-                      <Hyperlink {...this.getInputProps('document_link')}
-                        value={data.DOCUMENT.hyperlink}
-                        readonly={true}
-                      ></Hyperlink>
-                    </FormInput>
-                  )
-                },},
-              },
-              inputs: {
-                id_document: { type: "lookup", title: "Document", model: "HubletoApp/Community/Documents/Models/Document" },
-                hyperlink: { type: "varchar", title: "Link", readonly: true},
-              },
-            }}
-            onRowClick={(table: TableCustomerDocuments, row: any) => {
-              this.setState({showIdDocument: row.id_document} as FormCustomerState);
-            }}
-            onDeleteSelectionChange={(table) => {
-              this.updateRecord({ DOCUMENTS: table.state.data?.data ?? []});
-              this.setState({tablesKey: Math.random()} as FormCustomerState)
-            }}
+          </a> */}
+          <TableDocuments
+            key={this.state.tablesKey + "_table_customer_document"}
+            uid={this.props.uid + "_table_customer_documents"}
+            junctionModel='HubletoApp\Community\Customers\Models\CustomerDocument'
+            junctionColumn='id_customer'
+            junctionId={R.id}
+            readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
           />
           {this.state.showIdDocument != 0 ? this.renderDocumentForm() : null}
         </>

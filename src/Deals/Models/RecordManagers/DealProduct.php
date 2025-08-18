@@ -22,4 +22,16 @@ class DealProduct extends \HubletoMain\RecordManager
     return $this->belongsTo(Product::class, 'id_product', 'id');
   }
 
+  public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
+  {
+    $query = parent::prepareReadQuery($query, $level);
+
+    $main = \HubletoMain\Loader::getGlobalApp();
+
+    if ($main->urlParamAsInteger("idDeal") > 0) {
+      $query = $query->where("id_deal", $main->urlParamAsInteger("idDeal"));
+    }
+
+    return $query;
+  }
 }
