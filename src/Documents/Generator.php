@@ -3,6 +3,7 @@
 namespace HubletoApp\Community\Documents;
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Generator extends \HubletoMain\CoreClass
 {
@@ -45,12 +46,38 @@ class Generator extends \HubletoMain\CoreClass
     $mTemplate = $this->main->load(Models\Template::class);
     $template = $mTemplate->record->prepareReadQuery()->where('id', $idTemplate)->first();
 
+    $vars['defaultStyle'] = "
+      <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+      <head>
+        <style>
+          @font-face {
+            font-family: 'Gabarito';
+            font-style: normal;
+            font-weight: normal;
+            src: url('{$this->main->assetsUrl}/fonts/Gabarito/Gabarito-VariableFont_wght.ttf') format('truetype');
+          }
+
+          @font-face {
+            font-family: 'Gabarito';
+            font-style: normal;
+            font-weight: bold;
+            src: url('{$this->main->assetsUrl}/fonts/Gabarito/Gabarito-VariableFont_wght.ttf') format('truetype');
+          }
+
+          * { font-family: 'Gabarito'; font-size: '10pt' }
+        </style>
+      </head>
+    ";
+
     $twigTemplate = $this->main->twig->createTemplate($template->content);
     $documentHtmlContent = $twigTemplate->render($vars);
 
-    $dompdf = new Dompdf();
-    $dompdf->loadHtml($documentHtmlContent);
-    $dompdf->setPaper('A4', 'landscape');
+    $options = new Options();
+    $options->set('isRemoteEnabled', true);
+
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($documentHtmlContent, 'UTF-8');
+    $dompdf->setPaper('A4');
     $dompdf->render();
 
     $idDocument = $this->saveFromString($dompdf->output(), $outputFilename);
