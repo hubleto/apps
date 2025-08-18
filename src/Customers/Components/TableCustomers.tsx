@@ -103,7 +103,6 @@ export default class TableCustomers extends HubletoTable<TableCustomersProps, Ta
     formProps.tableContactsDescription = this.state.tableContactsDescription;
     formProps.tableLeadsDescription = this.state.tableLeadsDescription;
     formProps.tableDealsDescription = this.state.tableDealsDescription;
-    formProps.tableDocumentsDescription = this.state.tableDocumentsDescription;
     return <FormCustomer {...formProps}/>;
   }
 }

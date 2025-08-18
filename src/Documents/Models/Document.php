@@ -19,7 +19,7 @@ class Document extends \Hubleto\Framework\Models\Model
       'id_folder' => (new Lookup($this, $this->translate("Folder"), Folder::class))->setRequired()->setDefaultValue($this->main->urlParamAsInteger('idFolder'))->setProperty('defaultVisibility', true),
       'name' => (new Varchar($this, $this->translate('Document name')))->setRequired()->setProperty('defaultVisibility', true),
       'file' => (new File($this, $this->translate('File')))->setProperty('defaultVisibility', true),
-      'hyperlink' => (new Varchar($this, $this->translate('File Link'))),
+      'hyperlink' => (new Varchar($this, $this->translate('File Link')))->setReactComponent('InputHyperlink'),
       'origin_link' => (new Varchar($this, $this->translate('Origin Link'))),
     ]);
   }
@@ -38,59 +38,55 @@ class Document extends \Hubleto\Framework\Models\Model
     return $description;
   }
 
-  public function describeInput(string $columnName): \Hubleto\Framework\Description\Input
-  {
-    $description = parent::describeInput($columnName);
-    switch ($columnName) {
-      case 'hyperlink':
-        $description->setReactComponent('InputHyperlink');
-        break;
-    }
-    return $description;
-  }
+  // public function describeInput(string $columnName): \Hubleto\Framework\Description\Input
+  // {
+  //   $description = parent::describeInput($columnName);
+  //   switch ($columnName) {
+  //     case 'hyperlink':
+  //       $description->setReactComponent('InputHyperlink');
+  //       break;
+  //   }
+  //   return $description;
+  // }
 
   public function onAfterCreate(array $savedRecord): array
   {
     $savedRecord = parent::onAfterCreate($savedRecord);
 
-    if (isset($savedRecord["creatingForModel"]) && isset($savedRecord["creatingForId"])) {
-      $mCrossDocument = $this->main->getModel($savedRecord["creatingForModel"]);
-      $mCrossDocument->record->recordCreate([
-        "id_customer" => $savedRecord["creatingForId"],
-        "id_document" => $savedRecord["id"]
-      ]);
-    }
+    // if (isset($savedRecord["creatingForModel"]) && isset($savedRecord["creatingForId"])) {
+    //   $mCrossDocument = $this->main->getModel($savedRecord["creatingForModel"]);
+    //   $mCrossDocument->record->recordCreate([
+    //     "id_customer" => $savedRecord["creatingForId"],
+    //     "id_document" => $savedRecord["id"]
+    //   ]);
+    // }
 
     return $savedRecord;
   }
 
-  public function onBeforeUpdate(array $record): array
-  {
-    $document = (array) $this->record->find($record["id"])->toArray();
+  // public function onBeforeUpdate(array $record): array
+  // {
+  //   $document = (array) $this->record->find($record["id"])->toArray();
 
-    if (!isset($document["file"])) {
-      return $record;
-    }
+  //   if (!isset($document["file"])) {
+  //     return $record;
+  //   }
 
-    $prevFilename = ltrim((string) $document["file"], "./");
-    if (file_exists($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename)) {
-      unlink($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename);
-    }
+  //   $prevFilename = ltrim((string) $document["file"], "./");
+  //   if (file_exists($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename)) {
+  //     unlink($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename);
+  //   }
 
-    return $record;
-  }
+  //   return $record;
+  // }
 
   public function onBeforeDelete(int $id): int
   {
     $document = (array) $this->record->find($id)->toArray();
 
-    if (!isset($document["file"])) {
-      return $id;
-    }
-
-    $prevFilename = ltrim((string) $document["file"], "./");
-    if (file_exists($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename)) {
-      unlink($this->main->config->getAsString('uploadFolder') . "/" . $prevFilename);
+    $localFilename = ltrim((string) $document["file"], "./");
+    if (file_exists($this->main->config->getAsString('uploadFolder') . "/" . $localFilename)) {
+      unlink($this->main->config->getAsString('uploadFolder') . "/" . $localFilename);
     }
 
     return $id;

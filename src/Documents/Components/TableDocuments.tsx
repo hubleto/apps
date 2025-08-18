@@ -51,6 +51,28 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
     return params;
   }
 
+  setRecordFormUrl(id: number) {
+    window.history.pushState({}, "", globalThis.main.config.projectUrl + '/documents/' + id);
+  }
+
+  renderCell(columnName: string, column: any, data: any, options: any) {
+    if (columnName == "hyperlink") {
+      return <>
+        {data[columnName].substring(0, 28)}...
+        <a
+          href={data[columnName]}
+          target='_blank'
+          onClick={(e) => { e.stopPropagation(); }}
+          className="btn btn-transparent"
+        >
+          <span className="icon"><i className="fa-solid fa-up-right-from-square"></i></span>
+        </a>
+      </>;
+    } else {
+      return super.renderCell(columnName, column, data, options);
+    }
+  }
+  
   renderForm(): JSX.Element {
     let formProps: FormDocumentProps = this.getFormProps();
     formProps.junctionModel = this.props.junctionModel;
