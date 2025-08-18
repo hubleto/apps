@@ -25,6 +25,7 @@ class DealProduct extends \Hubleto\Framework\Models\Model
     return array_merge(parent::describeColumns(), [
       'id_deal' => (new Lookup($this, $this->translate('Deal'), Deal::class))->setRequired(),
       'id_product' => (new Lookup($this, $this->translate('Product'), Product::class))->setFkOnUpdate("CASCADE")->setFkOnDelete("SET NULL")->setRequired()->setProperty('defaultVisibility', true),
+      'order' => (new Integer($this, $this->translate('Order')))->setRequired()->setProperty('defaultVisibility', true),
       'description' => (new Text($this, $this->translate('Description')))->setProperty('defaultVisibility', true),
       'unit_price' => (new Decimal($this, $this->translate('Unit Price')))->setRequired()->setProperty('defaultVisibility', true),
       'amount' => (new Integer($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
