@@ -78,6 +78,7 @@ class Deal extends \Hubleto\Framework\Models\Model
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setDefaultValue($this->main->urlParamAsInteger('idCustomer')),
       'id_contact' => (new Lookup($this, $this->translate('Contact'), Contact::class)),
       'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class))->setReadonly(),
+      'version' => (new Integer($this, $this->translate('Version'))),
       // 'price' => (new Decimal($this, $this->translate('Price')))->setDecimals(2),
       'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT')),
       'price_incl_vat' => new Decimal($this, $this->translate('Price incl. VAT')),

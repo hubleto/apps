@@ -17,6 +17,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^documents\/?$/' => Controllers\Browse::class,
+      '/^documents\/api\/save-junction\/?$/' => Controllers\Api\SaveJunction::class,
       '/^documents\/browse\/?$/' => Controllers\Browse::class,
       '/^documents\/list\/?$/' => Controllers\Documents::class,
       '/^documents\/(?<recordId>\d+)\/?$/' => Controllers\Documents::class,
@@ -94,6 +95,7 @@ class Loader extends \HubletoMain\App
   <div class="dtop">
     <div style="font-size:2em"><b>Quotation</b></div>
     {{ identifier }}
+    {% if version %} version {{ version }} {% endif %}
   </div>
   <br/>
   <div style="padding:1em;border:1px solid black;width:100%">

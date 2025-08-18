@@ -42,8 +42,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     tabs: {
       'default': { title: 'Deal' },
       'products': { title: 'Products' },
-      'calendar': { title: 'Calendar' },
       'documents': { title: 'Documents' },
+      'calendar': { title: 'Calendar' },
       'history': { title: 'History' },
     }
   };
@@ -246,6 +246,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         const inputsColumnLeft = <>
           {this.inputWrapper('identifier', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}
           {this.inputWrapper('title', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}
+          {this.inputWrapper('version')}
           <FormInput title={"Customer"}>
             <Lookup {...this.getInputProps("id_customer")}
               model='HubletoApp/Community/Customers/Models/Customer'
@@ -630,6 +631,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           <TableDocuments
             key={this.state.tablesKey + "_table_deal_document"}
             uid={this.props.uid + "_table_deal_documents"}
+            tag={'table_deal_documents'}
+            parentForm={this}
             junctionModel='HubletoApp\Community\Deals\Models\DealDocument'
             junctionColumn='id_deal'
             junctionId={R.id}
