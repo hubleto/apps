@@ -28,7 +28,7 @@ class DealProduct extends \Hubleto\Framework\Models\Model
       'order' => (new Integer($this, $this->translate('Order')))->setRequired()->setProperty('defaultVisibility', true),
       'description' => (new Text($this, $this->translate('Description')))->setProperty('defaultVisibility', true),
       'unit_price' => (new Decimal($this, $this->translate('Unit Price')))->setRequired()->setProperty('defaultVisibility', true),
-      'amount' => (new Integer($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
+      'amount' => (new Decimal($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
       'vat' => (new Decimal($this, $this->translate('Vat')))->setUnit("%")->setProperty('defaultVisibility', true),
       'discount' => (new Decimal($this, $this->translate('Discount')))->setUnit("%")->setProperty('defaultVisibility', true),
       'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT'))->setProperty('defaultVisibility', true),

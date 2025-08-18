@@ -369,7 +369,7 @@ class Deal extends \Hubleto\Framework\Models\Model
     $generator = $this->main->load(Generator::class);
     $idDocument = $generator->generatePdfFromTemplate(
       $template->id,
-      'quotation-' . Helper::str2url($deal->identifier) . '.pdf',
+      'quotation-' . Helper::str2url($deal->identifier) . ($deal->version ? '-v' . $deal->version : '') . '-' . date('YmdHis') . '.pdf',
       $vars
     );
 
