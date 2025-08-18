@@ -93,63 +93,52 @@ class Loader extends \HubletoMain\App
 
 <div>
   <div class="dtop">
-    <div style="font-size:2em"><b>Quotation</b></div>
-    {{ identifier }}
-    {% if version %} version {{ version }} {% endif %}
+    <div style="font-size:24pt"><b>Quotation</b></div>
+    Deal: {{ identifier }} {{ title }}<br/>
+    {% if version %} Version {{ version }}<br/> {% endif %}
+    Generated on: {{ now }}<br/>
+    Customer: {{ CUSTOMER.name }}<br/>
+    Contact person: {{ CONTACT.first_name }} {{ CONTACT.last_name }}<br/>
   </div>
   <br/>
-  <div style="padding:1em;border:1px solid black;width:100%">
-    <div style="width:50%;float:left;">
-      <b>Supplier</b>
-      <table style="width:100%">
-        <tr>
-          <td>Order number</td>
-          <td>{{ identifier }}</td>
-        </tr>
-        <tr>
-          <td>Generated on</td>
-          <td>{{ now }}</td>
-        </tr>
-      </table>
-    </div>
-    <div style="width:50%; float:left;">
-      <b>Quotation for</b>
-      <table style="width:100%">
-        <tr>
-          <td>Customer</td>
-          <td>{{ CUSTOMER.name }}</td>
-        </tr>
-        <tr>
-          <td>Contact person</td>
-          <td>{{ CONTACT.first_name }} {{ CONTACT.last_name }}</td>
-        </tr>
-      </table>
-    </div>
-    <div style="clear:both;"></div>
-  </div>
+  <br/>
 
   <table style="width:100%">
     <tr>
-      <td style="width:40%">Product</td>
-      <td style="width:10%">Unit price</td>
-      <td style="width:10%">Amount</td>
-      <td style="width:10%">Discount</td>
-      <td style="width:10%">VAT</td>
-      <td style="width:10%">Subtotal</td>
-      <td style="width:10%">Subtotal incl. VAT</td>
+      <td style="width:60%"><b>Product</b></td>
+      <td style="width:10%"><b>Unit price</b></td>
+      <td style="width:10%"><b>Amount</b></td>
+      <td style="width:10%"><b>Discount</b></td>
+      <td style="width:10%"><b>Subtotal</b></td>
     </tr>
     {% for product in PRODUCTS %}
       <tr>
-        <td style="width:40%">{{ product.PRODUCT.name }}</td>
-        <td style="width:10%">{{ product.sales_price }} €</td>
-        <td style="width:10%">{{ product.amount}} </td>
-        <td style="width:10%">{{ product.discount }} %</td>
-        <td style="width:10%">{{ product.vat }} %</td>
-        <td style="width:10%">{{ product.price_excl_vat }} €</td>
-        <td style="width:10%">{{ product.price_incl_vat }} €</td>
+        <td style="width:60%">
+          {{ product.PRODUCT.name }}
+          {% if product.description %}
+            <div style="color:#666666">
+              {{ product.description }}
+            </div>
+          {% endif %}
+        </td>
+        <td style="width:10%">{{ product.unit_price|number_format(2, ",", " ") }} €</td>
+        <td style="width:10%">{{ product.amount|number_format(2, ",", " ") }} </td>
+        <td style="width:10%">{{ product.discount|number_format(0, ",", " ") }} %</td>
+        <td style="width:10%"><b>{{ product.price_excl_vat }}|number_format(2, ",", " ") €</b></td>
       </tr>
     {% endfor %}
   </table>
+
+  <div style="font-size:24px"><b>Total: {{ price_excl_vat }}|number_format(2, ",", " ") €</b></div>
+
+  Note: All prices are excluding value added tax.
+</div>
+
+<br/><br/><br/>
+<div>
+  <b><span style="color:#05b9e9">wai</span><span style="color:#58585a">blue</span></b><br/>
+  <span style="color:#58585a">software_engineering_experts</span><br/>
+</div>
       '
     ])['id'];
 

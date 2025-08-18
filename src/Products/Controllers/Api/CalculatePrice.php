@@ -30,8 +30,8 @@ class CalculatePrice extends \HubletoMain\Controllers\ApiController
 
   public function calculatePriceIncludingVat(float $unitPrice, float $amount, float $vat = 0, float $discount = 0): float
   {
-    $discountedPrice = $this->calculatePriceExcludingVat($unitPrice, $amount, $discount);
-    $finalPrice = $discountedPrice + $this->calculateVat($discountedPrice, $vat);
+    $priceExclVat = $this->calculatePriceExcludingVat($unitPrice, $amount, $discount);
+    $finalPrice = $priceExclVat + $this->calculateVat($priceExclVat, $vat);
 
     return $finalPrice;
   }

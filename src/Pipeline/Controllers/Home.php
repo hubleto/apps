@@ -56,7 +56,7 @@ class Home extends \HubletoMain\Controller
       $step = (array) $step;
 
       $sumPrice = (float) $mDeal->record
-        ->selectRaw("SUM(price) as price")
+        ->selectRaw("SUM(price_excl_vat) as price")
         ->where("id_pipeline", $searchPipeline["id"])
         ->where("id_pipeline_step", $step["id"])
         ->first()
