@@ -75,7 +75,6 @@ class DealProduct extends \Hubleto\Framework\Models\Model
     $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
       (float) ($record["unit_price"] ?? 0),
       (float) ($record["amount"] ?? 0),
-      (float) ($record["vat"] ?? 0),
       (float) ($record["discount"] ?? 0)
     );
     $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
