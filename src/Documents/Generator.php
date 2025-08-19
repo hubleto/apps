@@ -5,6 +5,8 @@ namespace HubletoApp\Community\Documents;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+use HubletoApp\Community\Documents\Models\Template;
+
 class Generator extends \HubletoMain\CoreClass
 {
 
@@ -31,18 +33,12 @@ class Generator extends \HubletoMain\CoreClass
     return (int) $document['id'];
   }
 
-  /**
-   * Generates PDF document from template and returns ID of the generated document.
-   *
-   * @param int $idTemplate ID of template to be used for generating the document
-   * @param string $outputFilename Name of the file to be generated.
-   * @param array $vars Variable values to be replaced in template.
-   * 
-   * @return int ID of generated document
-   * 
-   */
-  public function generatePdfFromTemplate(int $idTemplate, string $outputFilename, array $vars): int
+  public function renderTemplate(int $idTemplate, array $vars): string
   {
+    $mTemplate = $this->main->load(Template::class);
+    $template = $mTemplate->record->prepareReadQuery()->where('documents_templates.id', $idTemplate)->first();
+    if (!$template) throw new \Exception('Template was not found.');
+
     $mTemplate = $this->main->load(Models\Template::class);
     $template = $mTemplate->record->prepareReadQuery()->where('id', $idTemplate)->first();
 
@@ -70,20 +66,55 @@ class Generator extends \HubletoMain\CoreClass
     ";
 
     $twigTemplate = $this->main->twig->createTemplate($template->content);
-    $documentHtmlContent = $twigTemplate->render($vars);
+    return $twigTemplate->render($vars);
+  }
 
-    $options = new Options();
-    $options->set('isRemoteEnabled', true);
+  /**
+   * Generates PDF document from template and returns ID of the generated document.
+   *
+   * @param int $idTemplate ID of template to be used for generating the document
+   * @param string $outputFilename Name of the file to be generated.
+   * @param array $vars Variable values to be replaced in template.
+   * 
+   * @return int ID of generated document
+   * 
+   */
+  public function generatePdfFromTemplate(int $idTemplate, string $outputFilename, array $vars): int
+  {
+    $pdfGeneratorEndpoint = $this->main->config->getAsString('pdfGeneratorEndpoint');
 
-    $dompdf = new Dompdf($options);
-    $dompdf->loadHtml($documentHtmlContent, 'UTF-8');
-    $dompdf->setPaper('A4');
-    $dompdf->render();
+    $htmlString = $this->renderTemplate($idTemplate, $vars);
+    $pdfString = '';
 
-    $idDocument = $this->saveFromString($dompdf->output(), $outputFilename);
+    if (!empty($pdfGeneratorEndpoint)) {
+      try {
+        $ch = curl_init($pdfGeneratorEndpoint);
+        $payload = json_encode(['html' => $htmlString]);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        $pdfString = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
 
+        if (!empty($error)) throw new \Exception($error);
+      } catch (\Throwable $e) {
+        throw new \Exception('Error occured while generating PDF. ' . $e->getMessage());
+      }
+    } else {
+      $options = new Options();
+      $options->set('isRemoteEnabled', true);
+
+      $dompdf = new Dompdf($options);
+      $dompdf->loadHtml($htmlString, 'UTF-8');
+      $dompdf->setPaper('A4');
+      $dompdf->render();
+
+      $pdfString = $dompdf->output();
+    }
+
+    $idDocument = $this->saveFromString($pdfString, $outputFilename);
     return $idDocument;
-
   }
 
 }
