@@ -30,7 +30,7 @@ class Loader extends \HubletoMain\App
       '/^leads\/save-bulk-status-change\/?$/' => Controllers\Api\SaveBulkStatusChange::class,
     ]);
 
-    $this->addSearchSwitch('L');
+    $this->addSearchSwitch('ld');
     $this->addSearchSwitch('lead');
 
     $this->main->apps->community('Settings')->addSetting($this, [

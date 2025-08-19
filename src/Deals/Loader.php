@@ -34,7 +34,7 @@ class Loader extends \HubletoMain\App
       '/^deals\/boards\/deal-value-by-result\/?$/' => Controllers\Boards\DealValueByResult::class,
     ]);
     
-    $this->addSearchSwitch('D');
+    $this->addSearchSwitch('dl');
     $this->addSearchSwitch('deal');
 
     $this->main->apps->community('Settings')?->addSetting($this, [

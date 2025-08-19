@@ -21,7 +21,7 @@ class Loader extends \HubletoMain\App
       '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,
     ]);
 
-    $this->addSearchSwitch('P');
+    $this->addSearchSwitch('pr');
     $this->addSearchSwitch('project');
 
     $this->main->apps->community('Settings')->addSetting($this, [

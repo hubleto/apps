@@ -28,7 +28,7 @@ class Loader extends \HubletoMain\App
       '/^customers\/api\/log-activity\/?$/' => Controllers\Api\LogActivity::class,
     ]);
 
-    $this->addSearchSwitch('CST');
+    $this->addSearchSwitch('cs');
     $this->addSearchSwitch('customer');
 
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
