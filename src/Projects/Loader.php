@@ -110,8 +110,8 @@ class Loader extends \HubletoMain\App
     
     foreach ($expressions as $e) {
       $qProjects = $qProjects->where(function($q) use ($e) {
-        $q->orWhere('Projects.identifier', 'like', '%' . $e . '%');
-        $q->orWhere('Projects.title', 'like', '%' . $e . '%');
+        $q->orWhere('projects.identifier', 'like', '%' . $e . '%');
+        $q->orWhere('projects.title', 'like', '%' . $e . '%');
       });
     }
 
