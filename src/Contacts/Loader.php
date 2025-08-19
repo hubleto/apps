@@ -26,6 +26,9 @@ class Loader extends \HubletoMain\App
       '/^contacts\/import\/?$/' => Controllers\Import::class,
     ]);
 
+    $this->addSearchSwitch('CNT');
+    $this->addSearchSwitch('contact');
+
     $this->main->apps->community('Settings')?->addSetting($this, ['title' => $this->translate('Contact Categories'), 'icon' => 'fas fa-phone', 'url' => 'settings/categories']);
     $this->main->apps->community('Settings')?->addSetting($this, [
       'title' => $this->translate('Contact Tags'),

@@ -19,6 +19,9 @@ class Loader extends \HubletoMain\App
       '/^tasks(\/(?<recordId>\d+))?\/?$/' => Controllers\Tasks::class,
     ]);
 
+    $this->addSearchSwitch('T');
+    $this->addSearchSwitch('task');
+
   }
 
   // installTables
@@ -58,7 +61,7 @@ class Loader extends \HubletoMain\App
         "id" => $task['id'],
         "label" => $task['identifier'] . ' ' . $task['title'],
         "url" => 'tasks/' . $task['id'],
-        // "description" => $task[''],
+        "description" => $task['PROJECT']['name'] ?? '',
       ];
     }
 

@@ -21,6 +21,9 @@ class Loader extends \HubletoMain\App
       '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,
     ]);
 
+    $this->addSearchSwitch('P');
+    $this->addSearchSwitch('project');
+
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => 'Projects', // or $this->translate('Projects')
       'icon' => 'fas fa-table',
@@ -90,6 +93,41 @@ class Loader extends \HubletoMain\App
       'id_phase' => 1,
       'color' => '#008000',
     ]);
+  }
+
+  /**
+   * Implements fulltext search functionality for tasks
+   *
+   * @param array $expressions List of expressions to be searched and glued with logical 'or'.
+   * 
+   * @return array
+   * 
+   */
+  public function search(array $expressions): array
+  {
+    $mProject = $this->main->load(Models\Project::class);
+    $qProjects = $mProject->record->prepareReadQuery();
+    
+    foreach ($expressions as $e) {
+      $qProjects = $qProjects->where(function($q) use ($e) {
+        $q->orWhere('Projects.identifier', 'like', '%' . $e . '%');
+        $q->orWhere('Projects.title', 'like', '%' . $e . '%');
+      });
+    }
+
+    $projects = $qProjects->get()->toArray();
+
+    $results = [];
+
+    foreach ($projects as $project) {
+      $results[] = [
+        "id" => $project['id'],
+        "label" => $project['identifier'] . ' ' . $project['title'],
+        "url" => 'projects/' . $project['id'],
+      ];
+    }
+
+    return $results;
   }
 
 }

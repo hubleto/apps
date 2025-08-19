@@ -33,6 +33,9 @@ class Loader extends \HubletoMain\App
       '/^deals\/boards\/most-valuable-deals\/?$/' => Controllers\Boards\MostValuableDeals::class,
       '/^deals\/boards\/deal-value-by-result\/?$/' => Controllers\Boards\DealValueByResult::class,
     ]);
+    
+    $this->addSearchSwitch('D');
+    $this->addSearchSwitch('deal');
 
     $this->main->apps->community('Settings')?->addSetting($this, [
       'title' => $this->translate('Deal Tags'),
