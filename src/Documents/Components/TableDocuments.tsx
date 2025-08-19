@@ -58,7 +58,7 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
   renderCell(columnName: string, column: any, data: any, options: any) {
     if (columnName == "hyperlink") {
       return <>
-        {data[columnName].substring(0, 28)}...
+        {data[columnName] && data[columnName].length > 28 ? data[columnName].substring(0, 28) + '...' : data[columnName]}
         <a
           href={data[columnName]}
           target='_blank'

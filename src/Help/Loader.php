@@ -21,6 +21,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^help\/?$/' => Controllers\Help::class,
+      '/^help\/search\/?$/' => Controllers\Search::class,
     ]);
 
     $this->contextHelp = $this->collectExtendibles('ContextHelp');
