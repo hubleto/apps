@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import PipelineSelector from '@hubleto/apps/Pipeline/Components/PipelineSelector';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
-import request from '@hubleto/react-ui/core/Request';
+import FormInput from '@hubleto/react-ui/core/FormInput';
 
 export interface FormProjectProps extends HubletoFormProps { }
 export interface FormProjectState extends HubletoFormState { }
@@ -48,6 +48,11 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
         return <>
           <div className='w-full flex gap-2 flex-col md:flex-row'>
             <div className='flex-1 border-r border-gray-100'>
+              <FormInput title={"Orders"}>
+                {R.ORDERS ? R.ORDERS.map((item, key) => {
+                  return <div key={key} className='badge'>{item.ORDER.order_number}</div>;
+                }) : null}
+              </FormInput>
               {this.inputWrapper('identifier')}
               {this.inputWrapper('title')}
               {this.inputWrapper('description')}

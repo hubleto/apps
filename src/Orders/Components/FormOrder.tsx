@@ -29,6 +29,8 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
 
   translationContext: string = 'HubletoApp\\Community\\Orders\\Loader::Components\\FormOrder';
 
+  parentApp: string = 'HubletoApp/Community/Orders';
+
   constructor(props: FormOrderProps) {
     super(props);
     this.state = {
@@ -72,11 +74,13 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     return Number(sumPrice.toFixed(2));
   }
 
-  renderHeaderLeft(): null|JSX.Element {
-    return <>
-      {super.renderHeaderLeft()}
-      <button className="btn btn-transparent"
-        onClick={() => {
+  getFormHeaderButtons()
+  {
+    return [
+      ...super.getFormHeaderButtons(),
+      {
+        title: 'Generate PDF',
+        onClick: () => {
           request.post(
             'orders/api/generate-pdf',
             {idOrder: this.state.record.id},
@@ -88,11 +92,9 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
               }
             }
           );
-        }}
-      >
-        <span className="text">Generate PDF</span>
-      </button>
-    </>;
+        }
+      }
+    ]
   }
 
   renderTab(tab: string) {
@@ -185,11 +187,11 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
 
       case 'projects':
         return <TableProjects
-          tag={"table_order_project"}
+          tag={"table_project_order"}
           parentForm={this}
-          uid={this.props.uid + "_table_order_project"}
+          uid={this.props.uid + "_table_project_order"}
           junctionTitle='Order'
-          junctionModel='HubletoApp/Community/Orders/Models/OrderProject'
+          junctionModel='HubletoApp/Community/Projects/Models/ProjectOrder'
           junctionSourceColumn='id_order'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_project'

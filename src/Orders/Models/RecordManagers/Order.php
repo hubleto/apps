@@ -2,6 +2,7 @@
 
 namespace HubletoApp\Community\Orders\Models\RecordManagers;
 
+use HubletoApp\Community\Projects\Models\RecordManagers\ProjectOrder;
 use HubletoApp\Community\Documents\Models\RecordManagers\Template;
 use HubletoApp\Community\Customers\Models\RecordManagers\Customer;
 use HubletoApp\Community\Settings\Models\RecordManagers\Currency;
@@ -45,10 +46,10 @@ class Order extends \HubletoMain\RecordManager
     return $this->hasMany(OrderDeal::class, 'id_order', 'id');
   }
 
-  /** @return HasMany<OrderProject, covariant Order> */
+  /** @return HasMany<ProjectOrder, covariant Order> */
   public function PROJECTS(): HasMany
   {
-    return $this->hasMany(OrderProject::class, 'id_order', 'id');
+    return $this->hasMany(ProjectOrder::class, 'id_order', 'id');
   }
 
   /** @return HasMany<OrderInvoice, covariant Order> */

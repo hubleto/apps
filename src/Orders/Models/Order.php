@@ -15,6 +15,7 @@ use HubletoApp\Community\Settings\Models\Setting;
 
 use HubletoApp\Community\Documents\Generator;
 use HubletoApp\Community\Documents\Models\Template;
+use HubletoApp\Community\Projects\Models\ProjectOrder;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
 use HubletoApp\Community\Pipeline\Models\PipelineStep;
 use HubletoApp\Community\Invoices\Models\Invoice;
@@ -27,17 +28,19 @@ class Order extends \Hubleto\Framework\Models\Model
   public ?string $lookupSqlValue = '{%TABLE%}.order_number';
 
   public array $relations = [
-    'PRODUCTS' => [ self::HAS_MANY, OrderProduct::class, 'id_order', 'id' ],
-    'DOCUMENTS' => [ self::HAS_MANY, OrderDocument::class, 'id_order', 'id' ],
-    'PROJECTS' => [ self::HAS_MANY, OrderProject::class, 'id_order', 'id' ],
-    'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
-    'HISTORY' => [ self::HAS_MANY, History::class, 'id_order', 'id' ],
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
     'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
     'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
     'TEMPLATE' => [ self::HAS_ONE, Template::class, 'id', 'id_template'],
+
+    'PRODUCTS' => [ self::HAS_MANY, OrderProduct::class, 'id_order', 'id' ],
+    'DOCUMENTS' => [ self::HAS_MANY, OrderDocument::class, 'id_order', 'id' ],
+    'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
+    'HISTORY' => [ self::HAS_MANY, History::class, 'id_order', 'id' ],
     'DEALS' => [ self::HAS_MANY, OrderDeal::class, 'id_order', 'id' ],
+
+    'PROJECTS' => [ self::HAS_MANY, ProjectOrder::class, 'id_order', 'id' ],
   ];
 
   public function describeColumns(): array

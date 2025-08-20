@@ -16,8 +16,8 @@ class ProjectsApp extends HubletoApp {
       'Create project',
       (form: any) => {
         request.get(
-          'projects/api/create-from-deal',
-          {idDeal: form.state.record.id},
+          'projects/api/create-from-order',
+          {idOrder: form.state.record.id},
           (data: any) => {
             if (data.status == "success") {
               globalThis.window.open(globalThis.main.config.projectUrl + '/projects/' + data.idProject);

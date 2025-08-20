@@ -61,9 +61,5 @@
     "Models\\OrderDocument": {
         "Order": "",
         "Document": ""
-    },
-    "Models\\OrderProject": {
-        "Order": "",
-        "Project": ""
     }
 }

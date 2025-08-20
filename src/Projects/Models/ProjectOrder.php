@@ -1,17 +1,14 @@
 <?php
 
-namespace HubletoApp\Community\Orders\Models;
+namespace HubletoApp\Community\Projects\Models;
 
-use Hubleto\Framework\Db\Column\Varchar;
-use Hubleto\Framework\Db\Column\Decimal;
-use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
-use HubletoApp\Community\Projects\Models\Project;
+use HubletoApp\Community\Orders\Models\Order;
 
-class OrderProject extends \Hubleto\Framework\Models\Model
+class ProjectOrder extends \Hubleto\Framework\Models\Model
 {
-  public string $table = 'orders_projects';
-  public string $recordManagerClass = RecordManagers\OrderProject::class;
+  public string $table = 'projects_orders';
+  public string $recordManagerClass = RecordManagers\ProjectOrder::class;
   public ?string $lookupSqlValue = '{%TABLE%}.id';
 
   public array $relations = [
@@ -22,8 +19,8 @@ class OrderProject extends \Hubleto\Framework\Models\Model
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_order' => (new Lookup($this, $this->translate('Order'), Order::class))->setRequired(),
       'id_project' => (new Lookup($this, $this->translate('Project'), Project::class))->setRequired(),
+      'id_order' => (new Lookup($this, $this->translate('Order'), Order::class))->setRequired(),
     ]);
   }
 

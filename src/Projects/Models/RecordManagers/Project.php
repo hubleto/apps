@@ -3,6 +3,7 @@
 namespace HubletoApp\Community\Projects\Models\RecordManagers;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
 class Project extends \HubletoMain\RecordManager
@@ -32,6 +33,12 @@ class Project extends \HubletoMain\RecordManager
   public function MANAGER(): BelongsTo
   {
     return $this->belongsTo(User::class, 'id_manager', 'id');
+  }
+
+  /** @return hasMany<LeadDocument, covariant Lead> */
+  public function ORDERS(): HasMany
+  {
+    return $this->hasMany(ProjectOrder::class, 'id_project', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
