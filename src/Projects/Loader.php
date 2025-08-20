@@ -18,9 +18,11 @@ class Loader extends \HubletoMain\App
     $this->main->router->httpGet([
       // '/^projects\/api\/save-junction\/?$/' => Controllers\Api\SaveJunction::class,
 
+      '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,
+      '/^projects\/api\/create-from-deal\/?$/' => Controllers\Api\CreateFromDeal::class,
+
       '/^projects(\/(?<recordId>\d+))?\/?$/' => Controllers\Projects::class,
       '/^projects\/phases\/?$/' => Controllers\Phases::class,
-      '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,
     ]);
 
     $this->addSearchSwitch('pr');
@@ -55,6 +57,7 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $this->main->load(Models\Phase::class)->dropTableIfExists()->install();
       $this->main->load(Models\Project::class)->dropTableIfExists()->install();
+      $this->main->load(Models\ProjectDeal::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace HubletoApp\Community\Orders\Controllers\Api;
+namespace HubletoApp\Community\Projects\Controllers\Api;
 
 use Exception;
-use HubletoApp\Community\Orders\Models\Order;
-use HubletoApp\Community\Orders\Models\OrderDeal;
+use HubletoApp\Community\Projects\Models\Project;
+use HubletoApp\Community\Projects\Models\ProjectDeal;
 use HubletoApp\Community\Deals\Models\Deal;
 
 class CreateFromDeal extends \HubletoMain\Controllers\ApiController
@@ -21,8 +21,8 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
     $idDeal = $this->main->urlParamAsInteger("idDeal");
 
     $mDeal = $this->main->load(Deal::class);
-    $mOrder = $this->main->load(Order::class);
-    $mOrderDeal = $this->main->load(OrderDeal::class);
+    $mProject = $this->main->load(Project::class);
+    $mProjectDeal = $this->main->load(ProjectDeal::class);
     $deal = null;
 
     try {
@@ -31,15 +31,15 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
         throw new Exception("Deal was not found.");
       }
 
-      $order = $mOrder->record->recordCreate([
+      $project = $mProject->record->recordCreate([
         "id_customer" => $deal->id_customer,
         "title" => $deal->title,
         "identifier" => $deal->identifier,
       ]);
 
-      $mOrderDeal->record->recordCreate([
+      $mProjectDeal->record->recordCreate([
         "id_deal" => $deal->id,
-        "id_order" => $order['id'],
+        "id_project" => $project['id'],
       ]);
     } catch (Exception $e) {
       return [
@@ -50,8 +50,8 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
 
     return [
       "status" => "success",
-      "idOrder" => $order['id'],
-      "title" => str_replace(" ", "+", (string) $order['title'])
+      "idProject" => $project['id'],
+      "title" => str_replace(" ", "+", (string) $project['title'])
     ];
   }
 

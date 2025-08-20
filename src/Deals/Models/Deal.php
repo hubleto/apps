@@ -25,6 +25,7 @@ use HubletoApp\Community\Documents\Generator;
 use HubletoApp\Community\Documents\Models\Template;
 use HubletoApp\Community\Invoices\Models\Invoice;
 use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
+use HubletoApp\Community\Orders\Models\OrderDeal;
 
 class Deal extends \Hubleto\Framework\Models\Model
 {
@@ -67,6 +68,7 @@ class Deal extends \Hubleto\Framework\Models\Model
     'PRODUCTS' => [ self::HAS_MANY, DealProduct::class, 'id_deal', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, DealActivity::class, 'id_deal', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, DealDocument::class, 'id_deal', 'id'],
+    'ORDERS' => [ self::HAS_MANY, OrderDeal::class, 'id_deal', 'id'],
     'TEMPLATE_QUOTATION' => [ self::HAS_ONE, Template::class, 'id', 'id_template_quotation'],
   ];
 

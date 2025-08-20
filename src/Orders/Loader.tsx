@@ -17,9 +17,7 @@ globalThis.main.getApp('HubletoApp/Community/Deals').addFormHeaderButton(
       {idDeal: form.state.record.id},
       (data: any) => {
         if (data.status == "success") {
-          // globalThis.main.lastShownDialogRef.current.hide();
-        //   console.log(this.refTableProjects, this.refTableProjects.current);
-        //   this.refTableProjects.current.reload();//setState({recordId: data.idProject});
+          globalThis.window.open(globalThis.main.config.projectUrl + '/orders/' + data.idOrder);
         }
       }
     );

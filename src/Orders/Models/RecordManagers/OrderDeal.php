@@ -16,7 +16,7 @@ class OrderDeal extends \HubletoMain\RecordManager
   }
 
   /** @return BelongsTo<Product, covariant OrderProduct> */
-  public function PROJECT(): BelongsTo
+  public function DEAL(): BelongsTo
   {
     return $this->belongsTo(Deal::class, 'id_deal', 'id');
   }

@@ -12,6 +12,7 @@ use HubletoApp\Community\Deals\Models\RecordManagers\DealHistory;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealTag;
 use HubletoApp\Community\Leads\Models\RecordManagers\Lead;
 use HubletoApp\Community\Documents\Models\RecordManagers\Template;
+use HubletoApp\Community\Orders\Models\RecordManagers\OrderDeal;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -85,6 +86,12 @@ class Deal extends \HubletoMain\RecordManager
   public function PRODUCTS(): HasMany
   {
     return $this->hasMany(DealProduct::class, 'id_deal', 'id');
+  }
+
+  /** @return HasMany<DealProduct, covariant Deal> */
+  public function ORDERS(): HasMany
+  {
+    return $this->hasMany(OrderDeal::class, 'id_deal', 'id');
   }
 
   /** @return HasMany<DealActivity, covariant Deal> */

@@ -3,19 +3,22 @@ import { deepObjectMerge, getUrlParam } from '@hubleto/react-ui/core/Helper';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import FormInput from '@hubleto/react-ui/core/FormInput';
 import request from '@hubleto/react-ui/core/Request';
-import TableDealProducts from './TableDealProducts';
+import moment, { Moment } from "moment";
 import Lookup from '@hubleto/react-ui/core/Inputs/Lookup';
+
 import Calendar from '../../Calendar/Components/Calendar';
-import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
 import FormDocument, { FormDocumentProps, FormDocumentState } from '../../Documents/Components/FormDocument';
 import DealFormActivity, { DealFormActivityProps, DealFormActivityState } from './DealFormActivity';
 import ModalForm from '@hubleto/react-ui/core/ModalForm';
 import Hyperlink from '@hubleto/react-ui/core/Inputs/Hyperlink';
 import { FormProps, FormState } from '@hubleto/react-ui/core/Form';
-import moment, { Moment } from "moment";
+import TableDealProducts from './TableDealProducts';
+import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
 import TableDealHistory from './TableDealHistory';
-import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
+import TableOrders from '@hubleto/apps/Orders/Components/TableOrders';
+import TableProjects from '@hubleto/apps/Projects/Components/TableProjects';
+import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 
 export interface FormDealProps extends HubletoFormProps {
   newEntryId?: number,
@@ -78,9 +81,11 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'deal', title: this.translate('Deal') },
+        { uid: 'default', title: this.translate('Deal') },
         { uid: 'products', title: this.translate('Products') },
         { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'orders', title: this.translate('Orders') },
+        { uid: 'projects', title: this.translate('Projects') },
         { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'history', title: this.translate('History') },
       ],
@@ -390,7 +395,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           }}
         ></Calendar>;
 
-const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
+        const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
           <div className='mb-2'>
             {tmpCalendar}
           </div>
@@ -601,37 +606,34 @@ const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-2
         ></Calendar>;
       break;
 
-      // case 'tasks':
-      //   try {
-      //     return <>
-      //       {this.state.id < 0 ?
-      //           <div className="badge badge-info">{this.translate("First create the deal, then you will be prompted to add tasks.")}</div>
-      //         :
-      //           <TableTasks
-      //             uid={this.props.uid + "_table_tasks"}
-      //             tag={"DealTasks"}
-      //             parentForm={this}
-      //             externalModel='HubletoApp\Community\Deals\Models\Deal'
-      //             externalId={R.id}
-      //           />
-      //       }
-      //     </>;
-      //   } catch (ex) {
-      //     return <div className="alert alert-error">{this.translate("Failed to display tasks. Check if you have 'Tasks' app installed.")}</div>
-      //   }
-      // break;
+      case 'orders':
+        return <TableOrders
+          tag={"table_deal_order"}
+          parentForm={this}
+          uid={this.props.uid + "_table_deal_order"}
+          junctionTitle='Deal'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
+          junctionSourceColumn='id_deal'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_order'
+        />;
+      break;
+
+      case 'projects':
+        return <TableProjects
+          tag={"table_deal_project"}
+          parentForm={this}
+          uid={this.props.uid + "_table_deal_project"}
+          junctionTitle='Deal'
+          junctionModel='HubletoApp/Community/Projects/Models/ProjectDeal'
+          junctionSourceColumn='id_deal'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_project'
+        />;
+      break;
 
       case 'documents':
         return <>
-          {/* {!R.is_archived ?
-            <a
-              className="btn btn-add-outline mb-2"
-              onClick={() => this.setState({showIdDocument: -1} as FormDealState)}
-            >
-              <span className="icon"><i className="fas fa-add"></i></span>
-              <span className="text">{this.translate("Add document")}</span>
-            </a>
-          : null} */}
           <TableDocuments
             key={this.state.tablesKey + "_table_deal_document"}
             uid={this.props.uid + "_table_deal_documents"}
