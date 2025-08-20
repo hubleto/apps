@@ -6,5 +6,30 @@
     "root": {
         "Projects": "",
         "Phases": ""
+    },
+    "Models\\Project": {
+        "Deal": "",
+        "Customer": "",
+        "Contact": "",
+        "Identifier": "",
+        "Title": "",
+        "Description": "",
+        "Main developer": "",
+        "Account manager": "",
+        "Priority": "",
+        "Start": "",
+        "Deadline": "",
+        "Budget": "",
+        "Pipeline": "",
+        "Pipeline step": "",
+        "Closed": "",
+        "Color": "",
+        "Notes": "",
+        "Created": ""
+    },
+    "Models\\Phase": {
+        "Name": "",
+        "Order": "",
+        "Color": ""
     }
 }
