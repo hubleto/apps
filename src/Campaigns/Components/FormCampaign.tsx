@@ -16,6 +16,8 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
 
   translationContext: string = 'HubletoApp\\Community\\Campaigns\\Loader::Components\\FormCampaign';
 
+  parentApp: string = 'HubletoApp/Community/Campaigns';
+
   constructor(props: FormCampaignProps) {
     super(props);
     this.state = this.getStateFromProps(props);
@@ -25,8 +27,8 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Campaign') },
-        { uid: 'leads', title: this.translate('Leads'), showCountFor: 'LEADS' },
+        { uid: 'default', title: <b>{this.translate('Campaign')}</b> },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
   }
@@ -66,17 +68,8 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
         </>;
       break
 
-      case 'leads':
-        return <TableLeads
-          key={"table_campaign_lead"}
-          parentForm={this}
-          uid={this.props.uid + "_table_campaign_lead"}
-          junctionTitle='Campaign'
-          junctionModel='HubletoApp/Community/Leads/Models/LeadCampaign'
-          junctionSourceColumn='id_campaign'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_lead'
-        />;
+      default:
+        super.renderTab(tab);
       break;
     }
   }

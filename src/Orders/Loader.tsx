@@ -13,7 +13,7 @@ class OrdersApp extends HubletoApp {
     // miscellaneous
     globalThis.main.getApp('HubletoApp/Community/Deals').addFormTab({
       uid: 'orders',
-      title: 'Orders',
+      title: <span className='italic'>Orders</span>,
       onRender: (form: any) => {
         return <TableOrders
           tag={"table_order_deal"}

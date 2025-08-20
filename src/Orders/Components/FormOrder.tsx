@@ -3,9 +3,6 @@ import { getUrlParam } from '@hubleto/react-ui/core/Helper';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import TableOrderProducts from '@hubleto/apps/Orders/Components/TableOrderProducts';
 import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
-import TableDeals from '@hubleto/apps/Deals/Components/TableDeals';
-import TableProjects from '@hubleto/apps/Projects/Components/TableProjects';
-import TableInvoices from '@hubleto/apps/Invoices/Components/TableInvoices';
 import request from "@hubleto/react-ui/core/Request";
 import TableHistories from './TableHistories';
 import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
@@ -43,12 +40,12 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Order') },
+        { uid: 'default', title: <b>{this.translate('Order')}</b> },
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
-        { uid: 'projects', title: this.translate('Projects'), showCountFor: 'PROJECTS' },
         { uid: 'invoices', title: this.translate('Invoices'), showCountFor: 'INVOICES' },
         { uid: 'history', title: this.translate('History') },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
   }
@@ -125,9 +122,14 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
           <div className='card'>
             <div className='card-body flex flex-row gap-2'>
               <div className='grow'>
-                <FormInput title={"Deals"}>
+                <FormInput title={"Deal"}>
                   {R.DEALS ? R.DEALS.map((item, key) => {
-                    return <div key={key} className='badge'>{item.DEAL.identifier}</div>;
+                    return <a
+                      key={key}
+                      className='badge'
+                      href={globalThis.main.config.projectUrl + '/deals/' + item.DEAL.id}
+                      target='_blank'
+                    >{item.DEAL.identifier}</a>;
                   }) : null}
                 </FormInput>
                 {showAdditional ? this.inputWrapper('order_number') : <></>}
@@ -185,19 +187,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
 
       break;
 
-      case 'projects':
-        return <TableProjects
-          tag={"table_project_order"}
-          parentForm={this}
-          uid={this.props.uid + "_table_project_order"}
-          junctionTitle='Order'
-          junctionModel='HubletoApp/Community/Projects/Models/ProjectOrder'
-          junctionSourceColumn='id_order'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_project'
-        />;
-      break;
-
       case 'history':
         return <>
           <TableHistories
@@ -229,6 +218,10 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
             onRowClick={(table: TableHistories, row: any) => table.openForm(row.id)}
           />
         </>;
+      break;
+
+      default:
+        super.renderTab(tab);
       break;
     }
   }

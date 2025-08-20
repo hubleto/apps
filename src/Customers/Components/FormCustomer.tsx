@@ -85,7 +85,7 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Customer') },
+        { uid: 'default', title: <b>{this.translate('Customer')}</b> },
         { uid: 'contacts', title: this.translate('Contacts') },
         { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'documents', title: this.translate('Documents') },
@@ -516,26 +516,11 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
           {this.state.showIdDocument != 0 ? this.renderDocumentForm() : null}
         </>
       break;
-    }
 
+      default:
+        super.renderTab(tab);
+      break;
+    }
   }
 
-  // renderContent(): JSX.Element {
-  //   const R = this.state.record;
-  //   const showAdditional = R.id > 0 ? true : false;
-
-  //   if (R.LEADS && R.LEADS.length > 0) {
-  //     R.LEADS.map((lead, index) => {
-  //       lead.checkOwnership = false;
-  //       if (lead.DEAL) lead.DEAL.checkOwnership = false;
-  //     })
-  //   }
-  //   if (R.DEALS && R.DEALS.length > 0) {
-  //     R.DEALS.map((deal, index) => {
-  //       deal.checkOwnership = false;
-  //       if (deal.LEAD) deal.LEAD.checkOwnership = false;
-  //     })
-  //   }
-
-  // }
 }

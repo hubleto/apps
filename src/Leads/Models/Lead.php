@@ -49,7 +49,6 @@ class Lead extends \Hubleto\Framework\Models\Model
     'ACTIVITIES' => [ self::HAS_MANY, LeadActivity::class, 'id_lead', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, LeadDocument::class, 'id_lead', 'id'],
     'CAMPAIGNS' => [ self::HAS_MANY, LeadCampaign::class, 'id_lead', 'id'],
-    'DEALS' => [ self::HAS_MANY, DealLead::class, 'id_lead', 'id'],
   ];
 
   public function describeColumns(): array

@@ -28,8 +28,9 @@ export default class FormProduct<P, S> extends HubletoForm<FormProductProps,Form
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Product') },
+        { uid: 'default', title: <b>{this.translate('Product')}</b> },
         { uid: 'suppliers', title: this.translate('Suppliers') },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
   }
@@ -94,6 +95,10 @@ export default class FormProduct<P, S> extends HubletoForm<FormProductProps,Form
             idProduct={R.id}
           />
         );
+      break;
+
+      default:
+        super.renderTab(tab);
       break;
     }
   }

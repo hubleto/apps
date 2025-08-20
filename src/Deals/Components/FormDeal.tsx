@@ -81,7 +81,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Deal') },
+        { uid: 'default', title: <b>{this.translate('Deal')}</b> },
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
         // { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
@@ -252,9 +252,14 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
       case 'default':
 
         const inputsColumnLeft = <>
-          <FormInput title={"Leads"}>
+          <FormInput title={"Lead"}>
             {R.LEADS ? R.LEADS.map((item, key) => {
-              return <div key={key} className='badge'>{item.LEAD.identifier}</div>;
+              return <a
+                key={key}
+                className='badge'
+                href={globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id}
+                target='_blank'
+              >{item.LEAD.identifier}</a>;
             }) : null}
           </FormInput>
           {this.inputWrapper('identifier', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}

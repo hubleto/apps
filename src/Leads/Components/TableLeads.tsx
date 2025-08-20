@@ -55,6 +55,10 @@ export default class TableLeads extends HubletoTable<TableLeadsProps, TableLeads
     }
   }
 
+  setRecordFormUrl(id: number) {
+    window.history.pushState({}, "", globalThis.main.config.projectUrl + '/leads/' + id);
+  }
+
   renderCell(columnName: string, column: any, data: any, options: any) {
     if (columnName == "tags") {
       return (

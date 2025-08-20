@@ -25,7 +25,8 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Task') },
+        { uid: 'default', title: <b>{this.translate('Task')}</b> },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     }
   }
@@ -92,6 +93,10 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
               />
           }
         </>
+      break;
+
+      default:
+        super.renderTab(tab);
       break;
     }
   }

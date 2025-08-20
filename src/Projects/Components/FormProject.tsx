@@ -26,9 +26,10 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
     return {
       ...super.getStateFromProps(props),
       tabs: [
-        { uid: 'default', title: this.translate('Project') },
+        { uid: 'default', title: <b>{this.translate('Project')}</b> },
         { uid: 'tasks', title: this.translate('Tasks') },
         { uid: 'statistics', title: this.translate('Statistics') },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     }
   }
@@ -48,9 +49,14 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
         return <>
           <div className='w-full flex gap-2 flex-col md:flex-row'>
             <div className='flex-1 border-r border-gray-100'>
-              <FormInput title={"Orders"}>
+              <FormInput title={"Order"}>
                 {R.ORDERS ? R.ORDERS.map((item, key) => {
-                  return <div key={key} className='badge'>{item.ORDER.order_number}</div>;
+                  return <a
+                    key={key}
+                    className='badge'
+                    href={globalThis.main.config.projectUrl + '/orders/' + item.ORDER.id}
+                    target='_blank'
+                  >{item.ORDER.order_number}</a>;
                 }) : null}
               </FormInput>
               {this.inputWrapper('identifier')}
@@ -106,6 +112,10 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
         } catch (ex) {
           return <div className="alert alert-error">Failed to display tasks. Check if you have 'Tasks' app installed.</div>
         }
+      break;
+
+      default:
+        super.renderTab(tab);
       break;
     }
   }
