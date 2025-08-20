@@ -613,11 +613,11 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
 
       case 'orders':
         return <TableOrders
-          tag={"table_deal_order"}
+          tag={"table_order_deal"}
           parentForm={this}
-          uid={this.props.uid + "_table_deal_order"}
+          uid={this.props.uid + "_table_order_deal"}
           junctionTitle='Deal'
-          junctionModel='HubletoApp/Community/Deals/Models/DealOrder'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
           junctionSourceColumn='id_deal'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_order'

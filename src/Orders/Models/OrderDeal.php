@@ -1,21 +1,18 @@
 <?php
 
-namespace HubletoApp\Community\Deals\Models;
+namespace HubletoApp\Community\Orders\Models;
 
-use Hubleto\Framework\Db\Column\Varchar;
-use Hubleto\Framework\Db\Column\Decimal;
-use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
-use HubletoApp\Community\Orders\Models\Order;
+use HubletoApp\Community\Deals\Models\Deal;
 
-class DealOrder extends \Hubleto\Framework\Models\Model
+class OrderDeal extends \Hubleto\Framework\Models\Model
 {
-  public string $table = 'deals_orders';
-  public string $recordManagerClass = RecordManagers\DealOrder::class;
+  public string $table = 'orders_deals';
+  public string $recordManagerClass = RecordManagers\OrderDeal::class;
   public ?string $lookupSqlValue = '{%TABLE%}.id';
 
   public array $relations = [
-    'ORDER'   => [ self::BELONGS_TO, Order::class, 'id_order', 'id'],
+    'ORDER' => [ self::BELONGS_TO, Order::class, 'id_order', 'id'],
     'DEAL' => [ self::BELONGS_TO, Deal::class, 'id_deal', 'id'],
   ];
 

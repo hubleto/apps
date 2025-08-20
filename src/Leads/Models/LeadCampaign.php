@@ -1,29 +1,26 @@
 <?php
 
-namespace HubletoApp\Community\Campaigns\Models;
+namespace HubletoApp\Community\Leads\Models;
 
-use Hubleto\Framework\Db\Column\Varchar;
-use Hubleto\Framework\Db\Column\Decimal;
-use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
-use HubletoApp\Community\Leads\Models\Lead;
+use HubletoApp\Community\Campaigns\Models\Campaign;
 
-class CampaignLead extends \Hubleto\Framework\Models\Model
+class LeadCampaign extends \Hubleto\Framework\Models\Model
 {
-  public string $table = 'campaigns_leads';
-  public string $recordManagerClass = RecordManagers\CampaignLead::class;
+  public string $table = 'leads_campaigns';
+  public string $recordManagerClass = RecordManagers\LeadCampaign::class;
   public ?string $lookupSqlValue = '{%TABLE%}.id';
 
   public array $relations = [
-    'CAMPAIGN'   => [ self::BELONGS_TO, Campaign::class, 'id_campaign', 'id'],
     'LEAD' => [ self::BELONGS_TO, Lead::class, 'id_lead', 'id'],
+    'CAMPAIGN' => [ self::BELONGS_TO, Campaign::class, 'id_campaign', 'id'],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_campaign' => (new Lookup($this, $this->translate('Campaign'), Campaign::class))->setRequired(),
       'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class))->setRequired(),
+      'id_campaign' => (new Lookup($this, $this->translate('Campaign'), Campaign::class))->setRequired(),
     ]);
   }
 

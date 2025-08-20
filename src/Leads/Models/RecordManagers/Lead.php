@@ -8,8 +8,8 @@ use HubletoApp\Community\Settings\Models\RecordManagers\Currency;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 use HubletoApp\Community\Settings\Models\RecordManagers\Team;
 use HubletoApp\Community\Campaigns\Models\RecordManagers\Campaign;
-use HubletoApp\Community\Campaigns\Models\RecordManagers\CampaignLead;
 use HubletoApp\Community\Deals\Models\RecordManagers\Deal;
+use HubletoApp\Community\Deals\Models\RecordManagers\DealLead;
 use HubletoApp\Community\Leads\Models\RecordManagers\LeadHistory;
 use HubletoApp\Community\Leads\Models\RecordManagers\LeadTag;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -102,13 +102,13 @@ class Lead extends \HubletoMain\RecordManager
   /** @return hasMany<LeadDocument, covariant Lead> */
   public function CAMPAIGNS(): HasMany
   {
-    return $this->hasMany(CampaignLead::class, 'id_lead', 'id');
+    return $this->hasMany(LeadCampaign::class, 'id_lead', 'id');
   }
 
   /** @return hasMany<LeadDocument, covariant Lead> */
   public function DEALS(): HasMany
   {
-    return $this->hasMany(LeadDeal::class, 'id_lead', 'id');
+    return $this->hasMany(DealLead::class, 'id_lead', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed

@@ -12,6 +12,8 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\DateTime;
 
+use HubletoApp\Community\Leads\Models\LeadCampaign;
+
 class Campaign extends \Hubleto\Framework\Models\Model
 {
   public string $table = 'campaigns';
@@ -20,7 +22,7 @@ class Campaign extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
-    'LEADS' => [ self::HAS_MANY, CampaignLead::class, 'id_lead', 'id'],
+    'LEADS' => [ self::HAS_MANY, LeadCampaign::class, 'id_lead', 'id'],
   ];
 
   public function describeColumns(): array

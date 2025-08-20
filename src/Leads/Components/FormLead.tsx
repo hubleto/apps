@@ -427,7 +427,7 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
           parentForm={this}
           uid={this.props.uid + "_table_lead_deal"}
           junctionTitle='Lead'
-          junctionModel='HubletoApp/Community/Leads/Models/LeadDeal'
+          junctionModel='HubletoApp/Community/Deals/Models/DealLead'
           junctionSourceColumn='id_lead'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_deal'

@@ -1,25 +1,25 @@
 <?php
 
-namespace HubletoApp\Community\Leads\Models;
+namespace HubletoApp\Community\Deals\Models;
 
 use Hubleto\Framework\Db\Column\Lookup;
-use HubletoApp\Community\Deals\Models\Deal;
+use HubletoApp\Community\Leads\Models\Lead;
 
-class LeadDeal extends \Hubleto\Framework\Models\Model
+class DealLead extends \Hubleto\Framework\Models\Model
 {
-  public string $table = 'leads_deals';
-  public string $recordManagerClass = RecordManagers\LeadDeal::class;
+  public string $table = 'deals_leads';
+  public string $recordManagerClass = RecordManagers\DealLead::class;
 
   public array $relations = [
-    'LEAD' => [ self::BELONGS_TO, Lead::class, 'id_lead', 'id' ],
     'DEAL' => [ self::BELONGS_TO, Deal::class, 'id_deal', 'id' ],
+    'LEAD' => [ self::BELONGS_TO, Lead::class, 'id_lead', 'id' ],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class))->setRequired(),
       'id_deal' => (new Lookup($this, $this->translate('Deal'), Deal::class))->setRequired(),
+      'id_lead' => (new Lookup($this, $this->translate('Lead'), Lead::class))->setRequired(),
     ]);
   }
 

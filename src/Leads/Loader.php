@@ -69,10 +69,10 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $mLevel = $this->main->load(Models\Level::class);
       $mLead = $this->main->load(Models\Lead::class);
-      $mLeadDeal = $this->main->load(Models\LeadDeal::class);
       $mLeadHistory = $this->main->load(Models\LeadHistory::class);
       $mLeadTag = $this->main->load(Models\Tag::class);
       $mCrossLeadTag = $this->main->load(Models\LeadTag::class);
+      $mLeadCampaign = $this->main->load(Models\LeadCampaign::class);
       $mLeadActivity = $this->main->load(Models\LeadActivity::class);
       $mLeadDocument = $this->main->load(Models\LeadDocument::class);
       $mLostReasons = $this->main->load(Models\LostReason::class);
@@ -81,11 +81,11 @@ class Loader extends \HubletoMain\App
       $mLostReasons->dropTableIfExists()->install();
       $mLead->dropTableIfExists()->install();
       $mLeadHistory->dropTableIfExists()->install();
-      $mLeadDeal->dropTableIfExists()->install();
       $mLeadTag->dropTableIfExists()->install();
       $mCrossLeadTag->dropTableIfExists()->install();
       $mLeadActivity->dropTableIfExists()->install();
       $mLeadDocument->dropTableIfExists()->install();
+      $mLeadCampaign->dropTableIfExists()->install();
 
       $mLeadTag->record->recordCreate([ 'name' => "Complex", 'color' => '#2196f3' ]);
       $mLeadTag->record->recordCreate([ 'name' => "Great opportunity", 'color' => '#4caf50' ]);

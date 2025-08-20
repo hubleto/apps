@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Orders\Controllers\Api;
 
 use Exception;
 use HubletoApp\Community\Orders\Models\Order;
-use HubletoApp\Community\Deals\Models\DealOrder;
+use HubletoApp\Community\Orders\Models\OrderDeal;
 use HubletoApp\Community\Deals\Models\Deal;
 
 class CreateFromDeal extends \HubletoMain\Controllers\ApiController
@@ -22,7 +22,7 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
 
     $mDeal = $this->main->load(Deal::class);
     $mOrder = $this->main->load(Order::class);
-    $mDealOrder = $this->main->load(DealOrder::class);
+    $mOrderDeal = $this->main->load(OrderDeal::class);
     $deal = null;
 
     try {
@@ -37,9 +37,9 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
         "identifier" => $deal->identifier,
       ]);
 
-      $mDealOrder->record->recordCreate([
-        "id_deal" => $deal->id,
+      $mOrderDeal->record->recordCreate([
         "id_order" => $order['id'],
+        "id_deal" => $deal->id,
       ]);
     } catch (Exception $e) {
       return [

@@ -4,8 +4,8 @@ namespace HubletoApp\Community\Deals\Controllers\Api;
 
 use Exception;
 use HubletoApp\Community\Deals\Models\Deal;
+use HubletoApp\Community\Deals\Models\DealLead;
 use HubletoApp\Community\Leads\Models\Lead;
-use HubletoApp\Community\Leads\Models\LeadDeal;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
 
 class CreateFromLead extends \HubletoMain\Controllers\ApiController
@@ -23,7 +23,7 @@ class CreateFromLead extends \HubletoMain\Controllers\ApiController
     }
 
     $mLead = $this->main->load(Lead::class);
-    $mLeadDeal = $this->main->load(LeadDeal::class);
+    $mDealLead = $this->main->load(DealLead::class);
 
     $mDeal = $this->main->load(Deal::class);
 
@@ -52,9 +52,9 @@ class CreateFromLead extends \HubletoMain\Controllers\ApiController
         "id_pipeline_step" => $idPipelineStep,
       ]);
 
-      $mLeadDeal->record->recordCreate([
-        'id_lead' => $idLead,
+      $mDealLead->record->recordCreate([
         'id_deal' => $deal['id'],
+        'id_lead' => $idLead,
       ]);
 
     } catch (Exception $e) {

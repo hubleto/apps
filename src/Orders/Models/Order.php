@@ -13,7 +13,6 @@ use HubletoApp\Community\Products\Models\Product;
 use HubletoApp\Community\Settings\Models\Currency;
 use HubletoApp\Community\Settings\Models\Setting;
 
-use HubletoApp\Community\Deals\Models\DealOrder;
 use HubletoApp\Community\Documents\Generator;
 use HubletoApp\Community\Documents\Models\Template;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
@@ -38,7 +37,7 @@ class Order extends \Hubleto\Framework\Models\Model
     'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
     'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
     'TEMPLATE' => [ self::HAS_ONE, Template::class, 'id', 'id_template'],
-    'DEALS' => [ self::HAS_MANY, DealOrder::class, 'id_order', 'id' ],
+    'DEALS' => [ self::HAS_MANY, OrderDeal::class, 'id_order', 'id' ],
   ];
 
   public function describeColumns(): array

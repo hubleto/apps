@@ -39,6 +39,7 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\State::class)->dropTableIfExists()->install();
       $this->main->load(Models\Order::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderProduct::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderDeal::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderInvoice::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderDocument::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderProject::class)->dropTableIfExists()->install();

@@ -72,7 +72,7 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
           parentForm={this}
           uid={this.props.uid + "_table_campaign_lead"}
           junctionTitle='Campaign'
-          junctionModel='HubletoApp/Community/Campaigns/Models/CampaignLead'
+          junctionModel='HubletoApp/Community/Leads/Models/LeadCampaign'
           junctionSourceColumn='id_campaign'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_lead'

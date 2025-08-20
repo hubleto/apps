@@ -22,11 +22,10 @@ use HubletoApp\Community\Settings\Models\User;
 use Hubleto\Framework\Helper;
 
 use HubletoApp\Community\Documents\Generator;
-use HubletoApp\Community\Leads\Models\LeadDeal;
 use HubletoApp\Community\Documents\Models\Template;
+use HubletoApp\Community\Orders\Models\OrderDeal;
 use HubletoApp\Community\Invoices\Models\Invoice;
 use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
-use HubletoApp\Community\Deals\Models\DealOrder;
 
 class Deal extends \Hubleto\Framework\Models\Model
 {
@@ -69,9 +68,9 @@ class Deal extends \Hubleto\Framework\Models\Model
     'PRODUCTS' => [ self::HAS_MANY, DealProduct::class, 'id_deal', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, DealActivity::class, 'id_deal', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, DealDocument::class, 'id_deal', 'id'],
-    'ORDERS' => [ self::HAS_MANY, DealOrder::class, 'id_deal', 'id'],
+    'LEADS' => [ self::HAS_MANY, DealLead::class, 'id_deal', 'id'],
     'TEMPLATE_QUOTATION' => [ self::HAS_ONE, Template::class, 'id', 'id_template_quotation'],
-    'LEADS' => [ self::HAS_MANY, LeadDeal::class, 'id_deal', 'id'],
+    'ORDERS' => [ self::HAS_MANY, OrderDeal::class, 'id_deal', 'id'],
   ];
 
   public function describeColumns(): array

@@ -20,7 +20,7 @@ use HubletoApp\Community\Settings\Models\User;
 use HubletoApp\Community\Settings\Models\Team;
 use Hubleto\Framework\Helper;
 
-use HubletoApp\Community\Campaigns\Models\CampaignLead;
+use HubletoApp\Community\Deals\Models\DealLead;
 
 class Lead extends \Hubleto\Framework\Models\Model
 {
@@ -48,8 +48,8 @@ class Lead extends \Hubleto\Framework\Models\Model
     'TAGS' => [ self::HAS_MANY, LeadTag::class, 'id_lead', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, LeadActivity::class, 'id_lead', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, LeadDocument::class, 'id_lead', 'id'],
-    'CAMPAIGNS' => [ self::HAS_MANY, CampaignLead::class, 'id_lead', 'id'],
-    'DEALS' => [ self::HAS_MANY, LeadDeal::class, 'id_lead', 'id'],
+    'CAMPAIGNS' => [ self::HAS_MANY, LeadCampaign::class, 'id_lead', 'id'],
+    'DEALS' => [ self::HAS_MANY, DealLead::class, 'id_lead', 'id'],
   ];
 
   public function describeColumns(): array

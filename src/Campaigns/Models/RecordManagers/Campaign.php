@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use HubletoApp\Community\Leads\Models\RecordManagers\LeadCampaign;
+
 class Campaign extends \HubletoMain\RecordManager
 {
   public $table = 'campaigns';
@@ -20,7 +22,7 @@ class Campaign extends \HubletoMain\RecordManager
   /** @return hasMany<LeadDocument, covariant Lead> */
   public function LEADS(): HasMany
   {
-    return $this->hasMany(CampaignLead::class, 'id_campaign', 'id');
+    return $this->hasMany(LeadCampaign::class, 'id_lead', 'id');
   }
 
 }
