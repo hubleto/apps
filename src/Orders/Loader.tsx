@@ -1,15 +1,36 @@
+import React from 'react';
 import HubletoApp from '@hubleto/react-ui/ext/HubletoApp'
 import request from "@hubleto/react-ui/core/Request";
-import OrdersTableOrders from "./Components/TableOrders";
+import TableOrders from "./Components/TableOrders";
 
 class OrdersApp extends HubletoApp {
   init() {
     super.init();
 
     // register react components
-    globalThis.main.registerReactComponent('OrdersTableOrders', OrdersTableOrders);
+    globalThis.main.registerReactComponent('OrdersTableOrders', TableOrders);
 
     // miscellaneous
+    globalThis.main.getApp('HubletoApp/Community/Deals').addFormTab({
+      uid: 'orders',
+      title: 'Orders',
+      onRender: (form: any) => {
+        return <TableOrders
+          tag={"table_order_deal"}
+          parentForm={form}
+          //@ts-ignore
+          description={{ui: {showHeader:false}}}
+          descriptionSource='both'
+          uid={form.props.uid + "_table_order_deal"}
+          junctionTitle='Deal'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
+          junctionSourceColumn='id_deal'
+          junctionSourceRecordId={form.state.record.id}
+          junctionDestinationColumn='id_order'
+        />;
+      },
+    });
+
     globalThis.main.getApp('HubletoApp/Community/Deals').addFormHeaderButton(
       'Create order',
       (form: any) => {

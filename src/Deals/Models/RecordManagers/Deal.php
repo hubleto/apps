@@ -94,11 +94,11 @@ class Deal extends \HubletoMain\RecordManager
     return $this->hasMany(DealTask::class, 'id_deal', 'id');
   }
 
-  /** @return HasMany<DealProduct, covariant Deal> */
-  public function ORDERS(): HasMany
-  {
-    return $this->hasMany(OrderDeal::class, 'id_deal', 'id');
-  }
+  // /** @return HasMany<DealProduct, covariant Deal> */
+  // public function ORDERS(): HasMany
+  // {
+  //   return $this->hasMany(OrderDeal::class, 'id_deal', 'id');
+  // }
 
   /** @return HasMany<DealActivity, covariant Deal> */
   public function ACTIVITIES(): HasMany

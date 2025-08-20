@@ -73,7 +73,7 @@ class Deal extends \Hubleto\Framework\Models\Model
     'LEADS' => [ self::HAS_MANY, DealLead::class, 'id_deal', 'id'],
     'TASKS' => [ self::HAS_MANY, DealTask::class, 'id_deal', 'id'],
 
-    'ORDERS' => [ self::HAS_MANY, OrderDeal::class, 'id_deal', 'id'],
+    // 'ORDERS' => [ self::HAS_MANY, OrderDeal::class, 'id_deal', 'id'],
   ];
 
   public function describeColumns(): array

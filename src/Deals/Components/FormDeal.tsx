@@ -84,10 +84,11 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         { uid: 'default', title: this.translate('Deal') },
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
-        { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
+        // { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
         { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
         { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'history', title: this.translate('History') },
+        ...(this.getParentApp()?.getFormTabs() ?? [])
       ],
     };
   }
@@ -496,23 +497,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         }
 
         return <>
-          {/* {!R.is_archived ? (
-            <a
-              className="btn btn-add-outline mb-2"
-              onClick={() => {
-                if (!R.PRODUCTS) R.PRODUCTS = [];
-                R.PRODUCTS.push({
-                  id: this.state.newEntryId,
-                  id_deal: { _useMasterRecordId_: true },
-                  amount: 1,
-                });
-                this.setState({ isInlineEditing: true, newEntryId: this.state.newEntryId - 1 } as FormDealState);
-              }}
-            >
-              <span className="icon"><i className="fas fa-add"></i></span>
-              <span className="text">Add product</span>
-            </a>
-          ) : null} */}
           <div className='w-full h-full overflow-x-auto'>
             <TableDealProducts
               key={"products_"+this.state.tablesKey}
@@ -520,66 +504,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
               tag={"deal_products"}
               parentForm={this}
               idDeal={R.id}
-              // data={{ data: R.PRODUCTS }}
               descriptionSource='both'
-              // customEndpointParams={{'idDeal': R.id}}
-              // description={{
-              //   permissions: {},
-              //   columns: {},
-              //   // permissions: this.state.tableDealProductsDescription?.permissions,
-              //   // columns: {
-              //   //   id_product: { type: "lookup", title: this.translate("Product"), model: "HubletoApp/Community/Products/Models/Product",
-              //   //     cellRenderer: ( table: TableDealProducts, data: any, options: any): JSX.Element => {
-              //   //       return (
-              //   //         <FormInput>
-              //   //           <Lookup {...this.getInputProps('products_input')}
-              //   //             ref={this.refProductsLookup}
-              //   //             model='HubletoApp/Community/Products/Models/Product'
-              //   //             customEndpointParams={{'getProducts': true}}
-              //   //             cssClass='min-w-44'
-              //   //             value={data.id_product}
-              //   //             onChange={(input: any, value: any) => {
-              //   //               getLookupData(this.refProductsLookup);
-              //   //               if (lookupData[value]) {
-              //   //                 data.id_product = value;
-              //   //                 data.unit_price = lookupData[value].unit_price;
-              //   //                 data.vat = lookupData[value].vat;
-              //   //                 this.updateRecord({ PRODUCTS: table.state.data?.data });
-              //   //                 this.setState({tablesKey: Math.random()} as FormDealState)
-              //   //               }
-              //   //             }}
-              //   //           ></Lookup>
-              //   //         </FormInput>
-              //   //       )
-              //   //     },
-              //   //   },
-              //   //   unit_price: { type: "float", title: this.translate("Unit Price"),},
-              //   //   amount: { type: "int", title: this.translate("Amount") },
-              //   //   discount: { type: "float", title: this.translate("Discount (%)")},
-              //   //   vat: { type: "float", title: this.translate("Vat (%)")},
-              //   //   price_excl_vat: { type: "float", title: this.translate("Price excl. VAT")},
-              //   //   price_incl_vat: { type: "float", title: this.translate("Price incl. VAT")},
-              //   // },
-              //   inputs: {
-              //     id_product: { type: "lookup", title: this.translate("Product"), model: "HubletoApp/Community/Products/Models/Product" },
-              //     unit_price: { type: "float", title: this.translate("Unit Price")},
-              //     amount: { type: "int", title: this.translate("Amount")},
-              //     vat: { type: "float", title: this.translate("Vat (%)")},
-              //     discount: { type: "float", title: this.translate("Discount (%)")},
-              //     sum: { type: "float", title: this.translate("Sum")},
-              //   },
-              // }}
-              // isUsedAsInput={true}
-              // isInlineEditing={this.state.isInlineEditing}
               readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
-              // onRowClick={() => this.setState({isInlineEditing: true})}
-              // onChange={(table: TableDealProducts) => {
-              //   this.updateRecord({ PRODUCTS: table.state.data?.data ?? []});
-              // }}
-              // onDeleteSelectionChange={(table: TableDealProducts) => {
-              //   this.updateRecord({ PRODUCTS: table.state.data?.data ?? []});
-              //   this.setState({tablesKey: Math.random()} as FormDealState)
-              // }}
             ></TableDealProducts>
           </div>
         </>;
@@ -611,19 +537,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         ></Calendar>;
       break;
 
-      case 'orders':
-        return <TableOrders
-          tag={"table_order_deal"}
-          parentForm={this}
-          uid={this.props.uid + "_table_order_deal"}
-          junctionTitle='Deal'
-          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
-          junctionSourceColumn='id_deal'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_order'
-        />;
-      break;
-
       case 'tasks':
         return <TableTasks
           tag={"table_deal_task"}
@@ -636,19 +549,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           junctionDestinationColumn='id_task'
         />;
       break;
-
-      // case 'projects':
-      //   return <TableProjects
-      //     tag={"table_deal_project"}
-      //     parentForm={this}
-      //     uid={this.props.uid + "_table_deal_project"}
-      //     junctionTitle='Deal'
-      //     junctionModel='HubletoApp/Community/Projects/Models/ProjectDeal'
-      //     junctionSourceColumn='id_deal'
-      //     junctionSourceRecordId={R.id}
-      //     junctionDestinationColumn='id_project'
-      //   />;
-      // break;
 
       case 'documents':
         return <>
@@ -740,6 +640,10 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
             </div>
           </div>
         </>
+      break;
+
+      default:
+        super.renderTab(tab);
       break;
     }
   }
