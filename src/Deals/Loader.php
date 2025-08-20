@@ -70,6 +70,7 @@ class Loader extends \HubletoMain\App
       $mDealTag = $this->main->load(\HubletoApp\Community\Deals\Models\Tag::class);
       $mCrossDealTag = $this->main->load(\HubletoApp\Community\Deals\Models\DealTag::class);
       $mDealLead = $this->main->load(\HubletoApp\Community\Deals\Models\DealLead::class);
+      $mDealTask = $this->main->load(\HubletoApp\Community\Deals\Models\DealTask::class);
       $mDealProduct = $this->main->load(\HubletoApp\Community\Deals\Models\DealProduct::class);
       $mDealActivity = $this->main->load(\HubletoApp\Community\Deals\Models\DealActivity::class);
       $mDealDocument = $this->main->load(\HubletoApp\Community\Deals\Models\DealDocument::class);
@@ -80,6 +81,7 @@ class Loader extends \HubletoMain\App
       $mDealHistory->dropTableIfExists()->install();
       $mDealTag->dropTableIfExists()->install();
       $mDealLead->dropTableIfExists()->install();
+      $mDealTask->dropTableIfExists()->install();
       $mCrossDealTag->dropTableIfExists()->install();
       $mDealProduct->dropTableIfExists()->install();
       $mDealActivity->dropTableIfExists()->install();

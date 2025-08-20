@@ -85,7 +85,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
         { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
-        // { uid: 'projects', title: this.translate('Projects') },
+        { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
         { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'history', title: this.translate('History') },
       ],
@@ -621,6 +621,19 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           junctionSourceColumn='id_deal'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_order'
+        />;
+      break;
+
+      case 'tasks':
+        return <TableTasks
+          tag={"table_deal_task"}
+          parentForm={this}
+          uid={this.props.uid + "_table_deal_task"}
+          junctionTitle='Deal'
+          junctionModel='HubletoApp/Community/Deals/Models/DealTask'
+          junctionSourceColumn='id_deal'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_task'
         />;
       break;
 
