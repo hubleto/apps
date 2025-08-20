@@ -48,14 +48,23 @@
         "Created": "Vytvorený",
         "Reason for Lost": "Dôvod pre stratu",
         "Add lead": "Pridať lead",
-        "Owner": "Majiteľ"
+        "Owner": "Majiteľ",
+        "Identifier": "Identifikátor",
+        "Specific subject (if any)": "",
+        "Campaign": "Kampaň",
+        "Email": "Email",
+        "Phone number": "Telefón",
+        "Level": "Úroveň",
+        "Manager": "Manažér",
+        "Team": "Tím"
     },
     "root": {
         "Lead statuses": "Stavy leadov",
         "Lead Tags": "Značky leadov",
         "Active leads": "Aktívne zvody",
         "Archived leads": "Archivované vodiče",
-        "Lead Lost Reasons": "Dôvody pre stratu leadu"
+        "Lead Lost Reasons": "Dôvody pre stratu leadu",
+        "Lead Levels": "Úrovne leadov"
     },
     "Models\\LeadHistory": {
         "Change Date": "Dátum zmeny",
@@ -106,5 +115,13 @@
     "Components\\FormActivity": {
         "End": "Koniec",
         "Start": "Začiatok"
+    },
+    "Models\\Level": {
+        "Name": "Názov",
+        "Color": "Farba"
+    },
+    "Controllers\\Boards\\LeadWarnings": {
+        "Open leads without future plan": "Otvorené leady bez budúceho plánu",
+        "No warnings for leads.": "Žiadne upozornenia pre leady."
     }
 }

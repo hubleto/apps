@@ -9,5 +9,24 @@
         "Upgrade to Premium and get exciting rewards.": "",
         "You are using free version of Hubleto. Certain features are unavailable.": "",
         "Upgrade to Premium": ""
+    },
+    "Controllers\\Desktop": {
+        "CRM": "CRM",
+        "Tasks": "Úlohy",
+        "Documents": "Dokumenty",
+        "Marketing": "Marketing",
+        "Sales": "Predaj",
+        "Communication": "Komunikácia",
+        "Projects": "Projekty",
+        "Supply chain": "Dodávatelia",
+        "Helpdesk": "Helpdesk",
+        "Events": "Eventy",
+        "E-Commerce": "E-Commerce",
+        "Website": "Webstránka",
+        "Finance": "Financie",
+        "Reporting": "Reporty",
+        "Maintenance": "Údržba",
+        "Help": "Pomoc",
+        "Custom": "Vlastné"
     }
 }

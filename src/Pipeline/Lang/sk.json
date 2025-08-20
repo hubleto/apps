@@ -13,7 +13,8 @@
     },
     "Models\\Pipeline": {
         "Name": "Pomenovať",
-        "Description": "Opis"
+        "Description": "Opis",
+        "Type": "Typ"
     },
     "Models\\PipelineStep": {
         "Name": "Pomenovať",

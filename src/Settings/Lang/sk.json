@@ -21,7 +21,9 @@
         "Nick": "Prezývka",
         "Default company": "Firma",
         "Roles": "Role",
-        "Teams": "Tímy"
+        "Teams": "Tímy",
+        "Type": "Typ",
+        "Apps": "Aplikácie"
     },
     "Models\\Country": {
         "Country Name": "Štát",
@@ -199,7 +201,8 @@
         "Team name": "Názov tímu",
         "Team color": "Farebný tím",
         "Description": "Opis",
-        "Team manager": "Manažér tímu"
+        "Team manager": "Manažér tímu",
+        "Manager": "Manažér"
     },
     "Models\\TeamMember": {
         "Team": "Tím",

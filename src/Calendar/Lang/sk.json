@@ -22,9 +22,12 @@
         "Open event details": "Zobraziť podrobnosti",
         "All-day": "Celodenná",
         "events for tomorrow": "Udalosti na zajtra",
-        "events later": "Udalosti neskôr"
+        "events later": "Udalosti neskôr",
+        "reminders later": "pripomienok neskôr",
+        "Later": "Neskôr"
     },
     "root": {
-        "Events for today": "Dnešné udalosti"
+        "Events for today": "Dnešné udalosti",
+        "Reminders": "Pripomienky"
     }
 }

@@ -28,6 +28,8 @@ export default class DesktopDashboard extends TranslatedComponent<DesktopDashboa
   props: DesktopDashboardProps;
   state: DesktopDashboardState;
 
+  translationContext: string = 'HubletoApp\\Community\\Dashboards\\Loader::Components\\Dashboard';
+
   constructor(props: DesktopDashboardProps) {
     super(props);
 

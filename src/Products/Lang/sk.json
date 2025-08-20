@@ -34,7 +34,15 @@
         "Table": "Table",
         "Add product": "Pridať produkt",
         "Product Group": "Skupina",
-        "Product Type": "Typ"
+        "Product Type": "Typ",
+        "Name": "Názov",
+        "Invoicing policy": "Spôsob fakturácie",
+        "Internal notes": "Interné poznámky",
+        "Amount of items in package": "Počet položiek v balíku",
+        "Sales price": "Predajná cena",
+        "VAT": "DPH",
+        "Bar code": "Čiarový kód",
+        "Data ": "Dáta"
     },
     "Models\\Group": {
         "Title": "Názov"

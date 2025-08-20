@@ -17,7 +17,8 @@
     },
     "root": {
         "Browse": "Prehliadať",
-        "List": "Zoznam"
+        "List": "Zoznam",
+        "Templates": "Šablóny"
     },
     "Controllers\\Table": {
         "Documents": "Dokumenty"
@@ -26,5 +27,10 @@
         "Uid": "Uid",
         "Parent folder": "Priečinok",
         "Folder name": "Názov priečinka"
+    },
+    "Models\\Template": {
+        "Name": "Názov",
+        "Content": "Obsah",
+        "Notes": "Poznámky"
     }
 }

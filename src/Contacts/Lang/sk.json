@@ -64,7 +64,9 @@
     },
     "root": {
         "Contact Categories": "Kategórie kontaktov",
-        "Contact Tags": "Značky kontaktov"
+        "Contact Tags": "Značky kontaktov",
+        "Contacts": "Kontakty",
+        "Import contacts": "Importovať kontakty"
     },
     "Models\\Category": {
         "Type": "Typ"
@@ -89,7 +91,8 @@
         "Emails": "Emaily",
         "Phone Numbers": "Telefónne čísla",
         "Mr.": "Pán",
-        "Mrs.": "Pani"
+        "Mrs.": "Pani",
+        "Valid": "Platný"
     },
     "Models\\ContactTag": {
         "Contact": "Kontakt",

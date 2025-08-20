@@ -4,13 +4,13 @@
         "Deal management. From deal to purchase.": "Manažment obchodných prípadov až po vytvorenie ponuky."
     },
     "Controllers\\Deals": {
-        "Sales": "Obchod",
+        "Sales": "Predaj",
         "Deals": "Dealy",
         "Open deals": "Otvorené ponuky",
         "Total value": "Celková hodnota"
     },
     "Controllers\\DealsArchive": {
-        "Sales": "Obchod",
+        "Sales": "Predaj",
         "Deals": "Dealy",
         "Archive": "Archív"
     },
@@ -34,23 +34,30 @@
         "Link to shared folder (online storage) with related documents": "Odkaz na zdieľaný dokument",
         "Deal Progress": "",
         "Date of progress update": "",
-        "Deal Result": "Výsledok obchodu",
+        "Deal Result": "Výsledok dealu",
         "Date of result update": "Dátum aktualizácie výsledku",
         "New Customer": "Nový zákazník",
-        "Business type": "Obchodný typ",
+        "Business type": "Typ biznisu",
         "Contact": "Kontakt",
         "Owner": "Majiteľ",
         "Created": "Vytvorený",
         "Reason for Lost": "Dôvod pre stratu",
-        "Add Deal": "Pridať obchod"
+        "Add Deal": "Pridať deal",
+        "Version": "Verzia",
+        "Price excl. VAT": "Cena bez DPH",
+        "Price incl. VAT": "Cena s DPH",
+        "Manager": "Manažér",
+        "Template for quotation": "Šablóna pre ponuku",
+        "Customer's order number": "Číslo objednávky u zákazníka",
+        "Closed": "Uzavretý"
     },
     "Models\\DealHistory": {
         "Change Date": "Dátum zmeny",
-        "Deal": "Obchod",
+        "Deal": "Deal",
         "Description": "Opis"
     },
     "Models\\DealTag": {
-        "Deal": "Obchod",
+        "Deal": "Deal",
         "Tag": "Označenie"
     },
     "Models\\DealService": {
@@ -62,7 +69,7 @@
         "Vat (%)": ""
     },
     "Models\\DealActivity": {
-        "Deal": "Obchod",
+        "Deal": "Deal",
         "Contact person": "",
         "Activity type": "Typ aktivity",
         "Subject": "Predmet",
@@ -77,7 +84,7 @@
         "Meeting minutes (link)": "Zápisnica zo stretnutia (odkaz)"
     },
     "Models\\DealDocument": {
-        "Deal": "Obchod",
+        "Deal": "Deal",
         "Document": "Dokument"
     },
     "root": {
@@ -85,9 +92,9 @@
         "Deal Tags": "Značky dealov",
         "Deal value by result": "Hodnota dealov podľa výsledku",
         "Most valuable deals": "Najhodnotnejšie dealy",
-        "Active deals": "Aktívne obchody",
-        "Archived deals": "Archivované obchody",
-        "Deal Lost Reasons": "Dohoda stratená dôvody",
+        "Active deals": "Aktívne dealy",
+        "Archived deals": "Archivované dealy",
+        "Deal Lost Reasons": "Dôvody straty dealu",
         "Deal warnings": "Upozornenia"
     },
     "Components\\FormDeal": {
@@ -112,13 +119,17 @@
         "Open deal": "Otvoriť deal"
     },
     "Models\\DealProduct": {
-        "Deal": "Obchod",
+        "Deal": "Deal",
         "Product": "Produkt",
         "Unit Price": "Jednotková cena",
         "Amount": "Výška",
         "Vat": "Kov",
         "Discount": "Zľavu",
-        "Sum": "Súčet"
+        "Sum": "Súčet",
+        "Order": "",
+        "Description": "",
+        "Price excl. VAT": "",
+        "Price incl. VAT": ""
     },
     "Models\\LostReason": {
         "Lost Reason": "Stratený dôvod"
@@ -128,16 +139,17 @@
         "Deal Lost Reasons": "Dohoda stratená dôvody"
     },
     "Controllers\\Settings": {
-        "Deals": "Obchody",
+        "Deals": "Dealy",
         "Settings": "Nastavenia",
         "Show 'Deal warnings' in dashboard": "Ukážte „Deal Warnings“ na prístrojovej doske",
         "Show 'Most valuable deals' in dashboard": "Zobraziť „najcennejšie ponuky“ na prístrojovej doske",
-        "Show 'Deal value by result' in dashboard": "Zobraziť „hodnotu obchodu podľa výsledku“ na prístrojovej doske",
+        "Show 'Deal value by result' in dashboard": "Zobraziť „hodnotu dealu podľa výsledku“ na prístrojovej doske",
         "Calendar color": "Kalendár"
     },
     "Controllers\\Boards\\DealWarnings": {
-        "Pending deals without future plan": "Čakajúce obchody bez budúceho plánu",
-        "No notifications for deals.": "Žiadne oznámenia o obchodoch.",
-        "Open deal": "Obchod"
+        "Pending deals without future plan": "Čakajúce dealy bez budúceho plánu",
+        "No notifications for deals.": "Žiadne oznámenia o dealoch.",
+        "Open deal": "Deal",
+        "Open deals without future plan": "Otvorené dealy bez budúceho plánu"
     }
 }
