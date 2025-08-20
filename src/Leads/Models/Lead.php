@@ -18,8 +18,9 @@ use HubletoApp\Community\Settings\Models\Currency;
 use HubletoApp\Community\Settings\Models\Setting;
 use HubletoApp\Community\Settings\Models\User;
 use HubletoApp\Community\Settings\Models\Team;
-use HubletoApp\Community\Campaigns\Models\Campaign;
 use Hubleto\Framework\Helper;
+
+use HubletoApp\Community\Campaigns\Models\CampaignLead;
 
 class Lead extends \Hubleto\Framework\Models\Model
 {
@@ -36,7 +37,6 @@ class Lead extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'DEAL' => [ self::HAS_ONE, Deal::class, 'id_lead', 'id'],
-    'CAMPAIGN' => [ self::BELONGS_TO, Campaign::class, 'id_campaign', 'id' ],
     'CUSTOMER' => [ self::BELONGS_TO, Customer::class, 'id_customer', 'id' ],
     'OWNER' => [ self::BELONGS_TO, User::class, 'id_owner', 'id'],
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
@@ -48,6 +48,7 @@ class Lead extends \Hubleto\Framework\Models\Model
     'TAGS' => [ self::HAS_MANY, LeadTag::class, 'id_lead', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, LeadActivity::class, 'id_lead', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, LeadDocument::class, 'id_lead', 'id'],
+    'CAMPAIGNS' => [ self::HAS_MANY, CampaignLead::class, 'id_lead', 'id'],
   ];
 
   public function describeColumns(): array
@@ -55,7 +56,6 @@ class Lead extends \Hubleto\Framework\Models\Model
     return array_merge(parent::describeColumns(), [
       'identifier' => (new Varchar($this, $this->translate('Identifier')))->setProperty('defaultVisibility', true),
       'title' => (new Varchar($this, $this->translate('Specific subject (if any)'))),
-      'id_campaign' => (new Lookup($this, $this->translate('Campaign'), Campaign::class))->setProperty('defaultVisibility', true),
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setDefaultValue($this->main->urlParamAsInteger('idCustomer')),
       'virt_email' => (new Virtual($this, $this->translate('Email')))->setProperty('defaultVisibility', true)
         ->setProperty('sql', "select value from contact_values cv where cv.id_contact = leads.id_contact and cv.type = 'email' LIMIT 1")
@@ -164,8 +164,6 @@ class Lead extends \Hubleto\Framework\Models\Model
       ->value
     ;
     $description->defaultValues['id_currency'] = $defaultCurrency;
-
-    $description->defaultValues['id_campaign'] = $this->main->urlParamAsInteger('idCampaign');
 
     $description->ui['addButtonText'] = $this->translate('Add Lead');
 

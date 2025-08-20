@@ -1,8 +1,14 @@
 import HubletoApp from '@hubleto/react-ui/ext/HubletoApp'
 import ProductsTableProducts from "./Components/TableProducts";
 
-// register app
-globalThis.main.registerApp('HubletoApp/Community/Products', new HubletoApp());
+class ProductsApp extends HubletoApp {
+  init() {
+    super.init();
 
-// register react components
-globalThis.main.registerReactComponent('ProductsTableProducts', ProductsTableProducts);
+    // register react components
+    globalThis.main.registerReactComponent('ProductsTableProducts', ProductsTableProducts);
+  }
+}
+
+// register app
+globalThis.main.registerApp('HubletoApp/Community/Products', new ProductsApp());

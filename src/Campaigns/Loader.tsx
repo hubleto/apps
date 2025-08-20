@@ -1,8 +1,14 @@
 import HubletoApp from '@hubleto/react-ui/ext/HubletoApp'
 import TableCampaigns from "./Components/TableCampaigns"
 
-// register app
-globalThis.main.registerApp('HubletoApp/Community/Campaigns', new HubletoApp());
+class CampaignsApp extends HubletoApp {
+  init() {
+    super.init();
 
-// register react components
-globalThis.main.registerReactComponent('CampaignsTableCampaigns', TableCampaigns);
+    // register react components
+    globalThis.main.registerReactComponent('CampaignsTableCampaigns', TableCampaigns);
+  }
+}
+
+// register app
+globalThis.main.registerApp('HubletoApp/Community/Campaigns', new CampaignsApp());

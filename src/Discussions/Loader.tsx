@@ -3,10 +3,16 @@ import TableDiscussions from './Components/TableDiscussions'
 import TableMembers from './Components/TableMembers';
 import TableMessages from './Components/TableMessages';
 
-// register app
-globalThis.main.registerApp('HubletoApp/Community/Discussions', new HubletoApp());
+class DiscussionsApp extends HubletoApp {
+  init() {
+    super.init();
 
-// register react components
-globalThis.main.registerReactComponent('DiscussionsTableMembers', TableMembers);
-globalThis.main.registerReactComponent('DiscussionsTableDiscussions', TableDiscussions);
-globalThis.main.registerReactComponent('DiscussionsTableMessages', TableMessages);
+    // register react components
+    globalThis.main.registerReactComponent('DiscussionsTableMembers', TableMembers);
+    globalThis.main.registerReactComponent('DiscussionsTableDiscussions', TableDiscussions);
+    globalThis.main.registerReactComponent('DiscussionsTableMessages', TableMessages);
+  }
+}
+
+// register app
+globalThis.main.registerApp('HubletoApp/Community/Discussions', new DiscussionsApp());

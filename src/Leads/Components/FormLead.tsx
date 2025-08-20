@@ -44,6 +44,8 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
 
   translationContext: string = 'HubletoApp\\Community\\Leads\\Loader::Components\\FormLead';
 
+  parentApp: string = 'HubletoApp/Community/Leads';
+
   constructor(props: FormLeadProps) {
     super(props);
 
@@ -209,6 +211,7 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
             info.jsEvent.preventDefault();
           }}
         ></Calendar>;
+
         const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
           <div className='mb-2'>
             {tmpCalendarSmall}
@@ -271,14 +274,12 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
             <div className='flex-2'>
               <div className='card card-body flex flex-row gap-2'>
                 <div className='grow'>
-                  <div className='flex gap-2'>
-                    <div className='w-full'>
-                      {this.inputWrapper('id_campaign', {readonly: R.is_archived})}
-                    </div>
-                    <div className='w-full'>
-                      {this.inputWrapper('identifier', {readonly: R.is_archived})}
-                    </div>
-                  </div>
+                  <FormInput title={"Campaigns"}>
+                    {R.CAMPAIGNS.map((item, key) => {
+                      return <div key={key} className='badge'>{item.CAMPAIGN.name}</div>;
+                    })}
+                  </FormInput>
+                  {this.inputWrapper('identifier', {readonly: R.is_archived})}
                   <FormInput title={"Contact"} required={true}>
                     <Lookup {...this.getInputProps('id_contact')}
                       model='HubletoApp/Community/Contacts/Models/Contact'

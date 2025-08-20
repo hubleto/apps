@@ -18,7 +18,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^deals\/api\/log-activity\/?$/' => Controllers\Api\LogActivity::class,
-      '/^deals\/api\/convert-lead-to-deal\/?$/' => Controllers\Api\ConvertLeadToDeal::class,
+      '/^deals\/api\/create-from-lead\/?$/' => Controllers\Api\CreateFromLead::class,
       '/^deals\/api\/generate-quotation-pdf\/?$/' => Controllers\Api\GenerateQuotationPdf::class,
       '/^deals\/api\/generate-invoice\/?$/' => Controllers\Api\GenerateInvoice::class,
 

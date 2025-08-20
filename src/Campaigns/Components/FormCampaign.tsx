@@ -5,7 +5,7 @@ import TableLeads from '@hubleto/apps/Leads/Components/TableLeads';
 export interface FormCampaignProps extends HubletoFormProps {}
 export interface FormCampaignState extends HubletoFormState {}
 
-export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps,FormCampaignState> {
+export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, FormCampaignState> {
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Campaigns/Models/Campaign',
@@ -24,6 +24,10 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps,Fo
   getStateFromProps(props: FormCampaignProps) {
     return {
       ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Campaign') },
+        { uid: 'leads', title: this.translate('Leads') },
+      ]
     };
   }
 
@@ -34,45 +38,47 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps,Fo
     </>;
   }
 
-  renderContent(): JSX.Element {
+  renderTab(tab: string) {
     const R = this.state.record;
-    if (!R) return null;
 
-    // const LEADS = R.LEADS ? R.LEADS : null;
+    switch (tab) {
+      case 'default':
+        return <>
+          <div className='w-full flex gap-2'>
+            <div className='flex-1 border-r border-gray-100'>
+              {this.inputWrapper('name')}
+              {this.inputWrapper('target_audience')}
+              {this.inputWrapper('goal')}
+              {this.inputWrapper('id_mail_template')}
+              {this.inputWrapper('mail_body')}
+            </div>
+            <div className='flex-1'>
+              {this.inputWrapper('utm_source')}
+              {this.inputWrapper('utm_campaign')}
+              {this.inputWrapper('utm_term')}
+              {this.inputWrapper('utm_content')}
+              {this.inputWrapper('id_manager')}
+              {this.inputWrapper('notes')}
+              {this.inputWrapper('color')}
+              {this.inputWrapper('datetime_created')}
+            </div>
+          </div>
+        </>;
+      break
 
-    return <>
-      <div className='w-full flex gap-2'>
-        <div className='flex-1 border-r border-gray-100'>
-          {this.inputWrapper('name')}
-          {this.inputWrapper('target_audience')}
-          {this.inputWrapper('goal')}
-          {this.inputWrapper('id_mail_template')}
-          {this.inputWrapper('mail_body')}
-        </div>
-        <div className='flex-1'>
-          {this.inputWrapper('utm_source')}
-          {this.inputWrapper('utm_campaign')}
-          {this.inputWrapper('utm_term')}
-          {this.inputWrapper('utm_content')}
-          {this.inputWrapper('id_manager')}
-          {this.inputWrapper('notes')}
-          {this.inputWrapper('color')}
-          {this.inputWrapper('datetime_created')}
-        </div>
-      </div>
-      {this.divider(this.translate('Leads'))}
-      {this.state.id < 0 ?
-          <div className="badge badge-info">{this.translate("First create the campaign, then you will be prompted to create leads.")}</div>
-        :
-          <TableLeads
-            uid={this.props.uid + "_table_leads"}
-            tag="CampaignLeads"
-            parentForm={this}
-            idCampaign={R.id}
-            selectionMode='multiple'
-          />
-      }
-    </>;
+      case 'leads':
+        return <TableLeads
+          key={"table_campaign_lead"}
+          parentForm={this}
+          uid={this.props.uid + "_table_campaign_lead"}
+          junctionTitle='Campaign'
+          junctionModel='HubletoApp/Community/Campaigns/Models/CampaignLead'
+          junctionSourceColumn='id_campaign'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_lead'
+        />;
+      break;
+    }
   }
 }
 

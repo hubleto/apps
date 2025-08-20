@@ -35,6 +35,10 @@ export default class TableCampaigns extends Table<TableCampaignsProps, TableCamp
     };
   }
 
+  setRecordFormUrl(id: number) {
+    window.history.pushState({}, "", globalThis.main.config.projectUrl + '/campaigns/' + id);
+  }
+
   renderForm(): JSX.Element {
     let formProps = this.getFormProps() as FormCampaignProps;
     return <FormCampaign {...formProps}/>;

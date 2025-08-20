@@ -12,18 +12,19 @@ use HubletoApp\Community\Leads\Models\LeadDocument;
 use HubletoApp\Community\Leads\Models\LeadHistory;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
 
-class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
+class CreateFromLead extends \HubletoMain\Controllers\ApiController
 {
   public function renderJson(): ?array
   {
-    if (!$this->main->isUrlParam("recordId")) {
+
+    $idLead = $this->main->urlParamAsInteger("idLead");
+
+    if ($idLead <= 0) {
       return [
         "status" => "failed",
         "error" => "The lead for converting was not set"
       ];
     }
-
-    $leadId = $this->main->urlParamAsInteger("recordId");
 
     $mLead = $this->main->load(Lead::class);
     $mLeadHistory = $this->main->load(LeadHistory::class);
@@ -38,7 +39,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
     list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_DEAL_MANAGEMENT);
 
     try {
-      $lead = $mLead->record->where("id", $leadId)->first();
+      $lead = $mLead->record->where("id", $idLead)->first();
 
       $deal = $mDeal->record->recordCreate([
         "identifier" => $lead->identifier,
@@ -62,7 +63,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
       $lead->status = $mLead::STATUS_CONVERTED_TO_DEAL;
       $lead->save();
 
-      $leadDocuments = $mLeadDocument->record->where("id_lead", $leadId)->get();
+      $leadDocuments = $mLeadDocument->record->where("id_lead", $idLead)->get();
 
       foreach ($leadDocuments as $leadDocument) { //@phpstan-ignore-line
         $mDealDocument->record->recordCreate([
@@ -71,7 +72,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
         ]);
       }
 
-      $leadHistories = $mLeadHistory->record->where("id_lead", $leadId)->get();
+      $leadHistories = $mLeadHistory->record->where("id_lead", $idLead)->get();
 
       foreach ($leadHistories as $leadHistory) { //@phpstan-ignore-line
         $mDealHistory->record->recordCreate([
@@ -84,7 +85,7 @@ class ConvertLeadToDeal extends \HubletoMain\Controllers\ApiController
       $mLeadHistory->record->recordCreate([
         "description" => "Converted to a Deal",
         "change_date" => date("Y-m-d"),
-        "id_lead" => $leadId
+        "id_lead" => $idLead
       ]);
 
       $mDealHistory->record->recordCreate([
