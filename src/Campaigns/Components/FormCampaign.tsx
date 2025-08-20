@@ -26,7 +26,7 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: this.translate('Campaign') },
-        { uid: 'leads', title: this.translate('Leads') },
+        { uid: 'leads', title: this.translate('Leads'), showCountFor: 'LEADS' },
       ]
     };
   }

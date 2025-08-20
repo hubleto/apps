@@ -4,12 +4,8 @@ namespace HubletoApp\Community\Deals\Controllers\Api;
 
 use Exception;
 use HubletoApp\Community\Deals\Models\Deal;
-use HubletoApp\Community\Deals\Models\DealDocument;
-use HubletoApp\Community\Deals\Models\DealHistory;
-use HubletoApp\Community\Deals\Models\DealProduct;
 use HubletoApp\Community\Leads\Models\Lead;
-use HubletoApp\Community\Leads\Models\LeadDocument;
-use HubletoApp\Community\Leads\Models\LeadHistory;
+use HubletoApp\Community\Leads\Models\LeadDeal;
 use HubletoApp\Community\Pipeline\Models\Pipeline;
 
 class CreateFromLead extends \HubletoMain\Controllers\ApiController
@@ -27,13 +23,9 @@ class CreateFromLead extends \HubletoMain\Controllers\ApiController
     }
 
     $mLead = $this->main->load(Lead::class);
-    $mLeadHistory = $this->main->load(LeadHistory::class);
-    $mLeadDocument = $this->main->load(LeadDocument::class);
+    $mLeadDeal = $this->main->load(LeadDeal::class);
 
     $mDeal = $this->main->load(Deal::class);
-    $mDealHistory = $this->main->load(DealHistory::class);
-    $mDealDocument = $this->main->load(DealDocument::class);
-    $deal = null;
 
     $mPipeline = $this->main->load(Pipeline::class);
     list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_DEAL_MANAGEMENT);
@@ -60,41 +52,11 @@ class CreateFromLead extends \HubletoMain\Controllers\ApiController
         "id_pipeline_step" => $idPipelineStep,
       ]);
 
-      $lead->status = $mLead::STATUS_CONVERTED_TO_DEAL;
-      $lead->save();
-
-      $leadDocuments = $mLeadDocument->record->where("id_lead", $idLead)->get();
-
-      foreach ($leadDocuments as $leadDocument) { //@phpstan-ignore-line
-        $mDealDocument->record->recordCreate([
-          "id_document" => $leadDocument->id_document,
-          "id_deal" => $deal['id']
-        ]);
-      }
-
-      $leadHistories = $mLeadHistory->record->where("id_lead", $idLead)->get();
-
-      foreach ($leadHistories as $leadHistory) { //@phpstan-ignore-line
-        $mDealHistory->record->recordCreate([
-          "description" => $leadHistory->description,
-          "change_date" => $leadHistory->change_date,
-          "id_deal" => $deal['id']
-        ]);
-      }
-
-      $mLeadHistory->record->recordCreate([
-        "description" => "Converted to a Deal",
-        "change_date" => date("Y-m-d"),
-        "id_lead" => $idLead
+      $mLeadDeal->record->recordCreate([
+        'id_lead' => $idLead,
+        'id_deal' => $deal['id'],
       ]);
 
-      $mDealHistory->record->recordCreate([
-        "description" => "Converted to a Deal",
-        "change_date" => date("Y-m-d"),
-        "id_deal" => $deal['id']
-      ]);
-
-      $lead->save();
     } catch (Exception $e) {
       return [
         "status" => "failed",

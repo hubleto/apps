@@ -67,19 +67,21 @@ class Loader extends \HubletoMain\App
   public function installTables(int $round): void
   {
     if ($round == 1) {
-      $mLevel = $this->main->load(\HubletoApp\Community\Leads\Models\Level::class);
-      $mLead = $this->main->load(\HubletoApp\Community\Leads\Models\Lead::class);
-      $mLeadHistory = $this->main->load(\HubletoApp\Community\Leads\Models\LeadHistory::class);
-      $mLeadTag = $this->main->load(\HubletoApp\Community\Leads\Models\Tag::class);
-      $mCrossLeadTag = $this->main->load(\HubletoApp\Community\Leads\Models\LeadTag::class);
-      $mLeadActivity = $this->main->load(\HubletoApp\Community\Leads\Models\LeadActivity::class);
-      $mLeadDocument = $this->main->load(\HubletoApp\Community\Leads\Models\LeadDocument::class);
-      $mLostReasons = $this->main->load(\HubletoApp\Community\Leads\Models\LostReason::class);
+      $mLevel = $this->main->load(Models\Level::class);
+      $mLead = $this->main->load(Models\Lead::class);
+      $mLeadDeal = $this->main->load(Models\LeadDeal::class);
+      $mLeadHistory = $this->main->load(Models\LeadHistory::class);
+      $mLeadTag = $this->main->load(Models\Tag::class);
+      $mCrossLeadTag = $this->main->load(Models\LeadTag::class);
+      $mLeadActivity = $this->main->load(Models\LeadActivity::class);
+      $mLeadDocument = $this->main->load(Models\LeadDocument::class);
+      $mLostReasons = $this->main->load(Models\LostReason::class);
 
       $mLevel->dropTableIfExists()->install();
       $mLostReasons->dropTableIfExists()->install();
       $mLead->dropTableIfExists()->install();
       $mLeadHistory->dropTableIfExists()->install();
+      $mLeadDeal->dropTableIfExists()->install();
       $mLeadTag->dropTableIfExists()->install();
       $mCrossLeadTag->dropTableIfExists()->install();
       $mLeadActivity->dropTableIfExists()->install();

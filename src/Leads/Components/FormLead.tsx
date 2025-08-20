@@ -3,10 +3,8 @@ import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-
 import InputTags2 from '@hubleto/react-ui/core/Inputs/Tags2';
 import FormInput from '@hubleto/react-ui/core/FormInput';
 import request from '@hubleto/react-ui/core/Request';
-import { TabPanel, TabView } from 'primereact/tabview';
 import Calendar from '../../Calendar/Components/Calendar';
 import Lookup from '@hubleto/react-ui/core/Inputs/Lookup';
-import TableLeadDocuments from './TableLeadDocuments';
 import ModalForm from '@hubleto/react-ui/core/ModalForm';
 import FormDocument, { FormDocumentProps, FormDocumentState } from '../../Documents/Components/FormDocument';
 import LeadFormActivity, { LeadFormActivityProps, LeadFormActivityState } from './LeadFormActivity';
@@ -14,6 +12,9 @@ import Hyperlink from '@hubleto/react-ui/core/Inputs/Hyperlink';
 import { FormProps, FormState } from '@hubleto/react-ui/core/Form';
 import moment, { Moment } from "moment";
 import TableLeadHistory from './TableLeadHistory';
+
+import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
+import TableDeals from '@hubleto/apps/Deals/Components/TableDeals';
 
 export interface FormLeadProps extends HubletoFormProps {
   newEntryId?: number,
@@ -75,7 +76,8 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
       tabs: [
         { uid: 'default', title: this.translate('Lead') },
         { uid: 'calendar', title: this.translate('Calendar') },
-        { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
+        { uid: 'deals', title: this.translate('Deals'), showCountFor: 'DEALS' },
         { uid: 'history', title: this.translate('History') },
       ]
     };
@@ -135,18 +137,18 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
     );
   }
 
-  moveToArchiveConfirm(recordId: number) {
-    globalThis.main.showDialogConfirm(
-      <div>{this.translate("Are you sure you want to move this lead to archive?")}</div>,
-      {
-        header: this.translate("Move to archive"),
-        yesText: this.translate("Yes, move to archive"),
-        onYes: () => this.moveToArchive(recordId),
-        noText: this.translate("No, do not move to archive"),
-        onNo: () => {},
-      }
-    );
-  }
+  // moveToArchiveConfirm(recordId: number) {
+  //   globalThis.main.showDialogConfirm(
+  //     <div>{this.translate("Are you sure you want to move this lead to archive?")}</div>,
+  //     {
+  //       header: this.translate("Move to archive"),
+  //       yesText: this.translate("Yes, move to archive"),
+  //       onYes: () => this.moveToArchive(recordId),
+  //       noText: this.translate("No, do not move to archive"),
+  //       onNo: () => {},
+  //     }
+  //   );
+  // }
 
   logCompletedActivity() {
     request.get(
@@ -175,12 +177,12 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
   renderTopMenu(): null|JSX.Element {
     return <>
       {super.renderTopMenu()}
-      {this.state.record.is_archived ? null :
+      {/* {this.state.record.is_archived ? null :
         <a className='btn btn-transparent' onClick={() => this.moveToArchiveConfirm(this.state.record.id)}>
           <span className='icon'><i className='fas fa-box-archive'></i></span>
           <span className='text'>Move to archive</span>
         </a>
-      }
+      } */}
     </>;
   }
 
@@ -275,9 +277,9 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
               <div className='card card-body flex flex-row gap-2'>
                 <div className='grow'>
                   <FormInput title={"Campaigns"}>
-                    {R.CAMPAIGNS.map((item, key) => {
+                    {R.CAMPAIGNS ? R.CAMPAIGNS.map((item, key) => {
                       return <div key={key} className='badge'>{item.CAMPAIGN.name}</div>;
-                    })}
+                    }) : null}
                   </FormInput>
                   {this.inputWrapper('identifier', {readonly: R.is_archived})}
                   <FormInput title={"Contact"} required={true}>
@@ -419,95 +421,121 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
         </>
       break;
 
-      case 'documents':
-        return <>
-          <div className="divider"><div><div><div></div></div><div><span>{this.translate('Local documents')}</span></div></div></div>
-          {!R.is_archived ?
-            <a
-              className="btn btn-add-outline mb-2"
-              onClick={() => this.setState({showIdDocument: -1} as FormLeadState)}
-            >
-              <span className="icon"><i className="fas fa-add"></i></span>
-              <span className="text">{this.translate("Add document")}</span>
-            </a>
-          : null}
-          <TableLeadDocuments
-            key={this.state.tablesKey + "_table_lead_document"}
-            uid={this.props.uid + "_table_lead_document"}
-            data={{ data: R.DOCUMENTS }}
-            descriptionSource="both"
-            customEndpointParams={{idLead: R.id}}
-            description={{
-              permissions: this.state.tableLeadDocumentsDescription?.permissions,
-              ui: {
-                showFooter: false,
-                showHeader: false,
-              },
-              columns: {
-                id_document: { type: "lookup", title: this.translate("Document"), model: "HubletoApp/Community/Documents/Models/Document" },
-                hyperlink: { type: "varchar", title: this.translate("Link"), cellRenderer: ( table: TableLeadDocuments, data: any, options: any): JSX.Element => {
-                  return (
-                    <FormInput>
-                      <Hyperlink {...this.getInputProps('link_input')}
-                        value={data.DOCUMENT.hyperlink}
-                        readonly={true}
-                      ></Hyperlink>
-                    </FormInput>
-                  )
-                }},
-              },
-              inputs: {
-                id_document: { type: "lookup", title: this.translate("Document"), model: "HubletoApp/Community/Documents/Models/Document" },
-                hyperlink: { type: "varchar", title: this.translate("Link"), readonly: true},
-              },
-            }}
-            isUsedAsInput={true}
-            readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
-            onRowClick={(table: TableLeadDocuments, row: any) => {
-              this.setState({showIdDocument: row.id_document} as FormLeadState);
-            }}
-            onDeleteSelectionChange={(table) => {
-              this.updateRecord({ DOCUMENTS: table.state.data?.data ?? []});
-              this.setState({tablesKey: Math.random()} as FormLeadState)
-            }}
-          />
-          {this.state.showIdDocument != 0 ?
-            <ModalForm
-              uid='document_form'
-              isOpen={true}
-              type='right'
-            >
-              <FormDocument
-                id={this.state.showIdDocument}
-                onClose={() => this.setState({showIdDocument: 0} as FormLeadState)}
-                showInModal={true}
-                descriptionSource="both"
-                description={{
-                  defaultValues: {
-                    creatingForModel: "HubletoApp/Community/Leads/Models/LeadDocument",
-                    creatingForId: this.state.record.id,
-                    origin_link: window.location.pathname + "?recordId=" + this.state.record.id,
-                  }
-                }}
-                isInlineEditing={this.state.showIdDocument < 0 ? true : false}
-                showInModalSimple={true}
-                onSaveCallback={(form: FormDocument<FormDocumentProps, FormDocumentState>, saveResponse: any) => {
-                  if (saveResponse.status = "success") {
-                    this.loadRecord();
-                    this.setState({ showIdDocument: 0 } as FormLeadState)
-                  }
-                }}
-                onDeleteCallback={(form: FormDocument<FormDocumentProps, FormDocumentState>, saveResponse: any) => {
-                  if (saveResponse.status = "success") {
-                    this.loadRecord();
-                    this.setState({ showIdDocument: 0 } as FormLeadState)
-                  }
-                }}
-              />
-            </ModalForm>
-          : null}
-        </>;
+      case 'deals':
+        return <TableDeals
+          tag={"table_lead_deal"}
+          parentForm={this}
+          uid={this.props.uid + "_table_lead_deal"}
+          junctionTitle='Lead'
+          junctionModel='HubletoApp/Community/Leads/Models/LeadDeal'
+          junctionSourceColumn='id_lead'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_deal'
+        />;
       break;
+
+      case 'documents':
+        return <TableDocuments
+          tag={"table_lead_document"}
+          parentForm={this}
+          uid={this.props.uid + "_table_lead_document"}
+          junctionTitle='Lead'
+          junctionModel='HubletoApp/Community/Leads/Models/LeadDocument'
+          junctionSourceColumn='id_lead'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_document'
+        />;
+      break;
+
+      // case 'documents':
+      //   return <>
+      //     <div className="divider"><div><div><div></div></div><div><span>{this.translate('Local documents')}</span></div></div></div>
+      //     {!R.is_archived ?
+      //       <a
+      //         className="btn btn-add-outline mb-2"
+      //         onClick={() => this.setState({showIdDocument: -1} as FormLeadState)}
+      //       >
+      //         <span className="icon"><i className="fas fa-add"></i></span>
+      //         <span className="text">{this.translate("Add document")}</span>
+      //       </a>
+      //     : null}
+      //     <TableLeadDocuments
+      //       key={this.state.tablesKey + "_table_lead_document"}
+      //       uid={this.props.uid + "_table_lead_document"}
+      //       data={{ data: R.DOCUMENTS }}
+      //       descriptionSource="both"
+      //       customEndpointParams={{idLead: R.id}}
+      //       description={{
+      //         permissions: this.state.tableLeadDocumentsDescription?.permissions,
+      //         ui: {
+      //           showFooter: false,
+      //           showHeader: false,
+      //         },
+      //         columns: {
+      //           id_document: { type: "lookup", title: this.translate("Document"), model: "HubletoApp/Community/Documents/Models/Document" },
+      //           hyperlink: { type: "varchar", title: this.translate("Link"), cellRenderer: ( table: TableLeadDocuments, data: any, options: any): JSX.Element => {
+      //             return (
+      //               <FormInput>
+      //                 <Hyperlink {...this.getInputProps('link_input')}
+      //                   value={data.DOCUMENT.hyperlink}
+      //                   readonly={true}
+      //                 ></Hyperlink>
+      //               </FormInput>
+      //             )
+      //           }},
+      //         },
+      //         inputs: {
+      //           id_document: { type: "lookup", title: this.translate("Document"), model: "HubletoApp/Community/Documents/Models/Document" },
+      //           hyperlink: { type: "varchar", title: this.translate("Link"), readonly: true},
+      //         },
+      //       }}
+      //       isUsedAsInput={true}
+      //       readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
+      //       onRowClick={(table: TableLeadDocuments, row: any) => {
+      //         this.setState({showIdDocument: row.id_document} as FormLeadState);
+      //       }}
+      //       onDeleteSelectionChange={(table) => {
+      //         this.updateRecord({ DOCUMENTS: table.state.data?.data ?? []});
+      //         this.setState({tablesKey: Math.random()} as FormLeadState)
+      //       }}
+      //     />
+      //     {this.state.showIdDocument != 0 ?
+      //       <ModalForm
+      //         uid='document_form'
+      //         isOpen={true}
+      //         type='right'
+      //       >
+      //         <FormDocument
+      //           id={this.state.showIdDocument}
+      //           onClose={() => this.setState({showIdDocument: 0} as FormLeadState)}
+      //           showInModal={true}
+      //           descriptionSource="both"
+      //           description={{
+      //             defaultValues: {
+      //               creatingForModel: "HubletoApp/Community/Leads/Models/LeadDocument",
+      //               creatingForId: this.state.record.id,
+      //               origin_link: window.location.pathname + "?recordId=" + this.state.record.id,
+      //             }
+      //           }}
+      //           isInlineEditing={this.state.showIdDocument < 0 ? true : false}
+      //           showInModalSimple={true}
+      //           onSaveCallback={(form: FormDocument<FormDocumentProps, FormDocumentState>, saveResponse: any) => {
+      //             if (saveResponse.status = "success") {
+      //               this.loadRecord();
+      //               this.setState({ showIdDocument: 0 } as FormLeadState)
+      //             }
+      //           }}
+      //           onDeleteCallback={(form: FormDocument<FormDocumentProps, FormDocumentState>, saveResponse: any) => {
+      //             if (saveResponse.status = "success") {
+      //               this.loadRecord();
+      //               this.setState({ showIdDocument: 0 } as FormLeadState)
+      //             }
+      //           }}
+      //         />
+      //       </ModalForm>
+      //     : null}
+      //   </>;
+      // break;
 
       case 'history':
 

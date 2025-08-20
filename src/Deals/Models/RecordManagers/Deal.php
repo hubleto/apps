@@ -11,8 +11,9 @@ use HubletoApp\Community\Settings\Models\RecordManagers\User;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealHistory;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealTag;
 use HubletoApp\Community\Leads\Models\RecordManagers\Lead;
+use HubletoApp\Community\Leads\Models\RecordManagers\LeadDeal;
 use HubletoApp\Community\Documents\Models\RecordManagers\Template;
-use HubletoApp\Community\Orders\Models\RecordManagers\OrderDeal;
+use HubletoApp\Community\Deals\Models\RecordManagers\DealOrder;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -91,7 +92,7 @@ class Deal extends \HubletoMain\RecordManager
   /** @return HasMany<DealProduct, covariant Deal> */
   public function ORDERS(): HasMany
   {
-    return $this->hasMany(OrderDeal::class, 'id_deal', 'id');
+    return $this->hasMany(DealOrder::class, 'id_deal', 'id');
   }
 
   /** @return HasMany<DealActivity, covariant Deal> */
@@ -104,6 +105,12 @@ class Deal extends \HubletoMain\RecordManager
   public function DOCUMENTS(): HasMany
   {
     return $this->hasMany(DealDocument::class, 'id_deal', 'id');
+  }
+
+  /** @return hasMany<LeadDocument, covariant Lead> */
+  public function LEADS(): HasMany
+  {
+    return $this->hasMany(LeadDeal::class, 'id_deal', 'id');
   }
 
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed

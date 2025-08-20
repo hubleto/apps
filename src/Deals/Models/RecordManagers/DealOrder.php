@@ -1,13 +1,14 @@
 <?php
 
-namespace HubletoApp\Community\Orders\Models\RecordManagers;
+namespace HubletoApp\Community\Deals\Models\RecordManagers;
 
 use HubletoApp\Community\Deals\Models\RecordManagers\Deal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use HubletoApp\Community\Orders\Models\RecordManagers\Order;
 
-class OrderDeal extends \HubletoMain\RecordManager
+class DealOrder extends \HubletoMain\RecordManager
 {
-  public $table = 'orders_deals';
+  public $table = 'deals_orders';
 
   /** @return BelongsTo<Order, covariant OrderProduct> */
   public function ORDER(): BelongsTo

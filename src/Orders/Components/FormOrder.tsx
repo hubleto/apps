@@ -9,6 +9,7 @@ import TableInvoices from '@hubleto/apps/Invoices/Components/TableInvoices';
 import request from "@hubleto/react-ui/core/Request";
 import TableHistories from './TableHistories';
 import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
+import FormInput from '@hubleto/react-ui/core/FormInput';
 
 export interface FormOrderProps extends HubletoFormProps {
 }
@@ -41,11 +42,10 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: this.translate('Order') },
-        { uid: 'products', title: this.translate('Products') },
-        { uid: 'documents', title: this.translate('Documents') },
-        { uid: 'deals', title: this.translate('Deals') },
-        { uid: 'projects', title: this.translate('Projects') },
-        { uid: 'invoices', title: this.translate('Invoices') },
+        { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
+        { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
+        { uid: 'projects', title: this.translate('Projects'), showCountFor: 'PROJECTS' },
+        { uid: 'invoices', title: this.translate('Invoices'), showCountFor: 'INVOICES' },
         { uid: 'history', title: this.translate('History') },
       ]
     };
@@ -95,24 +95,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     </>;
   }
 
-  renderTabTitle(tabIndex: number): JSX.Element {
-    const tabName = this.state.tabs[tabIndex]?.uid;
-
-    if (tabName == 'products') {
-      return <>{'Products (' + this.state.record.PRODUCTS.length + ')'}</>;
-    } else if (tabName == 'documents') {
-      return <>{'Documents (' + this.state.record.DOCUMENTS.length + ')'}</>;
-    } else if (tabName == 'deals') {
-      return <>{'Deals (' + this.state.record.DEALS.length + ')'}</>;
-    } else if (tabName == 'projects') {
-      return <>{'Projects (' + this.state.record.PROJECTS.length + ')'}</>;
-    } else if (tabName == 'invoices') {
-      return <>{'Invoices (' + this.state.record.INVOICES.length + ')'}</>;
-    } else {
-      return super.renderTabTitle(tabIndex);
-    }
-  }
-
   renderTab(tab: string) {
     const R = this.state.record;
     const showAdditional = R.id > 0 ? true : false;
@@ -141,6 +123,11 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
           <div className='card'>
             <div className='card-body flex flex-row gap-2'>
               <div className='grow'>
+                <FormInput title={"Deals"}>
+                  {R.DEALS ? R.DEALS.map((item, key) => {
+                    return <div key={key} className='badge'>{item.DEAL.identifier}</div>;
+                  }) : null}
+                </FormInput>
                 {showAdditional ? this.inputWrapper('order_number') : <></>}
                 {showAdditional ?
                   <div className='flex flex-row *:w-1/2'>
@@ -194,19 +181,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
           readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
         />;
 
-      break;
-
-      case 'deals':
-        return <TableDeals
-          tag={"table_order_deal"}
-          parentForm={this}
-          uid={this.props.uid + "_table_order_deal"}
-          junctionTitle='Order'
-          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
-          junctionSourceColumn='id_order'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_deal'
-        />;
       break;
 
       case 'projects':

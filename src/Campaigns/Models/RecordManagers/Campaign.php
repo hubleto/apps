@@ -17,4 +17,10 @@ class Campaign extends \HubletoMain\RecordManager
     return $this->belongsTo(User::class, 'id_manager', 'id');
   }
 
+  /** @return hasMany<LeadDocument, covariant Lead> */
+  public function LEADS(): HasMany
+  {
+    return $this->hasMany(CampaignLead::class, 'id_campaign', 'id');
+  }
+
 }

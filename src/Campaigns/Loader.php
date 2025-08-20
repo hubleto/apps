@@ -17,7 +17,7 @@ class Loader extends \HubletoMain\App
     parent::init();
 
     $this->main->router->httpGet([
-      '/^campaigns\/?$/' => Controllers\Campaigns::class,
+      '/^campaigns(\/(?<recordId>\d+))?\/?$/' => Controllers\Campaigns::class,
     ]);
 
     $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);

@@ -12,7 +12,7 @@ class ProjectsApp extends HubletoApp {
     globalThis.main.registerReactComponent('ProjectsTablePhases', TablePhases);
 
     // miscellaneous
-    globalThis.main.getApp('HubletoApp/Community/Deals').addFormHeaderButton(
+    globalThis.main.getApp('HubletoApp/Community/Orders').addFormHeaderButton(
       'Create project',
       (form: any) => {
         request.get(

@@ -17,7 +17,7 @@ import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
 import TableDealHistory from './TableDealHistory';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
 import TableOrders from '@hubleto/apps/Orders/Components/TableOrders';
-import TableProjects from '@hubleto/apps/Projects/Components/TableProjects';
+// import TableProjects from '@hubleto/apps/Projects/Components/TableProjects';
 import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 
 export interface FormDealProps extends HubletoFormProps {
@@ -82,10 +82,10 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: this.translate('Deal') },
-        { uid: 'products', title: this.translate('Products') },
-        { uid: 'documents', title: this.translate('Documents') },
-        { uid: 'orders', title: this.translate('Orders') },
-        { uid: 'projects', title: this.translate('Projects') },
+        { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
+        { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
+        { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
+        // { uid: 'projects', title: this.translate('Projects') },
         { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'history', title: this.translate('History') },
       ],
@@ -251,6 +251,11 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
       case 'default':
 
         const inputsColumnLeft = <>
+          <FormInput title={"Leads"}>
+            {R.LEADS ? R.LEADS.map((item, key) => {
+              return <div key={key} className='badge'>{item.LEAD.identifier}</div>;
+            }) : null}
+          </FormInput>
           {this.inputWrapper('identifier', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}
           {this.inputWrapper('title', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}
           {this.inputWrapper('version')}
@@ -612,25 +617,25 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           parentForm={this}
           uid={this.props.uid + "_table_deal_order"}
           junctionTitle='Deal'
-          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
+          junctionModel='HubletoApp/Community/Deals/Models/DealOrder'
           junctionSourceColumn='id_deal'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_order'
         />;
       break;
 
-      case 'projects':
-        return <TableProjects
-          tag={"table_deal_project"}
-          parentForm={this}
-          uid={this.props.uid + "_table_deal_project"}
-          junctionTitle='Deal'
-          junctionModel='HubletoApp/Community/Projects/Models/ProjectDeal'
-          junctionSourceColumn='id_deal'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_project'
-        />;
-      break;
+      // case 'projects':
+      //   return <TableProjects
+      //     tag={"table_deal_project"}
+      //     parentForm={this}
+      //     uid={this.props.uid + "_table_deal_project"}
+      //     junctionTitle='Deal'
+      //     junctionModel='HubletoApp/Community/Projects/Models/ProjectDeal'
+      //     junctionSourceColumn='id_deal'
+      //     junctionSourceRecordId={R.id}
+      //     junctionDestinationColumn='id_project'
+      //   />;
+      // break;
 
       case 'documents':
         return <>
