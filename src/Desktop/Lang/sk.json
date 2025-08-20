@@ -27,6 +27,13 @@
         "Reporting": "Reporty",
         "Maintenance": "Údržba",
         "Help": "Pomoc",
-        "Custom": "Vlastné"
+        "Custom": "Vlastné",
+        "Search app...": "Hľadať appku...",
+        "Open sidebar": "Zobraziť bočný panel",
+        "Manage your user account": "Môj účet",
+        "Sign out": "Odhlásiť sa",
+        "Search app": "Hľadať appku",
+        "Home": "Domov",
+        "You have no apps in this group.": "V tejto skupine nemáte žiadnu appku."
     }
 }

@@ -1,0 +1,10 @@
+{
+    "manifest": {
+        "Projects": "Projekty",
+        "Project management": "Projektový manažment"
+    },
+    "root": {
+        "Projects": "",
+        "Phases": ""
+    }
+}
