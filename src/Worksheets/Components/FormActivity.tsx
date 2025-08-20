@@ -7,10 +7,7 @@ interface FormActivityState extends HubletoFormState { }
 export default class FormActivity<P, S> extends HubletoForm<FormActivityProps, FormActivityState> {
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
-    model: 'HubletoApp/Community/Worksheets/Models/Team',
-    tabs: {
-      'default': { title: 'Task' },
-    }
+    model: 'HubletoApp/Community/Worksheets/Models/Activity',
   }
 
   props: FormActivityProps;
@@ -21,6 +18,15 @@ export default class FormActivity<P, S> extends HubletoForm<FormActivityProps, F
   constructor(props: FormActivityProps) {
     super(props);
   }
+
+  // getStateFromProps(props: FormActivityProps) {
+  //   return {
+  //     ...super.getStateFromProps(props),
+  //     tabs: [
+  //       { uid: 'default', title: 'Activity' },
+  //     ]
+  //   }
+  // }
 
   renderTitle(): JSX.Element {
     return <>

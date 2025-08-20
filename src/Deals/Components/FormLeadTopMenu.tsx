@@ -73,13 +73,15 @@ export default class FormLeadTopMenu extends TranslatedComponent<P, S> {
     const R = form.state.record;
 
     return (R.DEAL != null ?
-      <a className='btn btn-transparent' href={`${globalThis.main.config.projectUrl}/deals/${R.DEAL.id}`}>
-        <span className='icon'><i className='fas fa-arrow-up-right-from-square'></i></span>
-        <span className='text'>{this.translate('Go to deal')}</span>
+      <a
+        className='btn btn-transparent'
+        href={`${globalThis.main.config.projectUrl}/deals/${R.DEAL.id}`}
+        target='_blank'
+      >
+        <span className='text'>{this.translate('Deal')}</span>
       </a>
       :
       <a className='btn btn-transparent' onClick={() => this.convertDealWarning(R.id)}>
-        <span className='icon'><i className='fas fa-rotate-right'></i></span>
         <span className='text'>Convert to Deal</span>
       </a>
     );

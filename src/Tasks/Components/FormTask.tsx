@@ -10,10 +10,6 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Tasks/Models/Task',
-    tabs: {
-      'default': { title: 'Task' },
-      // 'worksheet': { title: 'Worksheet' },
-    }
   }
 
   props: FormTaskProps;
@@ -23,6 +19,15 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
 
   constructor(props: FormTaskProps) {
     super(props);
+  }
+
+  getStateFromProps(props: FormTaskProps) {
+    return {
+      ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Task') },
+      ]
+    }
   }
 
   renderTitle(): JSX.Element {

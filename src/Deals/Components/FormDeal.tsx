@@ -39,13 +39,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Deals/Models/Deal',
-    tabs: {
-      'default': { title: 'Deal' },
-      'products': { title: 'Products' },
-      'documents': { title: 'Documents' },
-      'calendar': { title: 'Calendar' },
-      'history': { title: 'History' },
-    }
   };
 
   props: FormDealProps;
@@ -82,6 +75,13 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
   getStateFromProps(props: FormDealProps) {
     return {
       ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'deal', title: this.translate('Deal') },
+        { uid: 'products', title: this.translate('Products') },
+        { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'calendar', title: this.translate('Calendar') },
+        { uid: 'history', title: this.translate('History') },
+      ],
     };
   }
 
@@ -365,29 +365,32 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           }}
         ></PipelineSelector>;
 
-        const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
+        //@ts-ignore
+        const tmpCalendar = <Calendar
+          onCreateCallback={() => this.loadRecord()}
+          readonly={R.is_archived}
+          initialView='dayGridMonth'
+          headerToolbar={{ start: 'title', center: '', end: 'prev,today,next' }}
+          eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=deals&idDeal=' + R.id}
+          onDateClick={(date, time, info) => {
+            this.setState({
+              activityDate: date,
+              activityTime: time,
+              activityAllDay: false,
+              showIdActivity: -1,
+            } as FormDealState);
+          }}
+          onEventClick={(info) => {
+            this.setState({
+              showIdActivity: parseInt(info.event.id),
+            } as FormDealState);
+            info.jsEvent.preventDefault();
+          }}
+        ></Calendar>;
+
+const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
           <div className='mb-2'>
-            <Calendar
-              onCreateCallback={() => this.loadRecord()}
-              readonly={R.is_archived}
-              initialView='dayGridMonth'
-              headerToolbar={{ start: 'title', center: '', end: 'prev,today,next' }}
-              eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=deals&idDeal=' + R.id}
-              onDateClick={(date, time, info) => {
-                this.setState({
-                  activityDate: date,
-                  activityTime: time,
-                  activityAllDay: false,
-                  showIdActivity: -1,
-                } as FormDealState);
-              }}
-              onEventClick={(info) => {
-                this.setState({
-                  showIdActivity: parseInt(info.event.id),
-                } as FormDealState);
-                info.jsEvent.preventDefault();
-              }}
-            ></Calendar>
+            {tmpCalendar}
           </div>
           <div className="hubleto component input"><div className="input-element w-full flex gap-2">
             <input
@@ -572,29 +575,28 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
       break;
 
       case 'calendar':
-        return <>
-          <Calendar
-            onCreateCallback={() => this.loadRecord()}
-            readonly={R.is_archived}
-            initialView='timeGridWeek'
-            views={"timeGridDay,timeGridWeek,dayGridMonth,listYear"}
-            eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=deals&idDeal=' + R.id}
-            onDateClick={(date, time, info) => {
-              this.setState({
-                activityDate: date,
-                activityTime: time,
-                activityAllDay: false,
-                showIdActivity: -1,
-              } as FormDealState);
-            }}
-            onEventClick={(info) => {
-              this.setState({
-                showIdActivity: parseInt(info.event.id),
-              } as FormDealState);
-              info.jsEvent.preventDefault();
-            }}
-          ></Calendar>
-        </>;
+        //@ts-ignore
+        return <Calendar
+          onCreateCallback={() => this.loadRecord()}
+          readonly={R.is_archived}
+          initialView='timeGridWeek'
+          views={"timeGridDay,timeGridWeek,dayGridMonth,listYear"}
+          eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=deals&idDeal=' + R.id}
+          onDateClick={(date, time, info) => {
+            this.setState({
+              activityDate: date,
+              activityTime: time,
+              activityAllDay: false,
+              showIdActivity: -1,
+            } as FormDealState);
+          }}
+          onEventClick={(info) => {
+            this.setState({
+              showIdActivity: parseInt(info.event.id),
+            } as FormDealState);
+            info.jsEvent.preventDefault();
+          }}
+        ></Calendar>;
       break;
 
       // case 'tasks':
@@ -718,7 +720,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
       break;
     }
   }
-
 
   renderContent(): JSX.Element {
     const R = this.state.record;

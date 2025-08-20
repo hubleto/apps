@@ -10,11 +10,6 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Projects/Models/Team',
-    tabs: {
-      'default': { title: 'Project' },
-      'tasks': { title: 'Tasks' },
-      'statistics': { title: 'Statistics' },
-    }
   }
 
   props: FormProjectProps;
@@ -24,6 +19,17 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
 
   constructor(props: FormProjectProps) {
     super(props);
+  }
+
+  getStateFromProps(props: FormProjectProps) {
+    return {
+      ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Project') },
+        { uid: 'tasks', title: this.translate('Tasks') },
+        { uid: 'statistics', title: this.translate('Statistics') },
+      ]
+    }
   }
 
   renderTitle(): JSX.Element {

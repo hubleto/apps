@@ -127,7 +127,8 @@
         "Shift+Enter": "Shift+Enter",
         "Deal value:": "Hodnota dealu",
         "Weighted profit": "Vážená hodnota dealu",
-        "Tasks": "Úlohy"
+        "Tasks": "Úlohy",
+        "Products": "Produkty"
     },
     "Models\\Tag": {
         "Name": "Pomenovať",

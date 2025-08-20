@@ -10,10 +10,6 @@ export default class FormProduct<P, S> extends HubletoForm<FormProductProps,Form
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Products/Models/Product',
-    tabs: {
-      'default': { title: 'Product' },
-      'suppliers': { title: 'Suppliers' },
-    }
   };
 
   props: FormProductProps;
@@ -31,6 +27,10 @@ export default class FormProduct<P, S> extends HubletoForm<FormProductProps,Form
   getStateFromProps(props: FormProductProps) {
     return {
       ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Product') },
+        { uid: 'suppliers', title: this.translate('Suppliers') },
+      ]
     };
   }
 

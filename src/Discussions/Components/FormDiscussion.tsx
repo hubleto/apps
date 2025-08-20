@@ -27,14 +27,14 @@ export default class FormDiscussion<P, S> extends HubletoForm<FormDiscussionProp
   getStateFromProps(props: FormDiscussionProps) {
     let tabs = {};
     if (this.props.id < 0) {
-      tabs = {
-        'default': { title: 'About' },
-      };
+      tabs = [
+        { uid: 'default', title: this.translate('About') }
+      ];
     } else {
-      tabs = {
-        'default': { title: 'Messages' },
-        'about': { title: 'About' },
-      };
+      tabs = [
+        { uid: 'default', title: this.translate('Messages') },
+        { uid: 'about', title: this.translate('About') },
+      ];
     }
 
     return {

@@ -9,11 +9,6 @@ export default class FormActivityType<P, S> extends HubletoForm<FormActivityType
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Worksheets/Models/Team',
-    tabs: {
-      'default': { title: 'Task' },
-      // Add your tabs here.
-      // 'tab_with_nested_table': { title: 'Example tab with nested table' }
-    }
   }
 
   props: FormActivityTypeProps;

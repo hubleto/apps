@@ -49,7 +49,6 @@ export default class FormDealTopMenu extends TranslatedComponent<P, S> {
           className="btn btn-transparent"
           onClick={() => { this.setState({showTasks: !this.state.showTasks}); }}
         >
-          <span className="icon"><i className="fas fa-list-check"></i></span>
           <span className="text">
             {this.translate('Tasks')}
             {this.state.tasks ? ' (' + this.state.tasks.length + ')' : null}

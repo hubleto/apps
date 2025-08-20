@@ -35,12 +35,6 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Leads/Models/Lead',
-    tabs: {
-      'default': { title: 'Lead' },
-      'calendar': { title: 'Calendar' },
-      'documents': { title: 'Documents' },
-      'history': { title: 'History' },
-    }
   };
 
   props: FormLeadProps;
@@ -76,6 +70,12 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
   getStateFromProps(props: FormLeadProps) {
     return {
       ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Lead') },
+        { uid: 'calendar', title: this.translate('Calendar') },
+        { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'history', title: this.translate('History') },
+      ]
     };
   }
 
@@ -187,29 +187,31 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
 
     switch (tab) {
       case 'default':
+        //@ts-ignore
+        const tmpCalendarSmall = <Calendar
+          onCreateCallback={() => this.loadRecord()}
+          readonly={R.is_archived}
+          initialView='dayGridMonth'
+          headerToolbar={{ start: 'title', center: '', end: 'prev,today,next' }}
+          eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=leads&idLead=' + R.id}
+          onDateClick={(date, time, info) => {
+            this.setState({
+              activityDate: date,
+              activityTime: time,
+              activityAllDay: false,
+              showIdActivity: -1,
+            } as FormLeadState);
+          }}
+          onEventClick={(info) => {
+            this.setState({
+              showIdActivity: parseInt(info.event.id),
+            } as FormLeadState);
+            info.jsEvent.preventDefault();
+          }}
+        ></Calendar>;
         const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-200'>
           <div className='mb-2'>
-            <Calendar
-              onCreateCallback={() => this.loadRecord()}
-              readonly={R.is_archived}
-              initialView='dayGridMonth'
-              headerToolbar={{ start: 'title', center: '', end: 'prev,today,next' }}
-              eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=leads&idLead=' + R.id}
-              onDateClick={(date, time, info) => {
-                this.setState({
-                  activityDate: date,
-                  activityTime: time,
-                  activityAllDay: false,
-                  showIdActivity: -1,
-                } as FormLeadState);
-              }}
-              onEventClick={(info) => {
-                this.setState({
-                  showIdActivity: parseInt(info.event.id),
-                } as FormLeadState);
-                info.jsEvent.preventDefault();
-              }}
-            ></Calendar>
+            {tmpCalendarSmall}
           </div>
           <div className="hubleto component input"><div className="input-element w-full flex gap-2">
             <input
@@ -357,28 +359,30 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
       break;
 
       case 'calendar':
+        //@ts-ignore
+        const tmpCalendarLarge = <Calendar
+          onCreateCallback={() => this.loadRecord()}
+          readonly={R.is_archived}
+          initialView='timeGridWeek'
+          views={"timeGridDay,timeGridWeek,dayGridMonth,listYear"}
+          eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=leads&idLead=' + R.id}
+          onDateClick={(date, time, info) => {
+            this.setState({
+              activityDate: date,
+              activityTime: time,
+              activityAllDay: false,
+              showIdActivity: -1,
+            } as FormLeadState);
+          }}
+          onEventClick={(info) => {
+            this.setState({
+              showIdActivity: parseInt(info.event.id),
+            } as FormLeadState);
+            info.jsEvent.preventDefault();
+          }}
+        ></Calendar>;
         return <>
-          <Calendar
-            onCreateCallback={() => this.loadRecord()}
-            readonly={R.is_archived}
-            initialView='timeGridWeek'
-            views={"timeGridDay,timeGridWeek,dayGridMonth,listYear"}
-            eventsEndpoint={globalThis.main.config.projectUrl + '/calendar/api/get-calendar-events?source=leads&idLead=' + R.id}
-            onDateClick={(date, time, info) => {
-              this.setState({
-                activityDate: date,
-                activityTime: time,
-                activityAllDay: false,
-                showIdActivity: -1,
-              } as FormLeadState);
-            }}
-            onEventClick={(info) => {
-              this.setState({
-                showIdActivity: parseInt(info.event.id),
-              } as FormLeadState);
-              info.jsEvent.preventDefault();
-            }}
-          ></Calendar>
+          {tmpCalendarLarge}
           {this.state.showIdActivity == 0 ? <></> :
             <ModalForm
               uid='activity_form'

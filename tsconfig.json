@@ -9,7 +9,10 @@
       "@hubleto/apps/*": ["./src/*"],
       "@hubleto/react-ui/*": ["../react-ui/*"],
       "*": ["../react-ui/node_modules/*"],
-    }
+    },
+    "lib": [
+      "es2017",
+    ],
   },
   "include": ["./**/*"]
 }

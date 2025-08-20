@@ -8,12 +8,7 @@ interface FormMessageState extends HubletoFormState { }
 export default class FormMessage<P, S> extends HubletoForm<FormMessageProps, FormMessageState> {
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
-    model: 'HubletoApp/Community/Discussions/Models/Team',
-    tabs: {
-      'default': { title: 'Task' },
-      // Add your tabs here.
-      // 'tab_with_nested_table': { title: 'Example tab with nested table' }
-    }
+    model: 'HubletoApp/Community/Discussions/Models/Message',
   }
 
   props: FormMessageProps;
@@ -23,6 +18,17 @@ export default class FormMessage<P, S> extends HubletoForm<FormMessageProps, For
 
   constructor(props: FormMessageProps) {
     super(props);
+  }
+
+  getStateFromProps(props: FormMessageProps) {
+    return {
+      ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Task') },
+        // Add your tabs here.
+        // 'tab_with_nested_table': { title: 'Example tab with nested table' }
+      ]
+    }
   }
 
   renderTitle(): JSX.Element {

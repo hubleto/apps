@@ -8,12 +8,7 @@ interface FormTypeState extends HubletoFormState { }
 export default class FormType<P, S> extends HubletoForm<FormTypeProps, FormTypeState> {
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
-    model: 'HubletoApp/Community/Worksheets/Models/Team',
-    tabs: {
-      'default': { title: 'Task' },
-      // Add your tabs here.
-      // 'tab_with_nested_table': { title: 'Example tab with nested table' }
-    }
+    model: 'HubletoApp/Community/Worksheets/Models/ActivityType',
   }
 
   props: FormTypeProps;

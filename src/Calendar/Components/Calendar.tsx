@@ -1,5 +1,4 @@
-import React, { Component, useState } from "react";
-import { formatDate } from '@fullcalendar/core'
+import React, { Component } from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -27,9 +26,9 @@ interface CalendarState {
   headerToolbar: any,
 }
 
-export default class CalendarComponent extends Component<CalendarProps, CalendarState> {
-  state: CalendarState;
+export default class Calendar extends Component {
   props: CalendarProps;
+  state: CalendarState;
 
   constructor(props) {
     super(props);

@@ -19,14 +19,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Orders/Models/Order',
-    tabs: {
-      'default': { title: 'Order' },
-      // 'products': { title: 'Products' },
-      'documents': { title: 'Documents' },
-      'projects': { title: 'Projects' },
-      'invoices': { title: 'Invoices' },
-      'history': { title: 'History' },
-    }
   };
 
   props: FormOrderProps;
@@ -45,6 +37,13 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   getStateFromProps(props: FormOrderProps) {
     return {
       ...super.getStateFromProps(props),
+      tabs: [
+        { uid: 'default', title: this.translate('Order') },
+        { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'projects', title: this.translate('Projects') },
+        { uid: 'invoices', title: this.translate('Invoices') },
+        { uid: 'history', title: this.translate('History') },
+      ]
     };
   }
 
@@ -92,7 +91,9 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     </>;
   }
 
-  renderTabTitle(tabName: string): JSX.Element {
+  renderTabTitle(tabIndex: number): JSX.Element {
+    const tabName = this.state.tabs[tabIndex]?.uid;
+
     if (tabName == 'documents') {
       return <>{'Documents (' + this.state.record.DOCUMENTS.length + ')'}</>;
     } else if (tabName == 'projects') {
@@ -100,7 +101,7 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     } else if (tabName == 'invoices') {
       return <>{'Invoices (' + this.state.record.INVOICES.length + ')'}</>;
     } else {
-      return super.renderTabTitle(tabName);
+      return super.renderTabTitle(tabIndex);
     }
   }
 

@@ -9,11 +9,6 @@ export default class FormMember<P, S> extends HubletoForm<FormMemberProps, FormM
   static defaultProps: any = {
     ...HubletoForm.defaultProps,
     model: 'HubletoApp/Community/Discussions/Models/Team',
-    tabs: {
-      'default': { title: 'Task' },
-      // Add your tabs here.
-      // 'tab_with_nested_table': { title: 'Example tab with nested table' }
-    }
   }
 
   props: FormMemberProps;
