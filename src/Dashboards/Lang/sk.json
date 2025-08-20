@@ -21,6 +21,6 @@
         "-- Select board to be displayed in panel --": "-- Zvoľte panel --"
     },
     "Components\\Dashboard": {
-        "Add new panel": ""
+        "Add new panel": "Pridať panel"
     }
 }

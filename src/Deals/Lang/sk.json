@@ -49,7 +49,17 @@
         "Manager": "Manažér",
         "Template for quotation": "Šablóna pre ponuku",
         "Customer's order number": "Číslo objednávky u zákazníka",
-        "Closed": "Uzavretý"
+        "Closed": "Uzavretý",
+        "Result": "Výsledok",
+        "All": "Všetky",
+        "Ownership": "Vlastníctvo",
+        "Owned by me": "Moje",
+        "Managed by me": "Mnou spravované",
+        "Open \/ Closed": "Otvorené \/ Zavreté",
+        "Open": "Otvorené",
+        "Active": "Aktívne",
+        " changed from ": "",
+        " to ": ""
     },
     "Models\\DealHistory": {
         "Change Date": "Dátum zmeny",
@@ -109,7 +119,15 @@
         "Shift+Enter = Schedule": "Shift+Enter = naplánovať aktivitu na neskôr",
         "Type recent activity here": "Zadajte poslednú aktivitu tu",
         "Not completed yet": "Nedokončená",
-        "Most recent activities": "Najnovšie aktivity"
+        "Most recent activities": "Najnovšie aktivity",
+        "Deal": "Deal",
+        "Log completed activity": "Zaevidovať aktivitu",
+        "Enter": "Enter",
+        "Schedule activity": "Naplánovať aktivitu",
+        "Shift+Enter": "Shift+Enter",
+        "Deal value:": "Hodnota dealu",
+        "Weighted profit": "Vážená hodnota dealu",
+        "Tasks": "Úlohy"
     },
     "Models\\Tag": {
         "Name": "Pomenovať",

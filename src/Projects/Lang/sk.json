@@ -4,32 +4,35 @@
         "Project management": "Projektový manažment"
     },
     "root": {
-        "Projects": "",
-        "Phases": ""
+        "Projects": "Projekty",
+        "Phases": "Fázy"
     },
     "Models\\Project": {
-        "Deal": "",
-        "Customer": "",
-        "Contact": "",
-        "Identifier": "",
-        "Title": "",
-        "Description": "",
-        "Main developer": "",
-        "Account manager": "",
-        "Priority": "",
-        "Start": "",
-        "Deadline": "",
-        "Budget": "",
-        "Pipeline": "",
-        "Pipeline step": "",
-        "Closed": "",
-        "Color": "",
-        "Notes": "",
-        "Created": ""
+        "Deal": "Deal",
+        "Customer": "Zákazník",
+        "Contact": "Kontakt",
+        "Identifier": "Identifikátor",
+        "Title": "Názov",
+        "Description": "Popis",
+        "Main developer": "Hlavný developer",
+        "Account manager": "Account manažér",
+        "Priority": "Priorita",
+        "Start": "Štart",
+        "Deadline": "Deadline",
+        "Budget": "Rozpočet",
+        "Pipeline": "Pipeline",
+        "Pipeline step": "Pipeline stav",
+        "Closed": "Uzavretý",
+        "Color": "Farba",
+        "Notes": "Poznámky",
+        "Created": "Vytvorený"
     },
     "Models\\Phase": {
-        "Name": "",
-        "Order": "",
-        "Color": ""
+        "Name": "Názov",
+        "Order": "Poradie",
+        "Color": "Farba"
+    },
+    "Components\\FormProject": {
+        "Projects": "Projekty"
     }
 }
