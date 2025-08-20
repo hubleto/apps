@@ -20,7 +20,10 @@
         "Required delivery date": "Požadovaný dátum dodania",
         "Shipping information": "Dodacie informácie",
         "Notes": "Poznámky",
-        "Add order": "Pridať objednávku"
+        "Add order": "Pridať objednávku",
+        "Pipeline": "",
+        "Pipeline step": "",
+        "Template": ""
     },
     "Models\\State": {
         "Title": "Názov",
@@ -46,6 +49,21 @@
     "Components\\FormOrder": {
         "Order": "Objednávka",
         "History": "História",
-        "Title": "Názov"
+        "Title": "Názov",
+        "Documents": "",
+        "Projects": "",
+        "Invoices": ""
+    },
+    "Models\\OrderInvoice": {
+        "Order": "",
+        "Invoice": ""
+    },
+    "Models\\OrderDocument": {
+        "Order": "",
+        "Document": ""
+    },
+    "Models\\OrderProject": {
+        "Order": "",
+        "Project": ""
     }
 }

@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import FormDocument, { FormDocumentProps } from './FormDocument';
 
-interface TableDocumentsProps extends HubletoTableProps {
-  junctionModel?: string
-  junctionColumn?: string
-  junctionId?: number
-}
+interface TableDocumentsProps extends HubletoTableProps {}
 interface TableDocumentsState extends HubletoTableState {}
 
 export default class TableDocuments extends HubletoTable<TableDocumentsProps, TableDocumentsState> {
@@ -33,15 +29,6 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
   getStateFromProps(props: TableDocumentsProps) {
     return {
       ...super.getStateFromProps(props),
-    }
-  }
-
-  getEndpointParams(): any {
-    return {
-      ...super.getEndpointParams(),
-      junctionModel: this.props.junctionModel,
-      junctionColumn: this.props.junctionColumn,
-      junctionId: this.props.junctionId,
     }
   }
 
@@ -75,9 +62,6 @@ export default class TableDocuments extends HubletoTable<TableDocumentsProps, Ta
   
   renderForm(): JSX.Element {
     let formProps: FormDocumentProps = this.getFormProps();
-    formProps.junctionModel = this.props.junctionModel;
-    formProps.junctionColumn = this.props.junctionColumn;
-    formProps.junctionId = this.props.junctionId;
     return <FormDocument {...formProps}/>;
   }
 }

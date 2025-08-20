@@ -15,7 +15,7 @@ class DealValueByResult extends \HubletoMain\Controller
     $mDeal = $this->main->load(Deal::class);
 
     $deals = $mDeal->record->prepareReadQuery()
-      ->selectRaw("`{$mDeal->table}`.`deal_result`, SUM(`{$mDeal->table}`.`price`) as price")
+      ->selectRaw("`{$mDeal->table}`.`deal_result`, SUM(`{$mDeal->table}`.`price_excl_vat`) as price")
       ->where($mDeal->table . ".is_archived", 0)
       ->where($mDeal->table . ".id_owner", $this->main->auth->getUserId())
       ->with('CURRENCY')

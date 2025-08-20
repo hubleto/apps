@@ -170,5 +170,11 @@
         "No notifications for deals.": "Žiadne oznámenia o dealoch.",
         "Open deal": "Deal",
         "Open deals without future plan": "Otvorené dealy bez budúceho plánu"
+    },
+    "Controllers\\Boards\\DealValueByResult": {
+        "Unknown": "",
+        "Pending": "",
+        "Won": "",
+        "Lost": ""
     }
 }

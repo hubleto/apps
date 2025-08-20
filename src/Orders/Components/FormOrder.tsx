@@ -1,9 +1,11 @@
 import React, { Component, createRef, useRef } from 'react';
 import { getUrlParam } from '@hubleto/react-ui/core/Helper';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
-import TableOrderProducts from './TableOrderProducts';
-import FormInput from '@hubleto/react-ui/core/FormInput';
-import Lookup from '@hubleto/react-ui/core/Inputs/Lookup';
+import TableOrderProducts from '@hubleto/apps/Orders/Components/TableOrderProducts';
+import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
+import TableDeals from '@hubleto/apps/Deals/Components/TableDeals';
+import TableProjects from '@hubleto/apps/Projects/Components/TableProjects';
+import TableInvoices from '@hubleto/apps/Invoices/Components/TableInvoices';
 import request from "@hubleto/react-ui/core/Request";
 import TableHistories from './TableHistories';
 import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
@@ -39,7 +41,9 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: this.translate('Order') },
+        { uid: 'products', title: this.translate('Products') },
         { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'deals', title: this.translate('Deals') },
         { uid: 'projects', title: this.translate('Projects') },
         { uid: 'invoices', title: this.translate('Invoices') },
         { uid: 'history', title: this.translate('History') },
@@ -94,8 +98,12 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   renderTabTitle(tabIndex: number): JSX.Element {
     const tabName = this.state.tabs[tabIndex]?.uid;
 
-    if (tabName == 'documents') {
+    if (tabName == 'products') {
+      return <>{'Products (' + this.state.record.PRODUCTS.length + ')'}</>;
+    } else if (tabName == 'documents') {
       return <>{'Documents (' + this.state.record.DOCUMENTS.length + ')'}</>;
+    } else if (tabName == 'deals') {
+      return <>{'Deals (' + this.state.record.DEALS.length + ')'}</>;
     } else if (tabName == 'projects') {
       return <>{'Projects (' + this.state.record.PROJECTS.length + ')'}</>;
     } else if (tabName == 'invoices') {
@@ -157,203 +165,61 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
         </>;
       break;
 
-      // case 'products':
+      case 'products':
+        return <TableOrderProducts
+          tag={"table_order_product"}
+          parentForm={this}
+          uid={this.props.uid + "_table_order_product"}
+          idOrder={R.id}
+          // junctionTitle='Order'
+          // junctionModel='HubletoApp/Community/Orders/Models/OrderProduct'
+          // junctionSourceColumn='id_order'
+          // junctionSourceRecordId={R.id}
+          // junctionDestinationColumn='id_product'
+          readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
+        />;
 
-      //   const lookupElement = createRef();
-      //   var lookupData;
-
-      //   const getLookupData = () => {
-      //     if (lookupElement.current) {
-      //       lookupData = lookupElement.current.state.data;
-      //     }
-      //   }
-
-      //   return <>
-      //     <div className='card-body border-t border-gray-200'>
-      //       <a
-      //         className="btn btn-add-outline mb-2"
-      //         onClick={() => {
-      //           this.setState({ isInlineEditing: true});
-      //           if (!R.PRODUCTS) R.PRODUCTS = [];
-      //           R.PRODUCTS.push({
-      //             id: this.state.newEntryId,
-      //             id_order: { _useMasterRecordId_: true },
-      //             amount: 1,
-      //             unit_price: 0,
-      //             vat: 0,
-      //             discount: 0,
-      //           });
-      //           this.setState({ record: R });
-      //           this.setState({ newEntryId: this.state.newEntryId - 1 } as FormOrderState);
-      //         }}
-      //       >
-      //         <span className="icon"><i className="fas fa-add"></i></span>
-      //         <span className="text">Add product</span>
-      //       </a>
-      //       <div className='w-full h-full overflow-x-auto'>
-      //         <TableOrderProducts
-      //           sum={"Total: " + R.price + " " + R.CURRENCY.code}
-      //           uid={this.props.uid + "_table_order_products"}
-      //           readonly={!this.state.isInlineEditing}
-      //           isUsedAsInput={true}
-      //           isInlineEditing={this.state.isInlineEditing}
-      //           data={{ data: R.PRODUCTS }}
-      //           customEndpointParams={{idOrder: R.id}}
-      //           descriptionSource='props'
-      //           description={{
-      //             permissions: this.props.tableOrderProductsDescription.permissions,
-      //             ui: {
-      //               showHeader: false,
-      //               showFooter: true,
-      //               addButtonText: "Add Product"
-      //             },
-      //             columns: {
-      //               title: { type: "varchar", title: this.translate('Title') },
-      //               id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
-      //                 cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-      //                   return (
-      //                     <FormInput>
-      //                       <Lookup {...this.getInputProps('id_product_1')}
-      //                         ref={lookupElement}
-      //                         model='HubletoApp/Community/Products/Models/Product'
-      //                         cssClass='min-w-44'
-      //                         value={data.id_product}
-      //                         onChange={(input: any, value: any) => {
-      //                           getLookupData();
-
-      //                           if (lookupData[value]) {
-      //                             data.id_product = value;
-      //                             data.unit_price = lookupData[value].unit_price;
-      //                             data.vat = lookupData[value].vat;
-      //                             this.updateRecord({ PRODUCTS: table.state.data?.data });
-      //                             this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
-      //                           }
-      //                         }}
-      //                       ></Lookup>
-      //                     </FormInput>
-      //                   )
-      //                 }
-      //               },
-      //               amount: { type: "int", title: "Amount" },
-      //               unit_price: { type: "float", title: "Unit Price"},
-      //               vat: { type: "float", title: "Vat (%)"},
-      //               discount: { type: "float", title: "Discount (%)" },
-      //               __sum: { type: "none", title: "Sum after vat",
-      //                 cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-      //                   if (data.unit_price && data.amount) {
-      //                     let sum = data.unit_price * data.amount;
-      //                     if (data.vat) sum = sum + (sum * (data.vat / 100));
-      //                     if (data.discount) sum = sum - (sum * (data.discount / 100));
-      //                     sum = Number(sum.toFixed(2));
-      //                     return (<><span>{sum + " " + R.CURRENCY.code}</span></>);
-      //                   }
-      //                 }
-      //               },
-      //             },
-      //             inputs: {
-      //               id_product: { type: "lookup", title: "Product", model: "HubletoApp/Community/Products/Models/Product",
-      //                 cellRenderer: ( table: TableOrderProducts, data: any, options: any): JSX.Element => {
-      //                   return (
-      //                     <FormInput>
-      //                       <Lookup {...this.getInputProps('product_lookup')}
-      //                         ref={lookupElement}
-      //                         model='HubletoApp/Community/Products/Models/Product'
-      //                         cssClass='min-w-44'
-      //                         value={data.id_product}
-      //                         onChange={(input: any, value: any) => {
-      //                           getLookupData();
-
-      //                           if (lookupData[value]) {
-      //                             data.id_product = value;
-      //                             data.unit_price = lookupData[value].unit_price;
-      //                             data.vat = lookupData[value].vat;
-      //                             this.updateRecord({ PRODUCTS: table.state.data?.data });
-      //                             this.updateRecord({ price: this.getSumPrice( R.PRODUCTS )});
-      //                           }
-      //                         }}
-      //                       ></Lookup>
-      //                     </FormInput>
-      //                   )
-      //                 }
-      //               },
-      //               amount: { type: "int", title: "Amount" },
-      //               unit_price: { type: "float", title: "Unit Price"},
-      //               vat: { type: "float", title: "Vat (%)"},
-      //               discount: { type: "float", title: "Discount (%)" },
-      //               __sum: { type: "none", title: "Sum after vat" },
-      //             }
-      //           }}
-      //           onRowClick={() => this.setState({isInlineEditing: true})}
-      //           onChange={(table: TableOrderProducts) => {
-      //             this.updateRecord({ price: this.getSumPrice( R.PRODUCTS ), PRODUCTS: table.state.data?.data });
-      //           }}
-      //           onDeleteSelectionChange={(table: TableOrderProducts) => {
-      //             this.updateRecord({ PRODUCTS: table.state.data?.data ?? [], price: this.getSumPrice(R.PRODUCTS) });
-      //           }}
-      //         />
-      //       </div>
-      //       </div>
-      //   </>;
-      // break;
-
-      case 'invoices':
-        if (this.state.record.INVOICES && this.state.record.INVOICES.length > 0) {
-          return <div className="flex gap-2">
-            {this.state.record.INVOICES.map((i, key) => {
-              return <a
-                key={key}
-                className="btn btn-square btn-transparent"
-                href={globalThis.main.config.projectUrl + '/invoices/' + i.id_invoice}
-                target="_blank"
-              >
-                <span className="icon"><i className="fas fa-file"></i></span>
-                <span className="text">{i.INVOICE.number}</span>
-              </a>;
-            })}
-          </div>;
-        } else {
-          return <div className="alert alert-info">No invoices for this order</div>;
-        }
       break;
 
       case 'documents':
-        if (this.state.record.DOCUMENTS && this.state.record.DOCUMENTS.length > 0) {
-          return <div className="flex gap-2">
-            {this.state.record.DOCUMENTS.map((d, key) => {
-              return <a
-                key={key}
-                className="btn btn-square btn-transparent"
-                href={globalThis.main.config.projectUrl + '/documents/' + d.id_document}
-                target="_blank"
-              >
-                <span className="icon"><i className="fas fa-file"></i></span>
-                <span className="text">{d.DOCUMENT.file}</span>
-              </a>;
-            })}
-          </div>;
-        } else {
-          return <div className="alert alert-info">No documents for this order</div>;
-        }
+        return <TableDocuments
+          key={"table_order_document"}
+          parentForm={this}
+          uid={this.props.uid + "_table_order_document"}
+          junctionTitle='Order'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderDocument'
+          junctionSourceColumn='id_order'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_document'
+          readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
+        />;
+
+      break;
+
+      case 'deals':
+        return <TableDeals
+          tag={"table_order_deal"}
+          parentForm={this}
+          uid={this.props.uid + "_table_order_deal"}
+          junctionTitle='Order'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderDeal'
+          junctionSourceColumn='id_order'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_deal'
+        />;
       break;
 
       case 'projects':
-        if (this.state.record.PROJECTS && this.state.record.PROJECTS.length > 0) {
-          return <div className="flex gap-2">
-            {this.state.record.PROJECTS.map((p, key) => {
-              return <a
-                key={key}
-                className="btn btn-square btn-transparent"
-                href={globalThis.main.config.projectUrl + '/projects/' + p.id_project}
-                target="_blank"
-              >
-                <span className="icon"><i className="fas fa-file"></i></span>
-                <span className="text">{p.PROJECT.file}</span>
-              </a>;
-            })}
-          </div>;
-        } else {
-          return <div className="alert alert-info">No projects for this order</div>;
-        }
+        return <TableProjects
+          tag={"table_order_project"}
+          parentForm={this}
+          uid={this.props.uid + "_table_order_project"}
+          junctionTitle='Order'
+          junctionModel='HubletoApp/Community/Orders/Models/OrderProject'
+          junctionSourceColumn='id_order'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_project'
+        />;
       break;
 
       case 'history':

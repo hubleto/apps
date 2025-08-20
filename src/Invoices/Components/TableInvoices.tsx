@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { setUrlParam, getUrlParam, deleteUrlParam } from '@hubleto/react-ui/core/Helper';
-import Table, { TableProps, TableState, TableDescription } from '@hubleto/react-ui/core/Table';
+import { TableDescription } from '@hubleto/react-ui/core/Table';
+import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import FormInvoice from './FormInvoice';
 import InputLookup from '@hubleto/react-ui/core/Inputs/Lookup';
 import InputVarchar from '@hubleto/react-ui/core/Inputs/Varchar';
 import InputDateTime from '@hubleto/react-ui/core/Inputs/DateTime';
 
-interface TableInvoicesProps extends TableProps {
+interface TableInvoicesProps extends HubletoTableProps {
   idCustomer?: any,
   number?: any,
   vs?: any,
@@ -20,7 +21,7 @@ interface TableInvoicesProps extends TableProps {
   datePaymentTo?: any,
 }
 
-interface TableInvoicesState extends TableState {
+interface TableInvoicesState extends HubletoTableState {
   idCustomer: any,
   number: any,
   vs: any,
@@ -34,9 +35,9 @@ interface TableInvoicesState extends TableState {
   datePaymentTo: any,
 }
 
-export default class TableInvoices extends Table<TableInvoicesProps, TableInvoicesState> {
+export default class TableInvoices extends HubletoTable<TableInvoicesProps, TableInvoicesState> {
   static defaultProps = {
-    ...Table.defaultProps,
+    ...HubletoTable.defaultProps,
     itemsPerPage: 25,
     formUseModalSimple: true,
     model: 'HubletoApp/Community/Invoices/Models/Invoice',

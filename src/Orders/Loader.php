@@ -18,6 +18,7 @@ class Loader extends \HubletoMain\App
     parent::init();
 
     $this->main->router->httpGet([
+      '/^orders\/api\/create-from-deal\/?$/' => Controllers\Api\CreateFromDeal::class,
       '/^orders\/?$/' => Controllers\Orders::class,
       '/^orders\/(?<recordId>\d+)\/?$/' => Controllers\Orders::class,
       '/^orders\/api\/generate-pdf\/?$/' => Controllers\Api\GeneratePdf::class,
@@ -41,6 +42,7 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\OrderInvoice::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderDocument::class)->dropTableIfExists()->install();
       $this->main->load(Models\OrderProject::class)->dropTableIfExists()->install();
+      $this->main->load(Models\OrderDeal::class)->dropTableIfExists()->install();
       $this->main->load(Models\History::class)->dropTableIfExists()->install();
     }
 
@@ -97,13 +99,12 @@ class Loader extends \HubletoMain\App
       $mHistory->record->recordCreate([ 'id_order' => $idOrder, 'short_description' => 'Order created', 'date_time' => date('Y-m-d H:i:s') ]);
 
       for ($j = 1; $j <= 5; $j++) {
-        $amount = rand(100, 200) / rand(3, 7);
-        $unitPrice = rand(50, 80) / rand(2, 5);
         $mOrderProduct->record->recordCreate([
           'id_order' => $idOrder,
+          'id_product' => rand(1, 5),
           'title' => 'Item #' . $i . '.' . $j,
-          'amount' => $amount,
-          'unit_price' => $unitPrice,
+          'amount' => rand(100, 200) / rand(3, 7),
+          'sales_price' => rand(50, 80) / rand(2, 5),
         ]);
       }
     }

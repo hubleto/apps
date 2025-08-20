@@ -33,22 +33,28 @@ class Order extends \HubletoMain\RecordManager
     return $this->hasMany(OrderProduct::class, 'id_order', 'id');
   }
 
-  /** @return HasMany<OrderInvoice, covariant Order> */
-  public function INVOICES(): HasMany
-  {
-    return $this->hasMany(OrderInvoice::class, 'id_order', 'id');
-  }
-
   /** @return HasMany<OrderDocument, covariant Order> */
   public function DOCUMENTS(): HasMany
   {
     return $this->hasMany(OrderDocument::class, 'id_order', 'id');
   }
 
+  /** @return HasMany<OrderDeal, covariant Order> */
+  public function DEALS(): HasMany
+  {
+    return $this->hasMany(OrderDeal::class, 'id_order', 'id');
+  }
+
   /** @return HasMany<OrderProject, covariant Order> */
   public function PROJECTS(): HasMany
   {
     return $this->hasMany(OrderProject::class, 'id_order', 'id');
+  }
+
+  /** @return HasMany<OrderInvoice, covariant Order> */
+  public function INVOICES(): HasMany
+  {
+    return $this->hasMany(OrderInvoice::class, 'id_order', 'id');
   }
 
   /** @return HasMany<History, covariant Order> */
@@ -74,4 +80,6 @@ class Order extends \HubletoMain\RecordManager
   {
     return $this->hasOne(Template::class, 'id', 'id_template');
   }
+
+
 }

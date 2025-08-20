@@ -20,4 +20,18 @@ class OrderProduct extends \HubletoMain\RecordManager
   {
     return $this->belongsTo(Product::class, 'id_product', 'id');
   }
+
+
+  public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
+  {
+    $query = parent::prepareReadQuery($query, $level);
+
+    $main = \HubletoMain\Loader::getGlobalApp();
+
+    if ($main->urlParamAsInteger("idOrder") > 0) {
+      $query = $query->where($this->table . '.id_order', $main->urlParamAsInteger("idOrder"));
+    }
+
+    return $query;
+  }
 }

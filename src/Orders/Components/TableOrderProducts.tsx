@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
-import Table, { TableProps, TableState } from '@hubleto/react-ui/core/Table';
+import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 
-interface TableOrderProductsProps extends TableProps {
-  sum?: string,
+interface TableOrderProductsProps extends HubletoTableProps {
+  idOrder: number
 }
 
-interface TableOrderProductsState extends TableState {}
+interface TableOrderProductsState extends HubletoTableState {}
 
-export default class TableOrderProducts extends Table<TableOrderProductsProps, TableOrderProductsState> {
+export default class TableOrderProducts extends HubletoTable<TableOrderProductsProps, TableOrderProductsState> {
   static defaultProps = {
-    ...Table.defaultProps,
-    orderBy: {
-      field: "id",
-      direction: "desc"
-    },
-    formUseModalSimple: true,
+    ...HubletoTable.defaultProps,
     model: 'HubletoApp/Community/Orders/Models/OrderProduct',
   }
 
@@ -43,18 +38,7 @@ export default class TableOrderProducts extends Table<TableOrderProductsProps, T
   getEndpointParams(): any {
     return {
       ...super.getEndpointParams(),
+      idOrder: this.props.idOrder,
     }
-  }
-
-  renderHeaderRight(): Array<JSX.Element> {
-    let elements: Array<JSX.Element> = super.renderHeaderRight();
-
-    return elements;
-  }
-
-  renderFooter(): JSX.Element {
-    return <>
-      <div className='flex flex-row justify-start md:justify-end'><strong className='mr-5'>{this.props.sum}</strong></div>
-    </>;
   }
 }

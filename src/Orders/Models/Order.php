@@ -28,9 +28,10 @@ class Order extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'PRODUCTS' => [ self::HAS_MANY, OrderProduct::class, 'id_order', 'id' ],
-    'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, OrderDocument::class, 'id_order', 'id' ],
+    'DEALS' => [ self::HAS_MANY, OrderDeal::class, 'id_order', 'id' ],
     'PROJECTS' => [ self::HAS_MANY, OrderProject::class, 'id_order', 'id' ],
+    'INVOICES' => [ self::HAS_MANY, OrderInvoice::class, 'id_order', 'id' ],
     'HISTORY' => [ self::HAS_MANY, History::class, 'id_order', 'id' ],
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],

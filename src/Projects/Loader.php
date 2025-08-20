@@ -16,6 +16,8 @@ class Loader extends \HubletoMain\App
     parent::init();
 
     $this->main->router->httpGet([
+      // '/^projects\/api\/save-junction\/?$/' => Controllers\Api\SaveJunction::class,
+
       '/^projects(\/(?<recordId>\d+))?\/?$/' => Controllers\Projects::class,
       '/^projects\/phases\/?$/' => Controllers\Phases::class,
       '/^projects\/api\/convert-deal-to-project\/?$/' => Controllers\Api\ConvertDealToProject::class,

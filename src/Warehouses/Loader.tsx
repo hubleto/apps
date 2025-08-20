@@ -10,6 +10,11 @@
 // 3. Use the component in any of your Twig views:
 // <app-warehouses-table-my-model string:some-property="some-value"></app-warehouses-table-my-model>
 
+import HubletoApp from '@hubleto/react-ui/ext/HubletoApp'
 import TableWarehouses from "./Components/TableWarehouses"
 
+// register app
+globalThis.main.registerApp('HubletoApp/Community/Suppliers', new HubletoApp());
+
+// register react components
 globalThis.main.registerReactComponent('WarehousesTableWarehouses', TableWarehouses);

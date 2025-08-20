@@ -43,7 +43,7 @@ class Project extends \HubletoMain\RecordManager
     if ($main->urlParamAsInteger("idDeal") > 0) {
       $query = $query->where($this->table . '.id_deal', $main->urlParamAsInteger("idDeal"));
     }
-
+    
     $defaultFilters = $main->urlParamAsArray("defaultFilters");
     if (isset($defaultFilters["fPhase"]) && count($defaultFilters["fPhase"]) > 0) {
       $query = $query->whereIn("{$this->table}.id_phase", $defaultFilters["fPhase"]);
@@ -52,4 +52,5 @@ class Project extends \HubletoMain\RecordManager
     return $query;
   }
 
+  
 }

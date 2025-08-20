@@ -27,20 +27,6 @@ class Document extends \HubletoMain\RecordManager
 
     $query = parent::prepareReadQuery($query, $level);
 
-    $main = \HubletoMain\Loader::getGlobalApp();
-
-    $junctionModel = $main->urlParamAsString('junctionModel');
-    $junctionColumn = $main->urlParamAsString('junctionColumn');
-    $junctionId = $main->urlParamAsInteger('junctionId');
-
-    if (!empty($junctionModel) && !empty($junctionColumn) && $junctionId > 0) {
-      $junctionModelObj = $main->load($junctionModel);
-      if ($junctionModelObj) {
-        $documentIds = $junctionModelObj->record->where($junctionColumn, $junctionId)->pluck('id_document')->toArray();
-        $query = $query->whereIn('documents.id', $documentIds);
-      }
-    }
-
     return $query;
   }
 

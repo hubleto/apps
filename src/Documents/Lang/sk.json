@@ -10,7 +10,8 @@
         "File Link": "Odkaz na dokument",
         "Origin Link": "Pôvodný odkaz",
         "Uid": "Uid",
-        "Folder": "Priečinok"
+        "Folder": "Priečinok",
+        "Add Document": ""
     },
     "Controllers\\Documents": {
         "Documents": "Dokumenty"

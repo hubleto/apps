@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
-import FormProject from './FormProject';
+import FormProject, { FormProjectProps } from './FormProject';
 
 interface TableProjectsProps extends HubletoTableProps {
   idDeal?: number,
 }
-
-interface TableProjectsState extends HubletoTableState {
-}
+interface TableProjectsState extends HubletoTableState { }
 
 export default class TableProjects extends HubletoTable<TableProjectsProps, TableProjectsState> {
   static defaultProps = {
@@ -38,18 +36,12 @@ export default class TableProjects extends HubletoTable<TableProjectsProps, Tabl
     return params;
   }
 
-  getEndpointParams(): any {
-    return {
-      ...super.getEndpointParams(),
-      idDeal: this.props.idDeal,
-    }
-  }
-
   renderForm(): JSX.Element {
-    let formProps = this.getFormProps();
+    let formProps = this.getFormProps() as FormProjectProps;
     formProps.customEndpointParams.idDeal = this.props.idDeal;
     if (!formProps.description) formProps.description = {};
     formProps.description.defaultValues = { id_deal: this.props.idDeal };
+
     return <FormProject {...formProps}/>;
   }
 }

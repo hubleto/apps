@@ -508,8 +508,9 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
             key={this.state.tablesKey + "_table_customer_document"}
             uid={this.props.uid + "_table_customer_documents"}
             junctionModel='HubletoApp\Community\Customers\Models\CustomerDocument'
-            junctionColumn='id_customer'
-            junctionId={R.id}
+            junctionSourceColumn='id_customer'
+            junctionDestinationColumn='id_document'
+            junctionSourceRecordId={R.id}
             readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
           />
           {this.state.showIdDocument != 0 ? this.renderDocumentForm() : null}

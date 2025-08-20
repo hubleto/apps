@@ -17,7 +17,7 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^documents\/?$/' => Controllers\Browse::class,
-      '/^documents\/api\/save-junction\/?$/' => Controllers\Api\SaveJunction::class,
+      // '/^documents\/api\/save-junction\/?$/' => Controllers\Api\SaveJunction::class,
       '/^documents\/browse\/?$/' => Controllers\Browse::class,
       '/^documents\/list\/?$/' => Controllers\Documents::class,
       '/^documents\/(?<recordId>\d+)\/?$/' => Controllers\Documents::class,

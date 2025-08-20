@@ -44,6 +44,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
   props: FormDealProps;
   state: FormDealState;
 
+  parentApp: string = 'HubletoApp/Community/Deals';
+
   refLogActivityInput: any;
   refProductsLookup: any;
 
@@ -215,11 +217,13 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     } as FormDealState);
   }
 
-  renderHeaderLeft(): null|JSX.Element {
-    return <>
-      {super.renderHeaderLeft()}
-      <button className="btn btn-transparent"
-        onClick={() => {
+  getFormHeaderButtons()
+  {
+    return [
+      ...super.getFormHeaderButtons(),
+      {
+        title: 'Generate quotation (PDF)',
+        onClick: () => {
           request.post(
             'deals/api/generate-quotation-pdf',
             {idDeal: this.state.record.id},
@@ -230,11 +234,9 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
               }
             }
           );
-        }}
-      >
-        <span className="text">Generate quotation</span>
-      </button>
-    </>;
+        }
+      }
+    ]
   }
 
   renderTab(tab: string) {
@@ -636,8 +638,9 @@ const recentActivitiesAndCalendar = <div className='card card-body shadow-blue-2
             tag={'table_deal_documents'}
             parentForm={this}
             junctionModel='HubletoApp\Community\Deals\Models\DealDocument'
-            junctionColumn='id_deal'
-            junctionId={R.id}
+            junctionSourceColumn='id_deal'
+            junctionDestinationColumn='id_document'
+            junctionSourceRecordId={R.id}
             readonly={R.is_archived == true ? false : !this.state.isInlineEditing}
           />
           {this.state.showIdDocument != 0 ?

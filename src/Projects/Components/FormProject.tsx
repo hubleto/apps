@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import PipelineSelector from '@hubleto/apps/Pipeline/Components/PipelineSelector';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
+import request from '@hubleto/react-ui/core/Request';
 
 export interface FormProjectProps extends HubletoFormProps { }
 export interface FormProjectState extends HubletoFormState { }
@@ -34,7 +35,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{(this.state.record.identifier ?? '') + ' ' + (this.state.record.title ?? '')}</h2>
+      <h2>{this.state.record.title ?? '-'}</h2>
       <small>Project</small>
     </>;
   }

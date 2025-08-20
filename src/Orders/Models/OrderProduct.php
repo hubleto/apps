@@ -23,12 +23,12 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
   {
     return array_merge(parent::describeColumns(), [
       'id_order' => (new Lookup($this, $this->translate('Order'), Order::class))->setRequired(),
-      'title' => (new Varchar($this, $this->translate('Title')))->setRequired(),
-      'id_product' => (new Lookup($this, $this->translate('Product'), Product::class)),
-      'unit_price' => (new Decimal($this, $this->translate('Unit price')))->setRequired(),
-      'amount' => (new Integer($this, $this->translate('Amount')))->setRequired(),
-      'discount' => (new Integer($this, $this->translate('Discount')))->setUnit('%'),
-      'vat' => (new Integer($this, $this->translate('Vat')))->setUnit('%'),
+      'title' => (new Varchar($this, $this->translate('Title')))->setRequired()->setProperty('defaultVisibility', true),
+      'id_product' => (new Lookup($this, $this->translate('Product'), Product::class))->setProperty('defaultVisibility', true),
+      'sales_price' => (new Decimal($this, $this->translate('Sales price')))->setRequired()->setProperty('defaultVisibility', true),
+      'amount' => (new Integer($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
+      'discount' => (new Integer($this, $this->translate('Discount')))->setUnit('%')->setProperty('defaultVisibility', true),
+      'vat' => (new Integer($this, $this->translate('Vat')))->setUnit('%')->setProperty('defaultVisibility', true),
     ]);
   }
 
@@ -38,18 +38,6 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
 
     $description->ui['title'] = 'Order Products';
     $description->ui["addButtonText"] = $this->translate("Add product");
-
-    if ($this->main->urlParamAsInteger('idOrder') > 0) {
-      // $description->permissions = [
-      //   'canRead' => $this->main->permissions->granted($this->fullName . ':Read'),
-      //   'canCreate' => $this->main->permissions->granted($this->fullName . ':Create'),
-      //   'canUpdate' => $this->main->permissions->granted($this->fullName . ':Update'),
-      //   'canDelete' => $this->main->permissions->granted($this->fullName . ':Delete'),
-      // ];
-      $description->columns = [];
-      $description->inputs = [];
-      $description->ui = [];
-    }
 
     return $description;
   }
