@@ -22,6 +22,8 @@ class Campaign extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
+
+    'CONTACTS' => [ self::HAS_MANY, CampaignContact::class, 'id_deal', 'id'],
     'TASKS' => [ self::HAS_MANY, CampaignTask::class, 'id_deal', 'id'],
   ];
 

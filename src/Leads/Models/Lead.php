@@ -26,7 +26,7 @@ class Lead extends \Hubleto\Framework\Models\Model
 {
   public string $table = 'leads';
   public string $recordManagerClass = RecordManagers\Lead::class;
-  public ?string $lookupSqlValue = 'concat(ifnull({%TABLE%}.identifier, ""), " ", ifnull({%TABLE%}.title, ""))';
+  public ?string $lookupSqlValue = '{%TABLE%}.id';
   public ?string $lookupUrlDetail = 'leads/{%ID%}';
 
   public const STATUS_NO_INTERACTION_YET = 0;
@@ -67,7 +67,7 @@ class Lead extends \Hubleto\Framework\Models\Model
       ,
       'id_contact' => (new Lookup($this, $this->translate('Contact'), Contact::class))->setRequired()->setDefaultValue(null),
       'id_level' => (new Lookup($this, $this->translate('Level'), Level::class))->setProperty('defaultVisibility', true),
-      'status' => (new Integer($this, $this->translate('Status')))->setProperty('defaultVisibility', true)->setRequired()->setEnumValues(
+      'status' => (new Integer($this, $this->translate('Status')))->setProperty('defaultVisibility', true)->setEnumValues(
         [
           $this::STATUS_NO_INTERACTION_YET => 'No interaction yet',
           $this::STATUS_CONTACTED => 'Contacted',

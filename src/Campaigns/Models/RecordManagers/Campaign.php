@@ -20,6 +20,12 @@ class Campaign extends \HubletoMain\RecordManager
   }
 
   /** @return HasMany<DealTask, covariant Deal> */
+  public function CONTACTS(): HasMany
+  {
+    return $this->hasMany(CampaignContact::class, 'id_campaign', 'id');
+  }
+
+  /** @return HasMany<DealTask, covariant Deal> */
   public function TASKS(): HasMany
   {
     return $this->hasMany(CampaignTask::class, 'id_campaign', 'id');

@@ -17,5 +17,13 @@
         "Mail template": "Šablóna emailovej správy",
         "Manager": "Manažér",
         "Created": "Vytvorená"
+    },
+    "Models\\CampaignContact": {
+        "Campaign": "",
+        "Contact": ""
+    },
+    "Models\\CampaignTask": {
+        "Campaign": "",
+        "Task": ""
     }
 }

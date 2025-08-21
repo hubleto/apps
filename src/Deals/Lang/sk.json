@@ -176,5 +176,13 @@
         "Pending": "",
         "Won": "",
         "Lost": ""
+    },
+    "Models\\DealLead": {
+        "Deal": "",
+        "Lead": ""
+    },
+    "Models\\DealTask": {
+        "Deal": "",
+        "Task": ""
     }
 }

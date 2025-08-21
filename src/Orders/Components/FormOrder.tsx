@@ -43,8 +43,8 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
         { uid: 'default', title: <b>{this.translate('Order')}</b> },
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
-        { uid: 'invoices', title: this.translate('Invoices'), showCountFor: 'INVOICES' },
-        { uid: 'history', title: this.translate('History') },
+        // { uid: 'invoices', title: this.translate('Invoices'), showCountFor: 'INVOICES' },
+        { uid: 'history', title: this.translate('History'), position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };

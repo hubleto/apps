@@ -258,7 +258,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
                 className='badge'
                 href={globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id}
                 target='_blank'
-              >{item.LEAD.identifier}</a>;
+              >{item.LEAD.id}</a>;
             }) : null}
           </FormInput>
           {this.inputWrapper('identifier', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}
