@@ -38,12 +38,14 @@ class Desktop extends \HubletoMain\Controller
     $this->viewParams['appsInSidebar'] = $appsInSidebar;
     $this->viewParams['activatedApp'] = $activatedApp;
     $this->viewParams['sidebarGroups'] = $this->main->config->getAsArray('sidebarGroups', [
-      'crm' => [ 'title' => $this->translate('CRM'), 'icon' => 'fas fa-id-card-clip' ],
-      'tasks' => [ 'title' => $this->translate('Tasks'), 'icon' => 'fas fa-list-check' ],
+      'addressbook' => [ 'title' => $this->translate('Addressbook'), 'icon' => 'fas fa-id-card-clip' ],
+      'calendar' => [ 'title' => $this->translate('Calendar'), 'icon' => 'fas fa-calendar' ],
+      // 'productivity' => [ 'title' => $this->translate('Productivity'), 'icon' => 'fas fa-list-check' ],
       'documents' => [ 'title' => $this->translate('Documents'), 'icon' => 'fas fa-file' ],
+      'communication' => [ 'title' => $this->translate('Communication'), 'icon' => 'fas fa-comments' ],
+      'workflow' => [ 'title' => $this->translate('Workflow'), 'icon' => 'fas fa-diagram-project' ],
       'marketing' => [ 'title' => $this->translate('Marketing'), 'icon' => 'fas fa-bullseye' ],
       'sales' => [ 'title' => $this->translate('Sales'), 'icon' => 'fas fa-users-viewfinder' ],
-      'communication' => [ 'title' => $this->translate('Communication'), 'icon' => 'fas fa-comments' ],
       'projects' => [ 'title' => $this->translate('Projects'), 'icon' => 'fas fa-diagram-project' ],
       'supply-chain' => [ 'title' => $this->translate('Supply chain'), 'icon' => 'fas fa-truck' ],
       'helpdesk' => [ 'title' => $this->translate('Helpdesk'), 'icon' => 'fas fa-headset' ],

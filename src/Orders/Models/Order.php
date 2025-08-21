@@ -4,6 +4,7 @@ namespace HubletoApp\Community\Orders\Models;
 
 use DateTimeImmutable;
 use Hubleto\Framework\Db\Column\Date;
+use Hubleto\Framework\Db\Column\Boolean;
 use Hubleto\Framework\Db\Column\Decimal;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Text;
@@ -58,6 +59,7 @@ class Order extends \Hubleto\Framework\Models\Model
       'shipping_info' => (new Varchar($this, $this->translate('Shipping information'))),
       'note' => (new Text($this, $this->translate('Notes'))),
       'id_template' => (new Lookup($this, $this->translate('Template'), Template::class)),
+      'is_closed' => (new Boolean($this, $this->translate('Closed')))->setProperty('defaultVisibility', true),
     ]);
   }
 

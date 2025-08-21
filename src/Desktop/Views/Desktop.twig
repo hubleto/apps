@@ -262,13 +262,13 @@
               {{ appBtns[0]|raw }}
             </div>
           {% else %}
-            <div>
+            <div class="sidebar-group {% if hasActivatedApp %} activated {% endif %}">
               <button
                 class="btn flex-10 truncate"
                 id="sg_{{ sidebarGroup }}_btn"
                 onclick="
-                  $('.sidebar-group-btns').not('#sg_{{ sidebarGroup }}_btns').slideUp();
-                  $('#sg_{{ sidebarGroup }}_btns').slideDown();
+                  $('.sidebar-group').removeClass('activated');
+                  $(this).closest('.sidebar-group').addClass('activated');
                 "
               >
                 <span class="icon"><i class="{{ sidebarGroupData.icon }}"></i></span>
@@ -276,10 +276,9 @@
               </button>
               <div
                 id="sg_{{ sidebarGroup }}_btns"
-                {% if not hasActivatedApp %} style="display:none" {% endif %}
                 class="sidebar-group-btns"
               >
-                {{ appBtns|join('')|raw }}
+                <div class="inner">{{ appBtns|join('')|raw }}</div>
               </div>
             </div>
           {% endif %}

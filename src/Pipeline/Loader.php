@@ -17,9 +17,15 @@ class Loader extends \HubletoMain\App
   {
     parent::init();
 
+    $mPipeline = $this->main->load(Models\Pipeline::class);
+
     $this->main->router->httpGet([
-      '/^pipeline\/?$/' => Controllers\Home::class,
       '/^pipeline\/api\/get-pipelines\/?$/' => Controllers\Api\GetPipelines::class,
+      '/^pipeline\/?$/' => Controllers\Home::class,
+      '/^pipeline\/(?<pipelineType>deals)\/?$/' => Controllers\Pipeline::class,
+      '/^pipeline\/(?<pipelineType>projects)\/?$/' => Controllers\Pipeline::class,
+      '/^pipeline\/(?<pipelineType>tasks)\/?$/' => Controllers\Pipeline::class,
+      '/^pipeline\/(?<pipelineType>orders)\/?$/' => Controllers\Pipeline::class,
       '/^settings\/pipelines\/?$/' => Controllers\Pipelines::class,
     ]);
 
@@ -70,6 +76,27 @@ class Loader extends \HubletoMain\App
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Invoiced', 'order' => 4, 'color' => '#ae459f']);
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Paid', 'order' => 5, 'color' => '#a38f9a']);
     }
+  }
+
+  public function renderSecondSidebar(): string
+  {
+    return '
+      <h2 class="mt-2">Pipeline</h2>
+      <div class="btn-list">
+        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/deals">
+          <span class="text">Deals</span>
+        </a>
+        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/projects">
+          <span class="text">Projects</span>
+        </a>
+        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/tasks">
+          <span class="text">Tasks</span>
+        </a>
+        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/orders">
+          <span class="text">Orders</span>
+        </a>
+      </div>
+    ';
   }
 
 }

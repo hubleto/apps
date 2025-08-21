@@ -50,6 +50,10 @@ export default class TableOrders extends HubletoTable<TableOrdersProps, TableOrd
     window.history.pushState({}, "", globalThis.main.config.projectUrl + '/orders/' + id);
   }
 
+  rowClassName(rowData: any): string {
+    return rowData.is_closed ? 'bg-slate-300' : super.rowClassName(rowData);
+  }
+
   renderHeaderRight(): Array<JSX.Element> {
     let elements: Array<JSX.Element> = super.renderHeaderRight();
 

@@ -1,6 +1,6 @@
 namespace: HubletoApp\Community\Pipeline
 appType: community
-sidebarGroup: sales
+sidebarGroup: workflow
 rootUrlSlug: pipeline
 name: Pipeline
 icon: fas fa-timeline

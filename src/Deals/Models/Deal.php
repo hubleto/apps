@@ -99,7 +99,7 @@ class Deal extends \Hubleto\Framework\Models\Model
       'shared_folder' => new Varchar($this, "Shared folder (online document storage)"),
       'note' => (new Text($this, $this->translate('Notes'))),
       'source_channel' => (new Integer($this, $this->translate('Source channel')))->setEnumValues(self::ENUM_SOURCE_CHANNELS),
-      'is_closed' => (new Boolean($this, $this->translate('Closed'))),
+      'is_closed' => (new Boolean($this, $this->translate('Closed')))->setProperty('defaultVisibility', true),
       'is_archived' => (new Boolean($this, $this->translate('Archived')))->setDefaultValue(false),
       'deal_result' => (new Integer($this, $this->translate('Deal Result')))
         ->setEnumValues(self::ENUM_DEAL_RESULTS)
@@ -271,26 +271,27 @@ class Deal extends \Hubleto\Framework\Models\Model
     return $savedRecord;
   }
 
-  public function getOwnership(array $record): void
-  {
-    if (isset($record["id_customer"]) && !isset($record["checkOwnership"])) {
-      $mCustomer = $this->main->load(Customer::class);
-      $customer = $mCustomer->record
-        ->where("id", $record["id_customer"])
-        ->first()
-      ;
+  // public function getOwnership(array $record): void
+  // {
+  //   if (isset($record["id_customer"]) && !isset($record["checkOwnership"])) {
+  //     $mCustomer = $this->main->load(Customer::class);
+  //     $customer = $mCustomer->record
+  //       ->where("id", $record["id_customer"])
+  //       ->first()
+  //     ;
 
-      // if (isset($record['id_owner']) && $customer->id_owner != $record["id_owner"]) {
-      //   throw new \Exception("This deal cannot be assigned to the selected user,\nbecause they are not assigned to the selected customer.");
-      // }
-    }
-  }
+  //     // if (isset($record['id_owner']) && $customer->id_owner != $record["id_owner"]) {
+  //     //   throw new \Exception("This deal cannot be assigned to the selected user,\nbecause they are not assigned to the selected customer.");
+  //     // }
+  //   }
+  // }
 
-  public function onBeforeCreate(array $record): array
-  {
-    $this->getOwnership($record);
-    return $record;
-  }
+  // public function onBeforeCreate(array $record): array
+  // {
+  //   $this->getOwnership($record);
+  //   if (!isset($record['is_closed'])) $record['is_closed'] = false;
+  //   return $record;
+  // }
 
   public function onBeforeUpdate(array $record): array
   {

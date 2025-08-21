@@ -54,6 +54,10 @@ export default class TableDeals extends HubletoTable<TableDealsProps, TableDeals
     }
   }
 
+  rowClassName(rowData: any): string {
+    return rowData.is_closed ? 'bg-slate-300' : super.rowClassName(rowData);
+  }
+
   renderCell(columnName: string, column: any, data: any, options: any) {
     if (columnName == "title") {
       return <>

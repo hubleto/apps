@@ -1,6 +1,6 @@
 namespace: HubletoApp\Community\Customers
 appType: community
-sidebarGroup: crm
+sidebarGroup: addressbook
 rootUrlSlug: customers
 name: Customers
 icon: fas fa-address-card
