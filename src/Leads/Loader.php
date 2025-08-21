@@ -48,9 +48,6 @@ class Loader extends \HubletoMain\App
       'url' => 'settings/lead-lost-reasons',
     ]);
 
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-    $externalModels->registerExternalModel($this, Models\Lead::class);
-
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $calendarManager->addCalendar($this, 'leads', $this->configAsString('calendarColor'), Calendar::class);
 

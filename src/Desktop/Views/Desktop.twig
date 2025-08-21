@@ -246,40 +246,43 @@
         </a>
 
         {% for sidebarGroup, sidebarGroupData in viewParams.sidebarGroups %}
-          {% set appBtns = '' %}
+          {% set appBtns = [] %}
           {% set hasActivatedApp = false %}
           {% for app in viewParams.appsInSidebar %}
             {% if app.manifest.sidebarGroup == sidebarGroup %}
-              {% set appBtns = appBtns ~ _self.appBtn(app, true) %}
+              {% set appBtns = appBtns|merge([_self.appBtn(app, true)]) %}
               {% if app.isActivated %}
                 {% set hasActivatedApp = true %}
               {% endif %}
             {% endif %}
           {% endfor %}
-          <div>
-            <button
-              class="btn flex-10 truncate"
-              id="sg_{{ sidebarGroup }}_btn"
-              onclick="
-                $('.sidebar-group-btns').not('#sg_{{ sidebarGroup }}_btns').slideUp();
-                $('#sg_{{ sidebarGroup }}_btns').slideDown();
-              "
-            >
-              <span class="icon"><i class="{{ sidebarGroupData.icon }}"></i></span>
-              <span class="text">{{ sidebarGroupData.title }}</span>
-            </button>
-            <div
-              id="sg_{{ sidebarGroup }}_btns"
-              {% if not hasActivatedApp %} style="display:none" {% endif %}
-              class="sidebar-group-btns"
-            >
-              {% if appBtns == '' %}
-                <div class="text-sm">{{ translate("You have no apps in this group.") }}</div>
-              {% else %}
-                {{ appBtns|raw }}
-              {% endif %}
+          {% if appBtns|length == 0 %}
+          {% elseif appBtns|length == 1 %}
+            <div>
+              {{ appBtns[0]|raw }}
             </div>
-          </div>
+          {% else %}
+            <div>
+              <button
+                class="btn flex-10 truncate"
+                id="sg_{{ sidebarGroup }}_btn"
+                onclick="
+                  $('.sidebar-group-btns').not('#sg_{{ sidebarGroup }}_btns').slideUp();
+                  $('#sg_{{ sidebarGroup }}_btns').slideDown();
+                "
+              >
+                <span class="icon"><i class="{{ sidebarGroupData.icon }}"></i></span>
+                <span class="text">{{ sidebarGroupData.title }}</span>
+              </button>
+              <div
+                id="sg_{{ sidebarGroup }}_btns"
+                {% if not hasActivatedApp %} style="display:none" {% endif %}
+                class="sidebar-group-btns"
+              >
+                {{ appBtns|join('')|raw }}
+              </div>
+            </div>
+          {% endif %}
         {% endfor %}
         {% set i = 0 %}
         {% for app in viewParams.appsInSidebar %}

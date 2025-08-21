@@ -110,8 +110,6 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
                   uid={this.props.uid + "_table_tasks"}
                   tag="ProjectTasks"
                   parentForm={this}
-                  externalModel='HubletoApp\Community\Projects\Models\Project'
-                  externalId={R.id}
                   selectionMode='multiple'
                 />
             }

@@ -4,7 +4,6 @@ namespace HubletoApp\Community\Discussions;
 
 class Loader extends \HubletoMain\App
 {
-  public array $externalModels = [];
 
   /**
    * Inits the app: adds routes, settings, calendars, hooks, menu items, ...
@@ -40,16 +39,6 @@ class Loader extends \HubletoMain\App
     if ($round == 3) {
       // do something in the 3rd round, if required
     }
-  }
-
-  public function registerExternalModel(\Hubleto\Framework\Interfaces\AppInterface $app, string $modelClass)
-  {
-    $this->externalModels[$modelClass] = $app;
-  }
-
-  public function getRegisteredExternalModels(): array
-  {
-    return $this->externalModels;
   }
 
 }

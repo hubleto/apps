@@ -52,9 +52,6 @@ class Loader extends \HubletoMain\App
 
     $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-    $externalModels->registerExternalModel($this, Models\Deal::class);
-
     $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
     $boards->addBoard( $this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
     $boards->addBoard( $this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');

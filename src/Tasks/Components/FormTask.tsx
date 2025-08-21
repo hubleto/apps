@@ -81,10 +81,6 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
               {this.inputWrapper('is_milestone')}
               {this.inputWrapper('notes')}
               {this.inputWrapper('date_created')}
-              <div className="flex w-full gap-2">
-                {this.inputWrapper('external_model')}
-                {this.inputWrapper('external_id')}
-              </div>
             </div>
           </div>
         </>;

@@ -59,10 +59,6 @@ class Task extends \Hubleto\Framework\Models\Model
       'shared_folder' => (new Varchar($this, "Shared folder (online document storage)"))->setReactComponent('InputHyperlink'),
       'notes' => (new Text($this, $this->translate('Notes'))),
       'date_created' => (new DateTime($this, $this->translate('Created')))->setReadonly()->setDefaultValue(date("Y-m-d H:i:s")),
-
-      'external_model' => (new Varchar($this, $this->translate('External Model')))->setProperty('defaultVisibility', true),
-      'external_id' => (new Integer($this, $this->translate('External ID'))),
-
       'virt_worked' => (new Virtual($this, $this->translate('Worked')))->setProperty('defaultVisibility', true)->setUnit("hours")
         ->setProperty('sql', "select sum(ifnull(duration, 0)) from worksheet_activities where id_task = tasks.id")
       ,
@@ -79,42 +75,12 @@ class Task extends \Hubleto\Framework\Models\Model
     $description->ui['showColumnSearch'] = true;
     $description->ui['showFooter'] = false;
 
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-
-    if (isset($description->columns['external_model'])) {
-      $enumExternalModels = ['' => '-- No external relation --'];
-      foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
-        $enumExternalModels[$modelClass] = $app->manifest['nameTranslated'];
-      }
-
-      $description->columns['external_model']->setEnumValues($enumExternalModels);
-    }
-
-    $fExternalModels = [];
-    foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
-      $fExternalModels[$modelClass] = $app->manifest['name'];
-    }
-    $description->ui['defaultFilters'] = [
-      'fExternalModels' => [ 'title' => 'External models', 'type' => 'multipleSelectButtons', 'options' => $fExternalModels ],
-    ];
-
     return $description;
   }
 
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
-    $description = parent::describeForm();
-
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-
-    $enumExternalModels = ['' => '-- No external relation --'];
-    foreach ($externalModels->getRegisteredExternalModels() as $modelClass => $app) {
-      $enumExternalModels[$modelClass] = $app->manifest['nameTranslated'];
-    }
-
-    $description->inputs['external_model']->setEnumValues($enumExternalModels);
-
-    return $description;
+    return parent::describeForm();
   }
 
   public function onBeforeCreate(array $record): array
@@ -141,24 +107,7 @@ class Task extends \Hubleto\Framework\Models\Model
     $savedRecord['id_pipeline_step'] = $idPipelineStep;
 
     if (empty($savedRecord['identifier'])) {
-      // \$mProject = $this->main->load(\HubletoApp\Community\Projects\Models\Project::class);
-      // $project = $mProject->record->where("id", $savedRecord["id_project"])->first()?->toArray();
-      // $savedRecord["identifier"] = ($project["identifier"] ?? 'T') . '#' . $savedRecord["id"];
-      $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-      $externalModelApp = $externalModels->getRegisteredExternalModels()[$savedRecord['external_model']] ?? null;
-      if ($externalModelApp) {
-        $externalModelClass = $savedRecord['external_model'];
-        $externalModel = $this->main->load($externalModelClass);
-        $externalRecord = $externalModel->record->prepareReadQuery()->where($externalModel->table.'.id', $savedRecord['external_id'])->first()?->toArray();
-        $savedRecord["identifier"] =
-          ($externalModelApp->manifest['name'] ?? 'X')
-          . ':' . ($externalRecord['identifier'] ?? 'X')
-          . '#' . $savedRecord["id"]
-        ;
-      } else {
-        $savedRecord["identifier"] = '#' . $savedRecord["id"];
-        ;
-      }
+      $savedRecord["identifier"] = '#' . $savedRecord["id"];
     }
 
     $this->record->recordUpdate($savedRecord);

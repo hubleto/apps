@@ -45,9 +45,6 @@ class Loader extends \HubletoMain\App
     $appMenu->addItem($this, 'projects', $this->translate('Projects'), 'fas fa-diagram-project');
     $appMenu->addItem($this, 'projects/phases', $this->translate('Phases'), 'fas fa-list');
 
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-    $externalModels->registerExternalModel($this, Models\Project::class);
-
   }
 
   // installTables

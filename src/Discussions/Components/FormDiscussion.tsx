@@ -64,10 +64,6 @@ export default class FormDiscussion<P, S> extends HubletoForm<FormDiscussionProp
         <div className='flex-1'>
           {this.inputWrapper('notes')}
           {this.inputWrapper('date_created')}
-          <div className="flex w-full gap-2">
-            {this.inputWrapper('external_model')}
-            {this.inputWrapper('external_id')}
-          </div>
         </div>
       </div>
     );

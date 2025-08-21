@@ -53,8 +53,6 @@ export default class FormProjectTopMenu extends TranslatedComponent<P, S> {
               uid={form.props.uid + "_table_tasks"}
               tag={"ProjectTasks"}
               parentForm={form}
-              externalModel='HubletoApp\Community\Projects\Models\Project'
-              externalId={R.id}
             />
           </ModalSimple>
         </> : null}

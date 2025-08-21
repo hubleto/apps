@@ -21,9 +21,6 @@ class Loader extends \HubletoMain\App
       '/^campaigns(\/(?<recordId>\d+))?\/?$/' => Controllers\Campaigns::class,
     ]);
 
-    $externalModels = $this->main->load(\HubletoApp\Community\Tasks\ExternalModels::class);
-    $externalModels->registerExternalModel($this, Models\Campaign::class);
-
   }
 
   public function installTables(int $round): void

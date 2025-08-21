@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import HubletoTable, { HubletoTableProps, HubletoTableState } from '@hubleto/react-ui/ext/HubletoTable';
 import FormDiscussion from './FormDiscussion';
 
-interface TableDiscussionsProps extends HubletoTableProps {
-  externalModel?: string,
-  externalId?: number,
-}
+interface TableDiscussionsProps extends HubletoTableProps { }
 
 interface TableDiscussionsState extends HubletoTableState {
 }
@@ -42,20 +39,11 @@ export default class TableDiscussions extends HubletoTable<TableDiscussionsProps
   getEndpointParams(): any {
     return {
       ...super.getEndpointParams(),
-      externalModel: this.props.externalModel,
-      externalId: this.props.externalId,
     }
   }
 
   renderForm(): JSX.Element {
     let formProps = this.getFormProps();
-    formProps.customEndpointParams.externalModel = this.props.externalModel;
-    formProps.customEndpointParams.externalId = this.props.externalId;
-    if (!formProps.description) formProps.description = {};
-    formProps.description.defaultValues = {
-      external_model: this.props.externalModel,
-      external_id: this.props.externalId
-    };
     return <FormDiscussion {...formProps}/>;
   }
 }
