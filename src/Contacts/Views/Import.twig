@@ -9,14 +9,15 @@
           {{ translate("This was only check of the import. Check the log and if you are satisfied, upload the CSV file again run the import now.") }}<br/>
           <br/>
           <form action="" method="post" enctype="multipart/form-data">
-            <input type="file" name="contactsFile" accept=".csv,.txt">
+            <div class="mb-2">File: <input type="file" name="contactsFile" accept=".csv,.txt"></div>
+            <div class="mb-2">Tag: <input type="input" name="tag" value="{{ viewParams.tag }}"></div>
             <button type="submit" class="btn btn-primary">
               <span class="icon"><i class="fas fa-file-import"></i></span>
               <span class="text">{{ translate('Run import') }}</span>
             </button>
           </form>
         </div>
-        <pre>{{ viewParams.log|join("\n") }}</pre>
+        <pre class="p-2 bg-slate-800">{{ viewParams.log|join("\n") }}</pre>
       </div>
     </div>
   {% else %}
@@ -38,7 +39,7 @@
         <li class="ml-8">{{ translate("Values in file must be separated by semicolon") }} (;).</li>
         <li class="ml-8">{{ translate("First line of the file must be the header containig names of the columns.")}}</li>
         <li class="ml-8">{{ translate("Following lines contain ") }}<b>{{ translate("persons") }}</b>.</li>
-        <li class="ml-8">{{ translate("First 3 columns must be ") }}<i>{{ translate("First name") }}</i>, <i>{{ translate("Middle name") }}</i>{{ translate(" and ") }}<i>{{ translate("Last name") }}</i>{{ translate(" or the ") }}<b>{{ translate("person") }}</b>.</li>
+        <li class="ml-8">{{ translate("First 3 columns must be ") }}<i>{{ translate("First name") }}</i>, <i>{{ translate("Middle name") }}</i>{{ translate(" and ") }}<i>{{ translate("Last name") }}</i>{{ translate(" of the person") }}.</li>
         <li class="ml-8">{{ translate("Following columns contain contact information. Each column represents one contact information.") }}</li>
         <li class="ml-8">{{ translate("Each person can contain any number of contact information.") }}</li>
         <li class="ml-8">{{ translate("The import automatically detects ") }}<i>{{ translate("emails") }}</i>, <i>{{ translate("phone numbers") }}</i>{{ translate(" and ") }}<i>{{ translate("links") }}</i>.</li>
@@ -70,7 +71,14 @@ Barbara;Juplen;Greaves;bbaar@example.com;greavebar@example.com;;;;
     </div>
 
     <div class="card mt-2">
-      <div class="card-header">{{ translate("Step 3: Check the import") }}</div>
+      <div class="card-header">{{ translate("Step 3: Give a tag to new imported contacts") }}</div>
+      <div class="card-body">
+        <input type="input" name="tag" placeholder="Tag...">
+      </div>
+    </div>
+
+    <div class="card mt-2">
+      <div class="card-header">{{ translate("Step 4: Check the import") }}</div>
       <div class="card-body">
         <button type="submit" class="btn btn-primary">
           <span class="icon"><i class="fas fa-file-import"></i></span>
@@ -81,7 +89,7 @@ Barbara;Juplen;Greaves;bbaar@example.com;greavebar@example.com;;;;
   </form>
 
   <div class="card mt-2">
-    <div class="card-header">{{ translate("Step 4: Run the import") }}</div>
+    <div class="card-header">{{ translate("Step 5: Run the import") }}</div>
     <div class="card-body">
       {{ translate("You will be able to run the import after its check") }}.
     </div>

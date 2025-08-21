@@ -25,8 +25,7 @@ class Loader extends \HubletoMain\App
       '/^projects\/phases\/?$/' => Controllers\Phases::class,
     ]);
 
-    $this->addSearchSwitch('pr');
-    $this->addSearchSwitch('project');
+    $this->addSearchSwitch('p');
 
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => 'Projects', // or $this->translate('Projects')

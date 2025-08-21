@@ -76,9 +76,9 @@ export default class TableContacts extends HubletoTable<TableContactsProps, Tabl
           {data.TAGS.map((tag, key) => {
             return <div
               key={key}
-              style={{backgroundColor: tag.TAG.color}}
+              style={{backgroundColor: tag.TAG?.color}}
               className='badge'
-            >{tag.TAG.name}</div>;
+            >{tag.TAG?.name}</div>;
           })}
         </>
       );

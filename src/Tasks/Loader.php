@@ -19,8 +19,7 @@ class Loader extends \HubletoMain\App
       '/^tasks(\/(?<recordId>\d+))?\/?$/' => Controllers\Tasks::class,
     ]);
 
-    $this->addSearchSwitch('ts');
-    $this->addSearchSwitch('task');
+    $this->addSearchSwitch('t');
 
   }
 

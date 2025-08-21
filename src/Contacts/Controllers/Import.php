@@ -17,17 +17,26 @@ class Import extends \HubletoMain\Controller
     parent::prepareView();
 
     $mContact = $this->main->load(\HubletoApp\Community\Contacts\Models\Contact::class);
+    $mContactTag = $this->main->load(\HubletoApp\Community\Contacts\Models\ContactTag::class);
+    $mTag = $this->main->load(\HubletoApp\Community\Contacts\Models\Tag::class);
     $mValue = $this->main->load(\HubletoApp\Community\Contacts\Models\Value::class);
 
     $log = [];
     $importFinished = false;
     $checkImport = $this->main->urlParamAsBool("checkImport");
+    $tag = $this->main->urlParamAsString("tag");
+
+    $theTag = $mTag->record->whereLike('name', $tag)->first()?->toArray();
+
+    if (!is_array($theTag)) {
+      $theTag = $mTag->record->recordCreate(['name' => $tag]);
+    }
 
     $contactsFile = $this->main->uploadedFile('contactsFile');
     if (is_array($contactsFile) && is_file($contactsFile['tmp_name'])) {
       if (($handle = fopen($contactsFile['tmp_name'], "r")) !== false) {
         $rowIdx = 0;
-        while (($row = fgetcsv($handle, 0, ",")) !== false) {
+        while (($row = fgetcsv($handle, 0, ";")) !== false) {
           if ($rowIdx++ == 0) {
             continue;
           }
@@ -54,17 +63,16 @@ class Import extends \HubletoMain\Controller
             }
           }
 
-          if (count($values) == 0 && empty($firstName) && empty($middleName) && empty($lastName)) {
-            $log[] = "Empty contact found. Skipping.";
+          if (count($values) == 0) {
+            $log[] = "No contacts for `{$firstName}, {$middleName}, {$lastName}` found. Skipping.";
             continue;
           }
 
-          $log[] = "Importing contact `{$firstName}, {$middleName}, {$lastName}` with values: " . join(", ", $values);
+          $log[] = "Importing `{$firstName}, {$middleName}, {$lastName}` with contacts: " . join(", ", $values);
 
           if (empty($firstName) && empty($middleName) && empty($lastName)) {
             $log[] = "  [WARNING] Contact has no name.";
           }
-
 
           $contact = $mContact->record
             ->with('VALUES')
@@ -83,7 +91,9 @@ class Import extends \HubletoMain\Controller
 
           $idContact = (int) ($contact['id'] ?? 0);
 
-          if ($idContact == 0) {
+          if ($idContact > 0) {
+            $log[] = "  Contact with one of these values (" . join(", ", $values) . ") have been found with ID = {$idContact}. Skipping.";
+          } else {
             if ($checkImport) {
               //
             } else {
@@ -95,8 +105,6 @@ class Import extends \HubletoMain\Controller
               ])['id'];
             }
             $log[] = "  Added contact: `{$firstName}, {$middleName}, {$lastName}`.";
-          } else {
-            $log[] = "  Contact with one of these values (" . join(", ", $values) . ") have been found with ID = {$idContact}.";
           }
 
           if ($checkImport || $idContact > 0) {
@@ -108,6 +116,15 @@ class Import extends \HubletoMain\Controller
                   $mValue->record->recordCreate(["id_contact" => $idContact, "value" => $value]);
                 }
                 $log[] = "  Added value for contact: {$value}";
+              }
+
+              if (!$mContactTag->record->where("id_contact", $idContact)->where("id_tag", $theTag['id'])->first()) {
+                if ($checkImport) {
+                  //
+                } else {
+                  $mContactTag->record->recordCreate(["id_contact" => $idContact, "id_tag" => $theTag['id']]);
+                }
+                $log[] = "  Added tag for contact ID {$idContact}: {$theTag['id']}, {$theTag['name']}";
               }
 
             }
