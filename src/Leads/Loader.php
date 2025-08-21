@@ -72,6 +72,7 @@ class Loader extends \HubletoMain\App
       $mLeadHistory = $this->main->load(Models\LeadHistory::class);
       $mLeadTag = $this->main->load(Models\Tag::class);
       $mCrossLeadTag = $this->main->load(Models\LeadTag::class);
+      $mLeadTask = $this->main->load(Models\LeadTask::class);
       $mLeadCampaign = $this->main->load(Models\LeadCampaign::class);
       $mLeadActivity = $this->main->load(Models\LeadActivity::class);
       $mLeadDocument = $this->main->load(Models\LeadDocument::class);
@@ -86,6 +87,7 @@ class Loader extends \HubletoMain\App
       $mLeadActivity->dropTableIfExists()->install();
       $mLeadDocument->dropTableIfExists()->install();
       $mLeadCampaign->dropTableIfExists()->install();
+      $mLeadTask->dropTableIfExists()->install();
 
       $mLeadTag->record->recordCreate([ 'name' => "Complex", 'color' => '#2196f3' ]);
       $mLeadTag->record->recordCreate([ 'name' => "Great opportunity", 'color' => '#4caf50' ]);

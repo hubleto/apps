@@ -22,7 +22,7 @@ class Campaign extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
-    'LEADS' => [ self::HAS_MANY, LeadCampaign::class, 'id_lead', 'id'],
+    'TASKS' => [ self::HAS_MANY, CampaignTask::class, 'id_deal', 'id'],
   ];
 
   public function describeColumns(): array

@@ -19,10 +19,10 @@ class Campaign extends \HubletoMain\RecordManager
     return $this->belongsTo(User::class, 'id_manager', 'id');
   }
 
-  /** @return hasMany<LeadDocument, covariant Lead> */
-  public function LEADS(): HasMany
+  /** @return HasMany<DealTask, covariant Deal> */
+  public function TASKS(): HasMany
   {
-    return $this->hasMany(LeadCampaign::class, 'id_lead', 'id');
+    return $this->hasMany(CampaignTask::class, 'id_campaign', 'id');
   }
 
 }

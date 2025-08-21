@@ -49,16 +49,10 @@ export default class FormContact<P, S> extends HubletoForm<FormContactProps,Form
   }
 
   renderTitle(): JSX.Element {
-    if (getUrlParam('recordId') == -1) {
-      return(
-        <h2>{'New Contact'}</h2>
-      );
-    } else {
-      return <>
-        <h2>{this.state.record.first_name ?? ''}&nbsp;{this.state.record.last_name ?? ''}</h2>
-        <small>{this.translate('Contact')}</small>
-      </>;
-    }
+    return <>
+      <small>{this.translate('Contact')}</small>
+      <h2>{this.state.record.first_name ?? ''}&nbsp;{this.state.record.last_name ?? ''}</h2>
+    </>;
   }
 
   checkPrimaryContact(R) {

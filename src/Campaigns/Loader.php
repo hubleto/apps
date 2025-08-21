@@ -29,6 +29,7 @@ class Loader extends \HubletoMain\App
   {
     if ($round == 1) {
       $this->main->load(Models\Campaign::class)->dropTableIfExists()->install();
+      $this->main->load(Models\CampaignTask::class)->dropTableIfExists()->install();
     }
   }
 

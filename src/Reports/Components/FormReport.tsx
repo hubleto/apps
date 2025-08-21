@@ -25,8 +25,8 @@ export default class FormReport<P, S> extends HubletoForm<FormReportProps, FormR
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Report</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

@@ -39,8 +39,8 @@ export default class FormUser<P, S> extends HubletoForm<FormUserProps, FormUserS
   renderTitle(): JSX.Element {
     let title = ((this.state.record.first_name ?? '') + ' ' + (this.state.record.middle_name ?? '') + ' ' + (this.state.record.last_name ?? '')).trim();
     return <>
-      <h2>{title == '' ? '-' : title}</h2>
       <small>User</small>
+      <h2>{title == '' ? '-' : title}</h2>
     </>;
   }
 

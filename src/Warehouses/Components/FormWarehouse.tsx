@@ -23,8 +23,8 @@ export default class FormWarehouse<P, S> extends HubletoForm<FormWarehouseProps,
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Warehouse</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

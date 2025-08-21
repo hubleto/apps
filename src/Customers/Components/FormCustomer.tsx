@@ -87,8 +87,8 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
       tabs: [
         { uid: 'default', title: <b>{this.translate('Customer')}</b> },
         { uid: 'contacts', title: this.translate('Contacts') },
-        { uid: 'calendar', title: this.translate('Calendar') },
         { uid: 'documents', title: this.translate('Documents') },
+        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
       ],
     };
   }
@@ -104,8 +104,8 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.name ? this.state.record.name : ''}</h2>
       <small>{this.translate('Customer')}</small>
+      <h2>{this.state.record.name ? this.state.record.name : ''}</h2>
     </>;
   }
 

@@ -21,8 +21,8 @@ export default class FormSharedCalendar<P, S> extends HubletoForm<FormSharedCale
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.subject ?? ''}</h2>
       <small>Shared calendar</small>
+      <h2>{this.state.record.subject ?? ''}</h2>
     </>;
   }
 

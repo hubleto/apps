@@ -30,8 +30,8 @@ export default class FormActivity<P, S> extends HubletoForm<FormActivityProps, F
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Activity</h2>
       <small></small>
+      <h2>Activity</h2>
     </>;
   }
 

@@ -45,8 +45,8 @@ export default class FormDiscussion<P, S> extends HubletoForm<FormDiscussionProp
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.topic ?? '-'}</h2>
       <small>Discussion</small>
+      <h2>{this.state.record.topic ?? '-'}</h2>
     </>;
   }
 

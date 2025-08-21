@@ -22,8 +22,8 @@ export default class FormPhase<P, S> extends HubletoForm<FormPhaseProps, FormPha
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Phase</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

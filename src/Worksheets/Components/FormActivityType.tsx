@@ -22,8 +22,8 @@ export default class FormActivityType<P, S> extends HubletoForm<FormActivityType
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>ActivityType</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

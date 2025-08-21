@@ -36,11 +36,10 @@ export default class FormProduct<P, S> extends HubletoForm<FormProductProps,Form
   }
 
   renderTitle(): JSX.Element {
-    if (getUrlParam('recordId') == -1) {
-      return <h2>{globalThis.main.translate('New Product')}</h2>;
-    } else {
-      return <h2>{this.state.record.name ? this.state.record.name : '[Undefined Product Name]'}</h2>
-    }
+    return <>
+      <small>Product</small>
+      <h2>{this.state.record.name ?? '-'}</h2>
+    </>;
   }
 
   renderTab(tab: string) {

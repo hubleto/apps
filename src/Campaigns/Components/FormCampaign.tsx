@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
-import TableLeads from '@hubleto/apps/Leads/Components/TableLeads';
+import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
 
 export interface FormCampaignProps extends HubletoFormProps {}
 export interface FormCampaignState extends HubletoFormState {}
@@ -28,6 +28,7 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: <b>{this.translate('Campaign')}</b> },
+        { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
@@ -35,8 +36,8 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.subject ? this.state.record.subject : ''}</h2>
       <small>{this.translate("Campaign")}</small>
+      <h2>{this.state.record.name ?? '-'}</h2>
     </>;
   }
 
@@ -67,6 +68,19 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
           </div>
         </>;
       break
+
+      case 'tasks':
+        return <TableTasks
+          tag={"table_campaign_task"}
+          parentForm={this}
+          uid={this.props.uid + "_table_campaign_task"}
+          junctionTitle='Campaign'
+          junctionModel='HubletoApp/Community/Campaigns/Models/CampaignTask'
+          junctionSourceColumn='id_campaign'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_task'
+        />;
+      break;
 
       default:
         super.renderTab(tab);

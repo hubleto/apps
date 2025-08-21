@@ -22,8 +22,8 @@ export default class FormInventory<P, S> extends HubletoForm<FormInventoryProps,
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Inventory</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

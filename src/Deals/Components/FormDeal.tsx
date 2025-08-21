@@ -84,10 +84,9 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         { uid: 'default', title: <b>{this.translate('Deal')}</b> },
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
-        // { uid: 'orders', title: this.translate('Orders'), showCountFor: 'ORDERS' },
         { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
-        { uid: 'calendar', title: this.translate('Calendar') },
-        { uid: 'history', title: this.translate('History') },
+        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
+        { uid: 'history', title: this.translate('History'), position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ],
     };
@@ -134,8 +133,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.title ? this.state.record.title : '-'}</h2>
       <small>{this.translate("Deal")}</small>
+      <h2>{this.state.record.identifier ?? '-'}</h2>
     </>;
   }
 

@@ -22,8 +22,8 @@ export default class FormType<P, S> extends HubletoForm<FormTypeProps, FormTypeS
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Type</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

@@ -22,8 +22,8 @@ export default class FormTransaction<P, S> extends HubletoForm<FormTransactionPr
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Transaction</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

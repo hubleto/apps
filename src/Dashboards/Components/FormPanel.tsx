@@ -28,8 +28,8 @@ export default class FormPanel<P, S> extends HubletoForm<FormPanelProps,FormPane
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.title ? this.state.record.title : '-'}</h2>
       <small>Dashboard panel</small>
+      <h2>{this.state.record.title ? this.state.record.title : '-'}</h2>
     </>;
   }
 

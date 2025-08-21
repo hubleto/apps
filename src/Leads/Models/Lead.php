@@ -44,17 +44,19 @@ class Lead extends \Hubleto\Framework\Models\Model
     'LEVEL' => [ self::BELONGS_TO, Level::class, 'id_level', 'id'],
     'CONTACT' => [ self::HAS_ONE, Contact::class, 'id', 'id_contact'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
+
     'HISTORY' => [ self::HAS_MANY, LeadHistory::class, 'id_lead', 'id', ],
     'TAGS' => [ self::HAS_MANY, LeadTag::class, 'id_lead', 'id' ],
     'ACTIVITIES' => [ self::HAS_MANY, LeadActivity::class, 'id_lead', 'id' ],
     'DOCUMENTS' => [ self::HAS_MANY, LeadDocument::class, 'id_lead', 'id'],
     'CAMPAIGNS' => [ self::HAS_MANY, LeadCampaign::class, 'id_lead', 'id'],
+    'TASKS' => [ self::HAS_MANY, LeadTask::class, 'id_deal', 'id'],
   ];
 
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'identifier' => (new Varchar($this, $this->translate('Identifier')))->setProperty('defaultVisibility', true),
+      // 'identifier' => (new Varchar($this, $this->translate('Identifier')))->setProperty('defaultVisibility', true),
       'title' => (new Varchar($this, $this->translate('Specific subject (if any)'))),
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setDefaultValue($this->main->urlParamAsInteger('idCustomer')),
       'virt_email' => (new Virtual($this, $this->translate('Email')))->setProperty('defaultVisibility', true)

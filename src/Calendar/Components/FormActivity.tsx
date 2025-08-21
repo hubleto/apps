@@ -23,8 +23,8 @@ export default class FormActivity<P, S> extends HubletoForm<FormActivityProps,Fo
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.subject ?? ''}</h2>
       <small>{this.getActivitySourceReadable()}</small>
+      <h2>{this.state.record.subject ?? ''}</h2>
     </>;
   }
 

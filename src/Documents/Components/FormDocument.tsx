@@ -29,14 +29,10 @@ export default class FormDocument<P, S> extends HubletoForm<FormDocumentProps,Fo
   }
 
   renderTitle(): JSX.Element {
-    if (getUrlParam('recordId') == -1) {
-      return <h2>{this.translate('New Document')}</h2>;
-    } else {
-      return <>
-        <h2>{this.state.record.name ? this.state.record.name : ''}</h2>
-        <small>{this.translate("Document")}</small>
-      </>;
-    }
+    return <>
+      <small>{this.translate("Document")}</small>
+      <h2>{this.state.record.name ? this.state.record.name : '-'}</h2>
+    </>;
   }
 
   renderContent(): JSX.Element {

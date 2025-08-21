@@ -36,23 +36,10 @@ export default class FormPipeline<P, S> extends HubletoForm<FormPipelineProps, F
   }
 
   renderTitle(): JSX.Element {
-    if (getUrlParam("recordId") == -1) {
-      return (
-        <>
-          <h2>{"New Pipeline"}</h2>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <h2>
-            {this.state.record.name
-              ? this.state.record.name
-              : "[Undefined Name]"}
-          </h2>
-        </>
-      );
-    }
+    return <>
+      <small>Pipeline</small>
+      <h2>{this.state.record.name ?? '-'}</h2>
+    </>;
   }
 
   componentDidUpdate(prevProps: FormProps, prevState: FormState): void {

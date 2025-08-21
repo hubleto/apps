@@ -28,7 +28,8 @@ export default class FormUserRole<P, S> extends HubletoForm<FormUserRoleProps,Fo
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.role ? this.state.record.role : '[Undefined Name]'}</h2>
+      <small>User role</small>
+      <h2>{this.state.record.role ?? '-'}</h2>
     </>;
   }
 

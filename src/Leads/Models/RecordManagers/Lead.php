@@ -105,6 +105,12 @@ class Lead extends \HubletoMain\RecordManager
     return $this->hasMany(LeadCampaign::class, 'id_lead', 'id');
   }
 
+  /** @return HasMany<DealTask, covariant Deal> */
+  public function TASKS(): HasMany
+  {
+    return $this->hasMany(LeadTask::class, 'id_lead', 'id');
+  }
+
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
   {
     $query = parent::prepareReadQuery($query, $level);

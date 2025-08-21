@@ -23,8 +23,8 @@ export default class FormTeam<P, S> extends HubletoForm<FormTeamProps, FormTeamS
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{this.state.record.name ?? '-'}</h2>
       <small>Team</small>
+      <h2>{this.state.record.name ?? '-'}</h2>
     </>;
   }
 

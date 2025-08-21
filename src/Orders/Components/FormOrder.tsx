@@ -51,11 +51,10 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   }
 
   renderTitle(): JSX.Element {
-    if (getUrlParam('recordId') == -1) {
-      return <h2>{globalThis.main.translate('New Order')}</h2>;
-    } else {
-      return <h2>{this.state.record.id_customer ? this.state.record.order_number : '[Undefined Order]'}</h2>
-    }
+    return <>
+      <small>Order</small>
+      <h2>{this.state.record.order_number ?? '-'}</h2>
+    </>;
   }
 
   getSumPrice(recordProducts: any) {

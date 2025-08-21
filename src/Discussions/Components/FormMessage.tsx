@@ -33,8 +33,8 @@ export default class FormMessage<P, S> extends HubletoForm<FormMessageProps, For
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>Record #{this.state.record.id ?? '0'}</h2>
       <small>Message</small>
+      <h2>Record #{this.state.record.id ?? '0'}</h2>
     </>;
   }
 

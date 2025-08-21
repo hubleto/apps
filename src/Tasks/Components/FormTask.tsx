@@ -26,6 +26,7 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: <b>{this.translate('Task')}</b> },
+        { uid: 'worksheet', title: this.translate('Worksheet') },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     }
@@ -33,8 +34,8 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
 
   renderTitle(): JSX.Element {
     return <>
-      <h2>{(this.state.record.identifier ?? '') + ' - ' + (this.state.record.title ?? '')}</h2>
       <small>Task</small>
+      <h2>{this.state.record.identifier ?? '-'}</h2>
     </>;
   }
 
@@ -81,18 +82,16 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
               </div>
             </div>
           </div>
-          {this.divider('Worksheet')}
-          {this.state.id < 0 ?
-              <div className="badge badge-info">First create the task, then you will be prompted to create leads.</div>
-            :
-              <TableActivities
-                uid={this.props.uid + "_table_activities"}
-                tag="TaskActivities"
-                parentForm={this}
-                idTask={R.id}
-              />
-          }
-        </>
+        </>;
+      break;
+
+      case 'worksheet':
+        return <TableActivities
+          uid={this.props.uid + "_table_activities"}
+          tag="TaskActivities"
+          parentForm={this}
+          idTask={R.id}
+        />;
       break;
 
       default:

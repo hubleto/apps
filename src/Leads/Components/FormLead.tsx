@@ -11,10 +11,10 @@ import LeadFormActivity, { LeadFormActivityProps, LeadFormActivityState } from '
 import Hyperlink from '@hubleto/react-ui/core/Inputs/Hyperlink';
 import { FormProps, FormState } from '@hubleto/react-ui/core/Form';
 import moment, { Moment } from "moment";
-import TableLeadHistory from './TableLeadHistory';
 
+import TableLeadHistory from './TableLeadHistory';
+import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
 import TableDocuments from '@hubleto/apps/Documents/Components/TableDocuments';
-import TableDeals from '@hubleto/apps/Deals/Components/TableDeals';
 
 export interface FormLeadProps extends HubletoFormProps {
   newEntryId?: number,
@@ -76,8 +76,9 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
       tabs: [
         { uid: 'default', title: <b>{this.translate('Lead')}</b> },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
-        { uid: 'calendar', title: this.translate('Calendar') },
-        { uid: 'history', title: this.translate('History') },
+        { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
+        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
+        { uid: 'history', title: this.translate('History'), position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
@@ -113,9 +114,20 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
   }
 
   renderTitle(): JSX.Element {
+    const R = this.state.record;
+    
+    let values = [];
+    if (R && R.CONTACT) {
+      if (R.CONTACT.first_name) values.push(R.CONTACT.first_name);
+      if (R.CONTACT.last_name) values.push(R.CONTACT.last_name);
+      if (R.CONTACT.VALUES) R.CONTACT.VALUES.map((item, key) => {
+        values.push(item.value);
+      });
+    }
+
     return <>
-      <h2>{this.state.record.title ? this.state.record.title : '-'}</h2>
       <small>Lead</small>
+      <h2>{values && values.length > 0 ? values.join(', ') : '-'}</h2>
     </>;
   }
 
@@ -261,7 +273,7 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
                       >{item.CAMPAIGN.name}</a>;
                     }) : null}
                   </FormInput>
-                  {this.inputWrapper('identifier', {readonly: R.is_archived})}
+                  {/* {this.inputWrapper('identifier', {readonly: R.is_archived})} */}
                   <FormInput title={"Contact"} required={true}>
                     <Lookup {...this.getInputProps('id_contact')}
                       model='HubletoApp/Community/Contacts/Models/Contact'
@@ -411,6 +423,19 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
           junctionSourceColumn='id_lead'
           junctionSourceRecordId={R.id}
           junctionDestinationColumn='id_document'
+        />;
+      break;
+
+      case 'tasks':
+        return <TableTasks
+          tag={"table_lead_task"}
+          parentForm={this}
+          uid={this.props.uid + "_table_lead_task"}
+          junctionTitle='Lead'
+          junctionModel='HubletoApp/Community/Leads/Models/LeadTask'
+          junctionSourceColumn='id_lead'
+          junctionSourceRecordId={R.id}
+          junctionDestinationColumn='id_task'
         />;
       break;
 

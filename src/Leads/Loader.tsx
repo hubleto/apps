@@ -21,9 +21,9 @@ class LeadsApp extends HubletoApp {
         return <TableLeads
           tag={"table_campaign_lead"}
           parentForm={form}
-          //@ts-ignore
-          description={{ui: {showHeader:false}}}
-          descriptionSource='both'
+          // //@ts-ignore
+          // description={{ui: {showHeader:false}}}
+          // descriptionSource='both'
           uid={form.props.uid + "_table_campaign_lead"}
           junctionTitle='Campaign'
           junctionModel='HubletoApp/Community/Leads/Models/LeadCampaign'
