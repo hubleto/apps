@@ -77,11 +77,22 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
         { uid: 'default', title: <b>{this.translate('Lead')}</b> },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
         { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
-        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
-        { uid: 'history', title: this.translate('History'), position: 'right' },
+        { uid: 'calendar', icon: 'fas fa-calendar', position: 'right' },
+        { uid: 'history', icon: 'fas fa-clock-rotate-left', position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
+  }
+
+  getFormHeaderButtons()
+  {
+    return [
+      ...super.getFormHeaderButtons(),
+      {
+        title: 'Close lead',
+        onClick: () => { }
+      }
+    ]
   }
 
   onAfterLoadFormDescription(description: any) {

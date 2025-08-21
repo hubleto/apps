@@ -64,19 +64,22 @@ class Campaign extends \Hubleto\Framework\Models\Model
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
 
     $mMail = $this->main->load(Mail::class);
-    $template = $mMail->record->find((int) $savedRecord['id_mail_template'])->toArray();
-    $bodyHtml = Lib::addUtmVariablesToEmailLinks(
-      (string) $template['body_html'],
-      (string) $savedRecord['utm_source'],
-      (string) $savedRecord['utm_campaign'],
-      (string) $savedRecord['utm_term'],
-      (string) $savedRecord['utm_content'],
-    );
+    $template = $mMail->record->find((int) $savedRecord['id_mail_template'])?->toArray();
 
-    $mCampaign = $this->main->load(Campaign::class);
-    $mCampaign->record->find((int) $savedRecord['id'])->update([
-      'mail_body' => $bodyHtml
-    ]);
+    if (is_array($template)) {
+      $bodyHtml = Lib::addUtmVariablesToEmailLinks(
+        (string) $template['body_html'],
+        (string) $savedRecord['utm_source'],
+        (string) $savedRecord['utm_campaign'],
+        (string) $savedRecord['utm_term'],
+        (string) $savedRecord['utm_content'],
+      );
+
+      $mCampaign = $this->main->load(Campaign::class);
+      $mCampaign->record->find((int) $savedRecord['id'])->update([
+        'mail_body' => $bodyHtml
+      ]);
+    }
 
     return $savedRecord;
   }

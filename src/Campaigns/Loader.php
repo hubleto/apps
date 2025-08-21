@@ -17,6 +17,7 @@ class Loader extends \HubletoMain\App
     parent::init();
 
     $this->main->router->httpGet([
+      '/^campaigns\/api\/save-contacts\/?$/' => Controllers\Api\SaveContacts::class,
       '/^campaigns(\/(?<recordId>\d+))?\/?$/' => Controllers\Campaigns::class,
     ]);
 

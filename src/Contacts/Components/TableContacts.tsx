@@ -5,7 +5,9 @@ import { getUrlParam } from '@hubleto/react-ui/core/Helper';
 import request from '@hubleto/react-ui/core/Request';
 import { ProgressBar } from 'primereact/progressbar';
 
-interface TableContactsProps extends HubletoTableProps {}
+interface TableContactsProps extends HubletoTableProps {
+  showAsCards?: boolean;
+}
 
 interface TableContactsState extends HubletoTableState {
   tableValuesDescription?: any,
@@ -124,7 +126,7 @@ export default class TableContacts extends HubletoTable<TableContactsProps, Tabl
   }
 
   render(): JSX.Element {
-    if (this.props.parentForm) {
+    if (this.props.showAsCards) {
       if (!this.state.data) {
         return <ProgressBar mode="indeterminate" style={{ height: '8px' }}></ProgressBar>;
       }

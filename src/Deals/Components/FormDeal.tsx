@@ -85,8 +85,8 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
         { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
-        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
-        { uid: 'history', title: this.translate('History'), position: 'right' },
+        { uid: 'calendar', icon: 'fas fa-calendar', position: 'right' },
+        { uid: 'history', icon: 'fas fa-clock-rotate-left', position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ],
     };
@@ -240,6 +240,10 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
             }
           );
         }
+      },
+      {
+        title: 'Close deal',
+        onClick: () => { }
       }
     ]
   }
@@ -322,7 +326,6 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
           {this.inputWrapper('shared_folder', {readonly: R.is_archived})}
           {this.inputWrapper('customer_order_number', {readonly: R.is_archived})}
           {this.inputWrapper('id_template_quotation', {readonly: R.is_archived})}
-          {this.inputWrapper('is_closed', {readonly: R.is_archived})}
         </>;
 
         const inputsColumnRight = <>
@@ -359,28 +362,12 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
             )}
           </div>
           {this.inputWrapper('date_created')}
-          {this.inputWrapper('is_archived')}
-          {this.inputWrapper('id_lead')}
+          {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+          {/* {this.inputWrapper('is_archived')} */}
+          {/* {this.inputWrapper('id_lead')} */}
           {this.inputWrapper('note', {cssClass: 'bg-yellow-50', readonly: R.is_archived})}
           {this.state.record.deal_result == 3 ? this.inputWrapper('lost_reason', {readonly: R.is_archived}): null}
         </>;
-
-        const pipeline = <PipelineSelector
-          idPipeline={R.id_pipeline}
-          idPipelineStep={R.id_pipeline_step}
-          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
-            this.pipelineChange(idPipeline);
-          }}
-          onPipelineStepChange={(idPipelineStep: number, step: any) => {
-            if (!R.is_archived) {
-              if (this.state.isInlineEditing == false) this.setState({isInlineEditing: true});
-              R.id_pipeline_step = idPipelineStep;
-              R.deal_result = step.set_result;
-              R.PIPELINE_STEP = step;
-              this.updateRecord(R);
-            }
-          }}
-        ></PipelineSelector>;
 
         //@ts-ignore
         const tmpCalendar = <Calendar
@@ -469,18 +456,16 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
                 <div className='border-t md:border-l border-gray-200'></div>
                 <div className='grow'>{inputsColumnRight}</div>
               </div>
-              {pipeline}
             </div>
             <div className='flex-1'>
-              {this.state.id > 0 ? <div className='flex flex-col'>
-                <div className="badge badge-violet badge-large">
-                  {this.translate("Deal value:")} &nbsp; {globalThis.main.numberFormat(R.price, 2, ",", " ")} {R.CURRENCY.code}
+              {this.state.id > 0 ? <div className='flex gap-2 mb-2'>
+                <div className="badge badge-violet">
+                  {this.translate("Deal value:")} {globalThis.main.numberFormat(R.price_excl_vat, 2, ",", " ")} {R.CURRENCY.code}
                 </div>
                 {R.PIPELINE_STEP && R.PIPELINE_STEP.probability ?
-                  <div className="badge badge-violet badge-large">
-                    <p>{this.translate("Weighted profit")} ({R.PIPELINE_STEP?.probability} %):
-                      <strong> {globalThis.main.numberFormat(this.calculateWeightedProfit(R.PIPELINE_STEP?.probability, R.price), 2, ',', ' ')} {R.CURRENCY.code}</strong>
-                    </p>
+                  <div className="badge badge-violet">
+                    {this.translate("Weighted profit")} ({R.PIPELINE_STEP?.probability} %):
+                    <strong> {globalThis.main.numberFormat(this.calculateWeightedProfit(R.PIPELINE_STEP?.probability, R.price_excl_vat), 2, ',', ' ')} {R.CURRENCY.code}</strong>
                   </div>
                 : null}
               </div> : null}
@@ -650,6 +635,29 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         super.renderTab(tab);
       break;
     }
+  }
+
+  renderTopMenu(): JSX.Element {
+    const R = this.state.record;
+    return <>
+      {super.renderTopMenu()}
+      <PipelineSelector
+        idPipeline={R.id_pipeline}
+        idPipelineStep={R.id_pipeline_step}
+        onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+          this.pipelineChange(idPipeline);
+        }}
+        onPipelineStepChange={(idPipelineStep: number, step: any) => {
+          if (!R.is_archived) {
+            if (this.state.isInlineEditing == false) this.setState({isInlineEditing: true});
+            R.id_pipeline_step = idPipelineStep;
+            R.deal_result = step.set_result;
+            R.PIPELINE_STEP = step;
+            this.updateRecord(R);
+          }
+        }}
+      ></PipelineSelector>
+    </>
   }
 
   renderContent(): JSX.Element {

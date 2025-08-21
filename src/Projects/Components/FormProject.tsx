@@ -41,6 +41,25 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
     </>;
   }
 
+  renderTopMenu(): JSX.Element {
+    const R = this.state.record;
+    return <>
+      {super.renderTopMenu()}
+      {this.state.id <= 0 ? null :
+        <PipelineSelector
+          idPipeline={R.id_pipeline}
+          idPipelineStep={R.id_pipeline_step}
+          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+            this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
+          }}
+          onPipelineStepChange={(idPipelineStep: number) => {
+            this.updateRecord({id_pipeline_step: idPipelineStep});
+          }}
+        ></PipelineSelector>
+      }
+    </>;
+  }
+
   renderTab(tab: string) {
     const R = this.state.record;
 
@@ -79,18 +98,6 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
               {this.inputWrapper('id_deal')}
             </div>
           </div>
-          {this.state.id <= 0 ? null :
-            <PipelineSelector
-              idPipeline={R.id_pipeline}
-              idPipelineStep={R.id_pipeline_step}
-              onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
-                this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
-              }}
-              onPipelineStepChange={(idPipelineStep: number) => {
-                this.updateRecord({id_pipeline_step: idPipelineStep});
-              }}
-            ></PipelineSelector>
-          }
         </>;
       break;
       case 'tasks':

@@ -88,7 +88,7 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
         { uid: 'default', title: <b>{this.translate('Customer')}</b> },
         { uid: 'contacts', title: this.translate('Contacts') },
         { uid: 'documents', title: this.translate('Documents') },
-        { uid: 'calendar', title: this.translate('Calendar'), position: 'right' },
+        { uid: 'calendar', icon: 'fas fa-calendar', position: 'right' },
       ],
     };
   }
@@ -423,6 +423,7 @@ export default class FormCustomer<P, S> extends HubletoForm<FormCustomerProps, F
           <TableContacts
             uid={this.props.uid + "_table_contacts"}
             parentForm={this}
+            showAsCards={true}
             isUsedAsInput={true}
             readonly={!this.state.isInlineEditing}
             customEndpointParams={{idCustomer: R.id}}

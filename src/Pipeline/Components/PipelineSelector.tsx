@@ -78,31 +78,34 @@ export default class PipelineSelector<P, S> extends TranslatedComponent<Pipeline
     let stepBtnClass = "btn-light";
 
     return <>
-      <div className='card mt-2'>
-        <div className='card-header'>
-          {this.state.changePipeline ?
-            <div className="input-body">
-              <div className="hubleto component input"><div className="inner">
-                <div className="input-element">
-                  {Object.keys(pipelines).map((idPipeline: any, key: any) => {
-                    return <button
-                      key={key}
-                      className={"btn " + (this.state.idPipeline == idPipeline ? "btn-primary" : "btn-transparent")}
-                      onClick={() => { this.onPipelineChange(idPipeline); }}
-                    ><span className="text">{pipelines[idPipeline]?.name}</span></button>
-                  })}
-                </div>
-              </div></div>
-            </div>
-          : <div>
-            {pipelines[this.state.idPipeline]?.name}
+      <div className='flex flex-row mt-2 flex-wrap'>
+        {this.state.changePipeline ? <div className='flex gap-2 items-center'>
+          <button className="btn btn-transparent btn-small ml-2" onClick={() => { this.setState({changePipeline: false}); }}>
+            <span className="icon"><i className='fas fa-grip-lines'></i></span>
+          </button>
+          <div>
+            Set pipeline to
+          </div>
+          <div className="input-body">
+            <div className="hubleto component input"><div className="inner">
+              <div className="input-element">
+                {Object.keys(pipelines).map((idPipeline: any, key: any) => {
+                  return <button
+                    key={key}
+                    className={"btn " + (this.state.idPipeline == idPipeline ? "btn-primary" : "btn-transparent")}
+                    onClick={() => { this.onPipelineChange(idPipeline); }}
+                  ><span className="text">{pipelines[idPipeline]?.name}</span></button>
+                })}
+              </div>
+            </div></div>
+          </div>
+        </div> : <div className='flex gap-2'>
+          <div>
             <button className="btn btn-transparent btn-small ml-2" onClick={() => { this.setState({changePipeline: true}); }}>
-              <span className="text">Change pipeline</span>
+              <span className="icon"><i className='fas fa-grip-lines'></i></span>
             </button>
-          </div>}
-        </div>
-        <div className='card-body'>
-          <div className='flex flex-row mt-2 flex-wrap'>
+          </div>
+          <div>
             {steps && steps.length > 0 ?
               steps.map((s, i) => {
                 if (stepBtnClass == "btn-primary") stepBtnClass = "btn-transparent";
@@ -123,14 +126,14 @@ export default class PipelineSelector<P, S> extends TranslatedComponent<Pipeline
                   </div>
                   <div className='text'>
                     {s.name}
-                    {s.probability ? <small className='whitespace-nowrap ml-2'>({s.probability} %)</small> : null}
+                    {/* {s.probability ? <small className='whitespace-nowrap ml-2'>({s.probability} %)</small> : null} */}
                   </div>
                 </button>;
               })
               : <p className='w-full text-center'>Pipeline has no steps.</p>
             }
           </div>
-        </div>
+        </div>}
       </div>
     </>;
   }

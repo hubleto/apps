@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import TableContacts from '@hubleto/apps/Contacts/Components/TableContacts';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
+import request from '@hubleto/react-ui/core/Request';
 
 export interface FormCampaignProps extends HubletoFormProps {}
 export interface FormCampaignState extends HubletoFormState {}
@@ -29,7 +30,7 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: <b>{this.translate('Campaign')}</b> },
-        { uid: 'contacts', title: this.translate('Tasks'), showCountFor: 'CONTACTS' },
+        { uid: 'contacts', title: this.translate('Contacts'), showCountFor: 'CONTACTS' },
         { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
@@ -72,15 +73,33 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
       break
 
       case 'contacts':
+        console.log(R.CONTACTS.map((item) => { return { id: item.id_contact } }));
         return <TableContacts
           tag={"table_campaign_contact"}
           parentForm={this}
           uid={this.props.uid + "_table_campaign_contact"}
-          junctionTitle='Campaign'
-          junctionModel='HubletoApp/Community/Campaigns/Models/CampaignContact'
-          junctionSourceColumn='id_campaign'
-          junctionSourceRecordId={R.id}
-          junctionDestinationColumn='id_contact'
+          selectionMode='multiple'
+          readonly={true}
+          selection={R.CONTACTS.map((item) => { return { id: item.id_contact } })}
+          onSelectionChange={(table: any) => {
+            console.log('onSelectionChange', table.state.selection);
+            request.post(
+              'campaigns/api/save-contacts',
+              {
+                idCampaign: this.state.record.id,
+                contactIds: table.state.selection.map((item) => item.id)
+              },
+              {},
+              (result: any) => {
+                console.log(result);
+              }
+            );
+          }}
+          // junctionTitle='Campaign'
+          // junctionModel='HubletoApp/Community/Campaigns/Models/CampaignContact'
+          // junctionSourceColumn='id_campaign'
+          // junctionSourceRecordId={R.id}
+          // junctionDestinationColumn='id_contact'
         />;
       break;
 

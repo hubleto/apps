@@ -44,7 +44,7 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
         { uid: 'products', title: this.translate('Products'), showCountFor: 'PRODUCTS' },
         { uid: 'documents', title: this.translate('Documents'), showCountFor: 'DOCUMENTS' },
         // { uid: 'invoices', title: this.translate('Invoices'), showCountFor: 'INVOICES' },
-        { uid: 'history', title: this.translate('History'), position: 'right' },
+        { uid: 'history', icon: 'fas fa-clock-rotate-left', position: 'right' },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
     };
@@ -89,8 +89,35 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
             }
           );
         }
+      },
+      {
+        title: 'Close order',
+        onClick: () => { }
       }
     ]
+  }
+
+  renderTopMenu(): JSX.Element {
+    const R = this.state.record;
+    return <>
+      {super.renderTopMenu()}
+      <PipelineSelector
+        idPipeline={R.id_pipeline}
+        idPipelineStep={R.id_pipeline_step}
+        onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+          //
+        }}
+        onPipelineStepChange={(idPipelineStep: number, step: any) => {
+          if (!R.is_archived) {
+            if (this.state.isInlineEditing == false) this.setState({isInlineEditing: true});
+            R.id_pipeline_step = idPipelineStep;
+            R.deal_result = step.set_result;
+            R.PIPELINE_STEP = step;
+            this.updateRecord(R);
+          }
+        }}
+      ></PipelineSelector>
+    </>
   }
 
   renderTab(tab: string) {
@@ -99,23 +126,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
 
     switch (tab) {
       case 'default':
-
-        const pipeline = <PipelineSelector
-          idPipeline={R.id_pipeline}
-          idPipelineStep={R.id_pipeline_step}
-          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
-            //
-          }}
-          onPipelineStepChange={(idPipelineStep: number, step: any) => {
-            if (!R.is_archived) {
-              if (this.state.isInlineEditing == false) this.setState({isInlineEditing: true});
-              R.id_pipeline_step = idPipelineStep;
-              R.deal_result = step.set_result;
-              R.PIPELINE_STEP = step;
-              this.updateRecord(R);
-            }
-          }}
-        ></PipelineSelector>;
 
         return <>
           <div className='card'>
@@ -149,8 +159,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
                 {this.inputWrapper('id_template')}
               </div>
             </div>
-
-            {pipeline}
           </div>
         </>;
       break;
