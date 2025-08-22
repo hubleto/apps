@@ -131,6 +131,11 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     } else super.onAfterSaveRecord(saveResponse);
   }
 
+  contentClassName(): string
+  {
+    return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';
+  }
+
   renderTitle(): JSX.Element {
     return <>
       <small>{this.translate("Deal")}</small>
@@ -142,53 +147,53 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     return <small>{this.translate('Deal')}</small>;
   }
 
-  pipelineChange(idPipeline: number) {
-    request.get(
-      'deals/change-pipeline',
-      {
-        idPipeline: idPipeline
-      },
-      (data: any) => {
-        if (data.status == "success") {
-          var R = this.state.record;
-          if (data.newPipeline.STEPS?.length > 0) {
-            R.id_pipeline = data.newPipeline.id;
-            R.id_pipeline_step = data.newPipeline.STEPS[0].id;
-            R.deal_result = data.newPipeline.STEPS[0].set_result;
-            R.PIPELINE = data.newPipeline;
-            R.PIPELINE_STEP = data.newPipeline.STEPS[0];
+  // pipelineChange(idPipeline: number) {
+  //   request.get(
+  //     'deals/change-pipeline',
+  //     {
+  //       idPipeline: idPipeline
+  //     },
+  //     (data: any) => {
+  //       if (data.status == "success") {
+  //         var R = this.state.record;
+  //         if (data.newPipeline.STEPS?.length > 0) {
+  //           R.id_pipeline = data.newPipeline.id;
+  //           R.id_pipeline_step = data.newPipeline.STEPS[0].id;
+  //           R.deal_result = data.newPipeline.STEPS[0].set_result;
+  //           R.PIPELINE = data.newPipeline;
+  //           R.PIPELINE_STEP = data.newPipeline.STEPS[0];
 
-            this.setState({ record: R });
-          } else {
-            R.id_pipeline = data.newPipeline.id;
-            R.id_pipeline_step = null;
-            R.PIPELINE = data.newPipeline;
-            R.PIPELINE_STEP = null;
+  //           this.setState({ record: R });
+  //         } else {
+  //           R.id_pipeline = data.newPipeline.id;
+  //           R.id_pipeline_step = null;
+  //           R.PIPELINE = data.newPipeline;
+  //           R.PIPELINE_STEP = null;
 
-            this.setState({ record: R });
-          }
-        }
-      }
-    );
-  }
+  //           this.setState({ record: R });
+  //         }
+  //       }
+  //     }
+  //   );
+  // }
 
   calculateWeightedProfit(probability: number, price: number) {
     return (probability / 100) * price;
   }
 
-  changePipelineStepFromResult() {
-    if (this.state.record.PIPELINE.STEPS.length > 0) {
-      this.state.record.PIPELINE.STEPS.some(step => {
-        if (step.set_result == this.state.record.deal_result) {
-          let R = this.state.record;
-          R.id_pipeline_step = step.id;
-          R.PIPELINE_STEP = step;
-          this.setState({record: R});
-          return true;
-        } else return false;
-      })
-    }
-  }
+  // changePipelineStepFromResult() {
+  //   if (this.state.record.PIPELINE.STEPS.length > 0) {
+  //     this.state.record.PIPELINE.STEPS.some(step => {
+  //       if (step.set_result == this.state.record.deal_result) {
+  //         let R = this.state.record;
+  //         R.id_pipeline_step = step.id;
+  //         R.PIPELINE_STEP = step;
+  //         this.setState({record: R});
+  //         return true;
+  //       } else return false;
+  //     })
+  //   }
+  // }
 
   onCreateActivityCallback() {
     this.loadRecord();
@@ -354,19 +359,16 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
                 readonly: R.is_archived,
                 onChange: (input: any, value: any) => {
                   this.updateRecord({lost_reason: null});
-                  if (this.state.record.PIPELINE && this.state.record.PIPELINE.STEPS?.length > 0) {
-                    this.changePipelineStepFromResult();
-                  }
+                  // if (this.state.record.PIPELINE && this.state.record.PIPELINE.STEPS?.length > 0) {
+                  //   this.changePipelineStepFromResult();
+                  // }
                 }
               }
             )}
           </div>
           {this.inputWrapper('date_created')}
-          {this.inputWrapper('is_closed', {readonly: R.is_archived})}
-          {/* {this.inputWrapper('is_archived')} */}
-          {/* {this.inputWrapper('id_lead')} */}
           {this.inputWrapper('note', {cssClass: 'bg-yellow-50', readonly: R.is_archived})}
-          {this.state.record.deal_result == 3 ? this.inputWrapper('lost_reason', {readonly: R.is_archived}): null}
+          {this.state.record.deal_result == 2 ? this.inputWrapper('lost_reason', {readonly: R.is_archived}): null}
         </>;
 
         //@ts-ignore
@@ -641,18 +643,23 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     const R = this.state.record;
     return <>
       {super.renderTopMenu()}
-      {this.state.id <= 0 ? null :
+      {this.state.id <= 0 ? null : <>
         <PipelineSelector
           idPipeline={R.id_pipeline}
           idPipelineStep={R.id_pipeline_step}
           onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
             this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
           }}
-          onPipelineStepChange={(idPipelineStep: number) => {
-            this.updateRecord({id_pipeline_step: idPipelineStep});
+          onPipelineStepChange={(idPipelineStep: number, step: any) => {
+            let newRecord: any = {id_pipeline_step: idPipelineStep, deal_result: 0, is_closed: false};
+            if (step.name.match(/won/i)) newRecord.deal_result = 1;
+            if (step.name.match(/lost/i)) newRecord.deal_result = 2;
+            if (newRecord.deal_result != 0) newRecord.is_closed = true;
+            this.updateRecord(newRecord);
           }}
         ></PipelineSelector>
-      }
+        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+      </>}
     </>
   }
 

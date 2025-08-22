@@ -50,6 +50,11 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     };
   }
 
+  contentClassName(): string
+  {
+    return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';
+  }
+
   renderTitle(): JSX.Element {
     return <>
       <small>Order</small>
@@ -101,18 +106,19 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     const R = this.state.record;
     return <>
       {super.renderTopMenu()}
-      {this.state.id <= 0 ? null :
+      {this.state.id <= 0 ? null : <>
         <PipelineSelector
           idPipeline={R.id_pipeline}
           idPipelineStep={R.id_pipeline_step}
           onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
             this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
           }}
-          onPipelineStepChange={(idPipelineStep: number) => {
+          onPipelineStepChange={(idPipelineStep: number, step: any) => {
             this.updateRecord({id_pipeline_step: idPipelineStep});
           }}
         ></PipelineSelector>
-      }
+        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+      </>}
     </>
   }
 

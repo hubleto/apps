@@ -34,9 +34,9 @@ class Deal extends \Hubleto\Framework\Models\Model
   public ?string $lookupSqlValue = 'concat(ifnull({%TABLE%}.identifier, ""), " ", ifnull({%TABLE%}.title, ""))';
   public ?string $lookupUrlDetail = 'deals/{%ID%}';
 
-  public const RESULT_UNKNOWN = 1;
-  public const RESULT_WON = 2;
-  public const RESULT_LOST = 3;
+  public const RESULT_UNKNOWN = 0;
+  public const RESULT_WON = 1;
+  public const RESULT_LOST = 2;
 
   public const BUSINESS_TYPE_NEW = 1;
   public const BUSINESS_TYPE_EXISTING = 2;
@@ -89,7 +89,7 @@ class Deal extends \Hubleto\Framework\Models\Model
       'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT')),
       'price_incl_vat' => new Decimal($this, $this->translate('Price incl. VAT')),
       'id_currency' => (new Lookup($this, $this->translate('Currency'), Currency::class))->setFkOnUpdate('RESTRICT')->setFkOnDelete('SET NULL')->setReadonly(),
-      'date_expected_close' => (new Date($this, $this->translate('Expected close date')))->setRequired(),
+      'date_expected_close' => (new Date($this, $this->translate('Expected close date'))),
       'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setDefaultValue($this->main->auth->getUserId()),
       'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setDefaultValue($this->main->auth->getUserId()),
       'id_template_quotation' => (new Lookup($this, $this->translate('Template for quotation'), Template::class)),
