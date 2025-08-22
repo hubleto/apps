@@ -58,7 +58,7 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
   renderTitle(): JSX.Element {
     return <>
       <small>Order</small>
-      <h2>{this.state.record.order_number ?? '-'}</h2>
+      <h2>{this.state.record.identifier ?? '-'}</h2>
     </>;
   }
 
@@ -142,7 +142,7 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
                     >{item.DEAL.identifier}</a>;
                   }) : null}
                 </FormInput>
-                {this.inputWrapper('order_number')}
+                {this.inputWrapper('identifier')}
                 {<div className='flex flex-row *:w-1/2'>
                     {this.inputWrapper('price_excl_vat')}
                     {this.inputWrapper('price_incl_vat')}

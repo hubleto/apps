@@ -27,7 +27,7 @@ class Order extends \Hubleto\Framework\Models\Model
 {
   public string $table = 'orders';
   public string $recordManagerClass = RecordManagers\Order::class;
-  public ?string $lookupSqlValue = '{%TABLE%}.order_number';
+  public ?string $lookupSqlValue = 'concat(ifnull({%TABLE%}.identifier, ""), " ", ifnull({%TABLE%}.title, ""))';
 
   public array $relations = [
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
@@ -50,7 +50,8 @@ class Order extends \Hubleto\Framework\Models\Model
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'order_number' => (new Varchar($this, $this->translate('Order number')))->setCssClass('badge badge-info')->setProperty('defaultVisibility', true),
+      'identifier' => (new Varchar($this, $this->translate('Identifier')))->setCssClass('badge badge-info')->setProperty('defaultVisibility', true),
+      'title' => (new Varchar($this, $this->translate('Title')))->setRequired()->setProperty('defaultVisibility', true),
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setRequired()->setProperty('defaultVisibility', true),
       'title' => (new Varchar($this, $this->translate('Title')))->setCssClass('font-bold')->setProperty('defaultVisibility', true),
       'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setDefaultValue($this->main->auth->getUserId()),
@@ -138,7 +139,7 @@ class Order extends \Hubleto\Framework\Models\Model
     $savedRecord = parent::onAfterCreate($savedRecord);
 
     $order = $this->record->find($savedRecord["id"]);
-    $order->order_number = $order->id;
+    $order->identifier = $order->id;
     $order->save();
 
     $mHistory = $this->main->load(History::class);

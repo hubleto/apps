@@ -92,7 +92,7 @@ class Loader extends \HubletoMain\App
       $idOrder = $mOrder->record->recordCreate([
         'id_customer' => rand(1, $customerCount),
         'id_state' => rand(1, $stateCount),
-        'order_number' => 'O' . date('Y') . '-00' . $i,
+        'identifier' => 'O' . date('Y') . '-00' . $i,
         'title' => 'This is a test bid #' . $i,
         'price' => rand(1000, 2000) / rand(3, 5),
         'id_currency' => 1,
