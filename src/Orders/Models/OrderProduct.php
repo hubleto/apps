@@ -7,6 +7,7 @@ use Hubleto\Framework\Db\Column\Decimal;
 use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Products\Models\Product;
+use HubletoApp\Community\Products\Controllers\Api\CalculatePrice;
 
 class OrderProduct extends \Hubleto\Framework\Models\Model
 {
@@ -29,6 +30,8 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
       'amount' => (new Integer($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
       'discount' => (new Integer($this, $this->translate('Discount')))->setUnit('%')->setProperty('defaultVisibility', true),
       'vat' => (new Integer($this, $this->translate('Vat')))->setUnit('%')->setProperty('defaultVisibility', true),
+      'price_excl_vat' => new Decimal($this, $this->translate('Price excl. VAT'))->setProperty('defaultVisibility', true),
+      'price_incl_vat' => new Decimal($this, $this->translate('Price incl. VAT'))->setProperty('defaultVisibility', true),
     ]);
   }
 
@@ -40,5 +43,37 @@ class OrderProduct extends \Hubleto\Framework\Models\Model
     $description->ui["addButtonText"] = $this->translate("Add product");
 
     return $description;
+  }
+
+  public function onBeforeCreate(array $record): array
+  {
+    $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
+      (float) ($record["sales_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
+      (float) ($record["sales_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    return $record;
+  }
+
+  public function onBeforeUpdate(array $record): array
+  {
+    $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
+      (float) ($record["sales_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
+      (float) ($record["sales_price"] ?? 0),
+      (float) ($record["amount"] ?? 0),
+      (float) ($record["vat"] ?? 0),
+      (float) ($record["discount"] ?? 0)
+    );
+    return $record;
   }
 }

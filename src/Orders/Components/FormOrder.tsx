@@ -118,7 +118,6 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
 
   renderTab(tab: string) {
     const R = this.state.record;
-    const showAdditional = R.id > 0 ? true : false;
 
     switch (tab) {
       case 'default':
@@ -137,13 +136,12 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
                     >{item.DEAL.identifier}</a>;
                   }) : null}
                 </FormInput>
-                {showAdditional ? this.inputWrapper('order_number') : <></>}
-                {showAdditional ?
-                  <div className='flex flex-row *:w-1/2'>
-                    {this.inputWrapper('price')}
+                {this.inputWrapper('order_number')}
+                {<div className='flex flex-row *:w-1/2'>
+                    {this.inputWrapper('price_excl_vat')}
+                    {this.inputWrapper('price_incl_vat')}
                     {this.inputWrapper('id_currency')}
-                  </div>
-                : <></>}
+                </div>}
                 {this.inputWrapper('date_order')}
                 {this.inputWrapper('required_delivery_date')}
                 {this.inputWrapper('shipping_info')}

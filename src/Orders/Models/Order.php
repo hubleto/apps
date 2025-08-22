@@ -52,7 +52,8 @@ class Order extends \Hubleto\Framework\Models\Model
       'title' => (new Varchar($this, $this->translate('Title')))->setCssClass('font-bold')->setProperty('defaultVisibility', true),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
       'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
-      'price' => (new Decimal($this, $this->translate('Price')))->setReadonly()->setRequired()->setDefaultValue(0)->setProperty('defaultVisibility', true),
+      'price_excl_vat' => (new Decimal($this, $this->translate('Price excl. VAT')))->setDefaultValue(0)->setProperty('defaultVisibility', true),
+      'price_incl_vat' => (new Decimal($this, $this->translate('Price incl. VAT')))->setDefaultValue(0)->setProperty('defaultVisibility', true),
       'id_currency' => (new Lookup($this, $this->translate('Currency'), Currency::class))->setReadonly(),
       'date_order' => (new Date($this, $this->translate('Order date')))->setRequired()->setDefaultValue(date("Y-m-d")),
       'required_delivery_date' => (new Date($this, $this->translate('Required delivery date'))),
@@ -95,31 +96,25 @@ class Order extends \Hubleto\Framework\Models\Model
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
 
-    // TODO: manazment produktov bude treba spravit odznovu
-    // $mProduct = $this->main->load(Product::class);
-    // $longDescription = "";
+    $totalExclVat = 0;
+    $totalInclVat = 0;
 
-    // if (isset($savedRecord["PRODUCTS"])) {
-    //   foreach ($savedRecord["PRODUCTS"] as $product) {
-    //     if (isset($product["_toBeDeleted_"])) {
-    //       continue;
-    //     }
-    //     $productTitle = (string) $mProduct->record->find((int) $product["id_product"])->title;
-    //     $longDescription .=  "{$productTitle} - Amount: ".(string) $product["amount"]." - Unit Price: ".(string) $product["unit_price"]." - Vat: ".(string) $product["vat"]." - Discount: ".(string) $product["discount"]." \n\n";
-    //   }
-    // }
+    $mOrderProduct = $this->main->load(OrderProduct::class);
+    $allProducts = $mOrderProduct->record->where('id_order', $savedRecord['id'])->get()->toArray();
 
-    // if ($longDescription == "") {
-    //   $longDescription = "The order had no products or all products were deleted";
-    // }
+    if (!empty($allProducts)) {
+      foreach ($allProducts as $product) {
+        if (!isset($product["_toBeDeleted_"])) {
+          $totalExclVat += $product['price_excl_vat'];
+          $totalInclVat += $product['price_incl_vat'];
+        }
+      }
 
-    $mHistory = $this->main->load(History::class);
-    $mHistory->record->recordCreate([
-      "id_order" => $savedRecord["id"],
-      "short_description" => "Order has been updated",
-      // "long_description" => $longDescription,
-      "date_time" => date("Y-m-d H:i:s"),
-    ]);
+      $this->record->find($savedRecord["id"])->update([
+        "price_excl_vat" => $totalExclVat,
+        "price_incl_vat" => $totalInclVat,
+      ]);
+    }
 
     return $savedRecord;
   }

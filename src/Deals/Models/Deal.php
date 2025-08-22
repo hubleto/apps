@@ -238,25 +238,6 @@ class Deal extends \Hubleto\Framework\Models\Model
     if (!empty($allProducts)) {
       foreach ($allProducts as $product) {
         if (!isset($product["_toBeDeleted_"])) {
-          // $productPriceExclVat = $calculator->calculatePriceExcludingVat(
-          //   (float) ($product["unit_price"] ?? 0),
-          //   (float) ($product["amount"] ?? 0),
-          //   (float) ($product["vat"] ?? 0),
-          //   (float) ($product["discount"] ?? 0),
-          // );
-
-          // $productPriceInclVat = $calculator->calculatePriceIncludingVat(
-          //   (float) ($product["unit_price"] ?? 0),
-          //   (float) ($product["amount"] ?? 0),
-          //   (float) ($product["vat"] ?? 0),
-          //   (float) ($product["discount"] ?? 0),
-          // );
-
-          // $mDealProduct->record->where('id_product', $product['id'])->update([
-          //   'price_excl_vat' => $productPriceExclVat,
-          //   'price_incl_vat' => $productPriceInclVat,
-          // ]);
-
           $totalExclVat += $product['price_excl_vat'];
           $totalInclVat += $product['price_incl_vat'];
         }

@@ -27,7 +27,7 @@ class DealProduct extends \Hubleto\Framework\Models\Model
       'id_product' => (new Lookup($this, $this->translate('Product'), Product::class))->setFkOnUpdate("CASCADE")->setFkOnDelete("SET NULL")->setRequired()->setProperty('defaultVisibility', true),
       'order' => (new Integer($this, $this->translate('Order')))->setRequired()->setProperty('defaultVisibility', true),
       'description' => (new Text($this, $this->translate('Description')))->setProperty('defaultVisibility', true),
-      'unit_price' => (new Decimal($this, $this->translate('Unit Price')))->setRequired()->setProperty('defaultVisibility', true),
+      'sales_price' => (new Decimal($this, $this->translate('Sales Price')))->setRequired()->setProperty('defaultVisibility', true),
       'amount' => (new Decimal($this, $this->translate('Amount')))->setRequired()->setProperty('defaultVisibility', true),
       'vat' => (new Decimal($this, $this->translate('Vat')))->setUnit("%")->setProperty('defaultVisibility', true),
       'discount' => (new Decimal($this, $this->translate('Discount')))->setUnit("%")->setProperty('defaultVisibility', true),
@@ -36,33 +36,15 @@ class DealProduct extends \Hubleto\Framework\Models\Model
     ]);
   }
 
-  // public function describeTable(): \Hubleto\Framework\Description\Table
-  // {
-  //   $description = parent::describeTable();
-  //   if ($this->main->urlParamAsInteger('idDeal') > 0) {
-  //     // $description->permissions = [
-  //     //   'canRead' => $this->main->permissions->granted($this->fullName . ':Read'),
-  //     //   'canCreate' => $this->main->permissions->granted($this->fullName . ':Create'),
-  //     //   'canUpdate' => $this->main->permissions->granted($this->fullName . ':Update'),
-  //     //   'canDelete' => $this->main->permissions->granted($this->fullName . ':Delete'),
-  //     // ];
-  //     $description->columns = [];
-  //     $description->inputs = [];
-  //     $description->ui = [];
-  //   }
-
-  //   return $description;
-  // }
-
   public function onBeforeCreate(array $record): array
   {
     $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
-      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["sales_price"] ?? 0),
       (float) ($record["amount"] ?? 0),
       (float) ($record["discount"] ?? 0)
     );
     $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
-      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["sales_price"] ?? 0),
       (float) ($record["amount"] ?? 0),
       (float) ($record["vat"] ?? 0),
       (float) ($record["discount"] ?? 0)
@@ -73,12 +55,12 @@ class DealProduct extends \Hubleto\Framework\Models\Model
   public function onBeforeUpdate(array $record): array
   {
     $record["price_excl_vat"] = (new CalculatePrice($this->main))->calculatePriceExcludingVat(
-      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["sales_price"] ?? 0),
       (float) ($record["amount"] ?? 0),
       (float) ($record["discount"] ?? 0)
     );
     $record["price_incl_vat"] = (new CalculatePrice($this->main))->calculatePriceIncludingVat(
-      (float) ($record["unit_price"] ?? 0),
+      (float) ($record["sales_price"] ?? 0),
       (float) ($record["amount"] ?? 0),
       (float) ($record["vat"] ?? 0),
       (float) ($record["discount"] ?? 0)
