@@ -41,6 +41,12 @@ class Project extends \HubletoMain\RecordManager
     return $this->hasMany(ProjectOrder::class, 'id_project', 'id');
   }
 
+  /** @return HasMany<ProjectTask, covariant Deal> */
+  public function TASKS(): HasMany
+  {
+    return $this->hasMany(ProjectTask::class, 'id_project', 'id');
+  }
+
   public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
   {
     $query = parent::prepareReadQuery($query, $level);

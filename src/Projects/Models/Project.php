@@ -37,6 +37,7 @@ class Project extends \Hubleto\Framework\Models\Model
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id' ],
 
     'ORDERS' => [ self::HAS_MANY, ProjectOrder::class, 'id_order', 'id'],
+    'TASKS' => [ self::HAS_MANY, ProjectTask::class, 'id_deal', 'id'],
   ];
 
   public function describeColumns(): array

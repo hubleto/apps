@@ -27,7 +27,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
       ...super.getStateFromProps(props),
       tabs: [
         { uid: 'default', title: <b>{this.translate('Project')}</b> },
-        { uid: 'tasks', title: this.translate('Tasks') },
+        { uid: 'tasks', title: this.translate('Tasks'), showCountFor: 'TASKS' },
         { uid: 'statistics', title: this.translate('Statistics') },
         ...(this.getParentApp()?.getFormTabs() ?? [])
       ]
@@ -107,10 +107,14 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
                 <div className="badge badge-info">First create the project, then you will be prompted to add tasks.</div>
               :
                 <TableTasks
-                  uid={this.props.uid + "_table_tasks"}
-                  tag="ProjectTasks"
+                  tag={"table_project_task"}
                   parentForm={this}
-                  selectionMode='multiple'
+                  uid={this.props.uid + "_table_project_task"}
+                  junctionTitle='Project'
+                  junctionModel='HubletoApp/Community/Projects/Models/ProjectTask'
+                  junctionSourceColumn='id_project'
+                  junctionSourceRecordId={R.id}
+                  junctionDestinationColumn='id_task'
                 />
             }
           </>;
