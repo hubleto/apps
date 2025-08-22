@@ -33,7 +33,7 @@ class ConvertDealToProject extends \HubletoMain\Controllers\ApiController
       $projectsCount = $mProject->record->where('id_deal', $deal->id)->count();
 
       $mPipeline = $this->main->load(Pipeline::class);
-      list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_PROJECT_MANAGEMENT);
+      list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('projects');
 
       $project = $mProject->record->recordCreate([
         "id_deal" => $deal->id,

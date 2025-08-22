@@ -21,19 +21,17 @@ class Pipeline extends \HubletoMain\Controller
   {
     parent::prepareView();
 
+    $fOwner = $this->main->urlParamAsInteger('fOwner');
+
+    $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
     $mPipeline = $this->main->load(ModelPipeline::class);
 
-    $fOwner = $this->main->urlParamAsInteger('fOwner');
-    $pipelineType = $this->main->urlParamAsString('pipelineType');
+    $pipelineGroup = $this->main->urlParamAsString('pipelineGroup');
     $idPipeline = $this->main->urlParamAsInteger('idPipeline');
-    $fPipelineType = [
-      'deals' => $mPipeline::TYPE_DEAL_MANAGEMENT,
-      'projects' => $mPipeline::TYPE_PROJECT_MANAGEMENT,
-      'tasks' => $mPipeline::TYPE_TASK_MANAGEMENT,
-      'orders' => $mPipeline::TYPE_ORDER_MANAGEMENT,
-    ][$pipelineType] ?? 0;
 
-    $pipelines = $mPipeline->record->where('type', $fPipelineType)->get()?->toArray();
+    $pipelineLoader = $pipelineManager->getPipelineLoaderForGroup($pipelineGroup);
+
+    $pipelines = $mPipeline->record->where('group', $pipelineGroup)->get()?->toArray();
     if (!is_array($pipelines)) $pipelines = [];
 
     if ($idPipeline <= 0) {
@@ -48,59 +46,9 @@ class Pipeline extends \HubletoMain\Controller
       ->toArray()
     ;
 
-    $itemDetailsUrl = '';
-
-    switch ($pipelineType) {
-      case 'deals':
-        $mDeal = $this->main->load(Deal::class);
-        $items = $mDeal->record->prepareReadQuery()
-          ->where($mDeal->table . ".id_pipeline", $idPipeline)
-          ->where($mDeal->table . ".is_closed", false)
-        ;
-        $itemDetailsUrl = $this->main->projectUrl . '/deals';
-      break;
-      case 'projects':
-        $mProject = $this->main->load(Project::class);
-        $items = $mProject->record->prepareReadQuery()
-          ->where($mProject->table . ".id_pipeline", $idPipeline)
-          ->where($mProject->table . ".is_closed", false)
-        ;
-        $itemDetailsUrl = $this->main->projectUrl . '/projects';
-      break;
-      case 'tasks':
-        $mTask = $this->main->load(Task::class);
-        $items = $mTask->record->prepareReadQuery()
-          ->where($mTask->table . ".id_pipeline", $idPipeline)
-          ->where($mTask->table . ".is_closed", false)
-        ;
-        $itemDetailsUrl = $this->main->projectUrl . '/tasks';
-      break;
-      case 'orders':
-        $mOrder = $this->main->load(Order::class);
-        $items = $mOrder->record->prepareReadQuery()
-          ->where($mOrder->table . ".id_pipeline", $idPipeline)
-          ->where($mOrder->table . ".is_closed", false)
-        ;
-        $itemDetailsUrl = $this->main->projectUrl . '/orders';
-      break;
-    }
-
-    if ($fOwner > 0) {
-      $items = $items->where('id_owner', $fOwner);
-    }
-
-    $items = $items->get()?->toArray();
-
     $this->viewParams["pipelines"] = $pipelines;
     $this->viewParams["pipeline"] = $pipeline;
-    $this->viewParams["pipelineTypeReadable"] = [
-      'deals' => 'Deals',
-      'projects' => 'Projects',
-      'tasks' => 'Tasks',
-      'orders' => 'Orders',
-    ][$pipelineType] ?? '';
-    $this->viewParams["items"] = $items;
-    $this->viewParams["itemDetailsUrl"] = $itemDetailsUrl;
+    $this->viewParams["items"] = $pipelineLoader->loadItems($idPipeline, ['fOwner' => $fOwner]);
 
     $this->setView('@HubletoApp:Community:Pipeline/Pipeline.twig');
   }

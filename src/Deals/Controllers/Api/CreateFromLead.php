@@ -28,7 +28,7 @@ class CreateFromLead extends \HubletoMain\Controllers\ApiController
     $mDeal = $this->main->load(Deal::class);
 
     $mPipeline = $this->main->load(Pipeline::class);
-    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_DEAL_MANAGEMENT);
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('deals');
 
     try {
       $lead = $mLead->record->where("id", $idLead)->first();

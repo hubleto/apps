@@ -113,18 +113,16 @@
           </button>
         </div>
       </div>
-      <div class="hidden sm:block flex-1">
-        {{ include('@hubleto-main/Breadcrumbs.twig', {'items': viewParams.breadcrumbs}) }}
-      </div>
-      <div class="hidden sm:block flex-1">
+      <div class="hidden sm:block flex-1 ml-2 max-w-72">
         <app-search string:endpoint='api/search'></app-search>
       </div>
-      <div class="hidden sm:block flex-1">
+      <div class="hidden md:block flex-1">
+        {{ include('@hubleto-main/Breadcrumbs.twig', {'items': viewParams.breadcrumbs}) }}
       </div>
-      <div id="default-navbar-mobile">
+      <div class="hidden md:block">
         <ul class="flex font-sm gap-1">
           {% if viewParams.availableLanguages|length > 0 %}
-            <li class="mr-2 hidden md:block">
+            <li class="mr-2 hidden lg:block">
               <button class="btn btn-transparent btn-dropdown">
                 <div class="menu">
                   <div class="list mr-2">
@@ -149,7 +147,7 @@
             </li>
           {% endif %}
           {% if viewParams.contextHelpUrl %}
-            <li class="mr-2 hidden md:block">
+            <li class="mr-2 hidden lg:block">
               <a
                 class="btn btn-transparent"
                 href="https://help.hubleto.com/v0/{{ viewParams.contextHelpUrl }}"
@@ -176,7 +174,7 @@
             </li>
           {% endif %}
           {% if viewParams.main.apps.isAppInstalled('HubletoApp\\Community\\Cloud') %}
-            <li class="mr-2 hidden md:block">
+            <li class="mr-2 hidden lg:block">
               {% if viewParams.main.isPremium %}
                 <a class="btn btn-transparent" href="{{ config.projectUrl }}/cloud">
                   <span class="icon text-primary"><i class="fas fa-medal"></i></span>
@@ -190,7 +188,7 @@
               {% endif %}
             </li>
           {% endif %}
-          <li class="mr-2 hidden md:block">
+          <li class="mr-2 hidden lg:block">
             <button id="theme-toggle-btn" class="btn btn-transparent" onclick="toggleTheme();">
               <span class="icon"><i class="fas fa-sun"></i></span>
             </a>
@@ -236,9 +234,9 @@
           {% endif %}
         {% endfor %}
 
-        <button class="app-launcher-show-btn" onclick="lchr(true);">
-          <i class="fas fa-magnifying-glass"></i> {{ translate("Search app") }}
-        </button>
+        <div class="bg-slate-100 p-1 w-full">
+          {{ user.DEFAULT_COMPANY.name }}
+        </div>
 
         <a class="btn {% if viewParams.main.route == '' %} btn-active {% endif %}" href="{{ config.projectUrl }}">
           <span class="icon"><i class="fas fa-home"></i></span>
@@ -288,6 +286,14 @@
           {% if app.manifest.sidebarGroup is empty %} {{ _self.appBtn(app, false) }} {% endif %}
           {% set i = i + 1 %}
         {% endfor %}
+
+        <div class="sidebar-group">
+          <button type="button" class="mt-2 btn flex-10 truncate" onclick="lchr(true);">
+            <span class="icon"><i class="fas fa-magnifying-glass"></i></span>
+            <span class="text">{{ translate("Search app") }}</span>
+          </button>
+        </div>
+
       </nav>
       {% if secondSidebar != '' %} <div>{{ secondSidebar|raw }}</div> {% endif %}
     </aside>

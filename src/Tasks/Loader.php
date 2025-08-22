@@ -19,7 +19,10 @@ class Loader extends \HubletoMain\App
       '/^tasks(\/(?<recordId>\d+))?\/?$/' => Controllers\Tasks::class,
     ]);
 
-    $this->addSearchSwitch('t');
+    $this->addSearchSwitch('t', 'tasks');
+
+    $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
+    $pipelineManager->addPipeline($this, 'tasks', Pipeline::class);
 
   }
 

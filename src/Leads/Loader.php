@@ -30,7 +30,8 @@ class Loader extends \HubletoMain\App
       '/^leads\/save-bulk-status-change\/?$/' => Controllers\Api\SaveBulkStatusChange::class,
     ]);
 
-    $this->addSearchSwitch('l');
+    $this->addSearchSwitch('l', 'leads');
+    $this->addSearchSwitch('t', 'taskleads');
 
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => $this->translate('Lead Levels'),
@@ -118,7 +119,7 @@ class Loader extends \HubletoMain\App
     
     foreach ($expressions as $e) {
       $qLeads = $qLeads->where(function($q) use ($e) {
-        $q->orWhere('leads.identifier', 'like', '%' . $e . '%');
+        $q->orWhere('leads.id', 'like', '%' . $e . '%');
         $q->orWhere('leads.title', 'like', '%' . $e . '%');
       });
     }
@@ -130,7 +131,7 @@ class Loader extends \HubletoMain\App
     foreach ($leads as $lead) {
       $results[] = [
         "id" => $lead['id'],
-        "label" => $lead['identifier'] . ' ' . $lead['title'],
+        "label" => $lead['id'] . ' ' . $lead['title'],
         "url" => 'leads/' . $lead['id'],
         // "description" => $task[''],
       ];

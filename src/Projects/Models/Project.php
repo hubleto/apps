@@ -111,7 +111,7 @@ class Project extends \Hubleto\Framework\Models\Model
   {
 
     $mPipeline = $this->main->load(Pipeline::class);
-    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_PROJECT_MANAGEMENT);
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('projects');
     $savedRecord['id_pipeline'] = $idPipeline;
     $savedRecord['id_pipeline_step'] = $idPipelineStep;
 

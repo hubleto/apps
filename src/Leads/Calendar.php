@@ -32,7 +32,7 @@ class Calendar extends \HubletoApp\Community\Calendar\Calendar
         if (isset($activity['LEAD'])) {
           $lead = $activity['LEAD'];
           $customer = $lead['CUSTOMER'] ?? [];
-          return 'Lead ' . $lead['identifier'] . ' ' . $lead['title'] . (isset($customer['name']) ? ', ' . $customer['name'] : '');
+          return 'Lead #' . $lead['id'] . (isset($customer['name']) ? ', ' . $customer['name'] : '');
         } else {
           return '';
         }

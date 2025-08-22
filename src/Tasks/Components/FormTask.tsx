@@ -43,16 +43,18 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
     const R = this.state.record;
     return <>
       {super.renderTopMenu()}
-      <PipelineSelector
-        idPipeline={R.id_pipeline}
-        idPipelineStep={R.id_pipeline_step}
-        onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
-          this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
-        }}
-        onPipelineStepChange={(idPipelineStep: number) => {
-          this.updateRecord({id_pipeline_step: idPipelineStep});
-        }}
-      ></PipelineSelector>
+      {this.state.id <= 0 ? null :
+        <PipelineSelector
+          idPipeline={R.id_pipeline}
+          idPipelineStep={R.id_pipeline_step}
+          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+            this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
+          }}
+          onPipelineStepChange={(idPipelineStep: number) => {
+            this.updateRecord({id_pipeline_step: idPipelineStep});
+          }}
+        ></PipelineSelector>
+      }
     </>
   }
 

@@ -25,7 +25,10 @@ class Loader extends \HubletoMain\App
       '/^projects\/phases\/?$/' => Controllers\Phases::class,
     ]);
 
-    $this->addSearchSwitch('p');
+    $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
+    $pipelineManager->addPipeline($this, 'projects', Pipeline::class);
+
+    $this->addSearchSwitch('p', 'projects');
 
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => 'Projects', // or $this->translate('Projects')

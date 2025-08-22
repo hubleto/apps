@@ -26,6 +26,11 @@ class Loader extends \HubletoMain\App
       '/^settings\/order-states\/?$/' => Controllers\States::class,
     ]);
 
+    $this->addSearchSwitch('o', 'orders');
+
+    $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
+    $pipelineManager->addPipeline($this, 'orders', Pipeline::class);
+
     $this->main->apps->community('Settings')->addSetting($this, [
       'title' => $this->translate('Order states'),
       'icon' => 'fas fa-file-lines',

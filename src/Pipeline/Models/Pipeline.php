@@ -7,18 +7,6 @@ use Hubleto\Framework\Db\Column\Integer;
 
 class Pipeline extends \Hubleto\Framework\Models\Model
 {
-  public const TYPE_DEAL_MANAGEMENT = 1;
-  public const TYPE_PROJECT_MANAGEMENT = 2;
-  public const TYPE_TASK_MANAGEMENT = 3;
-  public const TYPE_ORDER_MANAGEMENT = 4;
-
-  public const TYPE_ENUM_VALUES = [
-    self::TYPE_DEAL_MANAGEMENT => 'deal management',
-    self::TYPE_PROJECT_MANAGEMENT => 'project management',
-    self::TYPE_TASK_MANAGEMENT => 'task management',
-    self::TYPE_ORDER_MANAGEMENT => 'order management',
-  ];
-
   public string $table = 'pipelines';
   public string $recordManagerClass = RecordManagers\Pipeline::class;
   public ?string $lookupSqlValue = '{%TABLE%}.name';
@@ -32,7 +20,12 @@ class Pipeline extends \Hubleto\Framework\Models\Model
     return array_merge(parent::describeColumns(), [
       'name' => (new Varchar($this, $this->translate('Name')))->setRequired()->setProperty('defaultVisibility', true),
       'description' => (new Varchar($this, $this->translate('Description')))->setProperty('defaultVisibility', true),
-      'type' => (new Integer($this, $this->translate('Type')))->setEnumValues(self::TYPE_ENUM_VALUES)->setProperty('defaultVisibility', true),
+      'group' => (new Varchar($this, $this->translate('Group')))->setProperty('defaultVisibility', true)->setPredefinedValues([
+        'deals',
+        'orders',
+        'projects',
+        'tasks',
+      ])->addIndex('INDEX `group` (`group`)'),
     ]);
   }
 
@@ -49,9 +42,9 @@ class Pipeline extends \Hubleto\Framework\Models\Model
     return $description;
   }
 
-  public function getDefaultPipelineInfo(int $type): array
+  public function getDefaultPipelineInGroup(string $group): array
   {
-    $defaultPipeline = $this->record->where('type', $type)->with('STEPS')->first()?->toArray();
+    $defaultPipeline = $this->record->where('group', $group)->with('STEPS')->first()?->toArray();
 
     $idPipeline = 0;
     $idPipelineStep = 0;

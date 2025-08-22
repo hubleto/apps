@@ -128,7 +128,7 @@ class Order extends \Hubleto\Framework\Models\Model
   {
     $mPipeline = $this->main->load(Pipeline::class);
 
-    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInfo(Pipeline::TYPE_ORDER_MANAGEMENT);
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('orders');
 
     $savedRecord['id_pipeline'] = $idPipeline;
     $savedRecord['id_pipeline_step'] = $idPipelineStep;

@@ -34,7 +34,7 @@ class Loader extends \HubletoMain\App
       '/^deals\/boards\/deal-value-by-result\/?$/' => Controllers\Boards\DealValueByResult::class,
     ]);
     
-    $this->addSearchSwitch('d');
+    $this->addSearchSwitch('d', 'deals');
 
     $this->main->apps->community('Settings')?->addSetting($this, [
       'title' => $this->translate('Deal Tags'),
@@ -50,12 +50,15 @@ class Loader extends \HubletoMain\App
     $calendarManager = $this->main->load(\HubletoApp\Community\Calendar\Manager::class);
     $calendarManager->addCalendar($this, 'deals', $this->configAsString('calendarColor'), Calendar::class);
 
+    $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
+    $pipelineManager->addPipeline($this, 'deals', Pipeline::class);
+
     $this->main->apps->community('Reports')?->reportManager?->addReport($this, Reports\MonthlyRevenue::class);
 
-    $boards = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
-    $boards->addBoard( $this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
-    $boards->addBoard( $this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');
-    $boards->addBoard( $this, $this->translate('Deal value by result'), 'deals/boards/deal-value-by-result');
+    $dashboardManager = $this->main->load(\HubletoApp\Community\Dashboards\Manager::class);
+    $dashboardManager->addBoard($this, $this->translate('Deal warnings'), 'deals/boards/deal-warnings');
+    $dashboardManager->addBoard($this, $this->translate('Most valuable deals'), 'deals/boards/most-valuable-deals');
+    $dashboardManager->addBoard($this, $this->translate('Deal value by result'), 'deals/boards/deal-value-by-result');
   }
 
   public function installTables(int $round): void
