@@ -115,4 +115,40 @@ class Loader extends \HubletoMain\App
 
   }
 
+  /**
+   * Implements fulltext search functionality for orders
+   *
+   * @param array $expressions List of expressions to be searched and glued with logical 'or'.
+   * 
+   * @return array
+   * 
+   */
+  public function search(array $expressions): array
+  {
+    $mOrder = $this->main->load(Models\Order::class);
+    $qOrders = $mOrder->record->prepareReadQuery();
+    
+    foreach ($expressions as $e) {
+      $qOrders = $qOrders->where(function($q) use ($e) {
+        $q->orWhere('orders.identifier', 'like', '%' . $e . '%');
+        $q->orWhere('orders.title', 'like', '%' . $e . '%');
+      })
+      ->where('is_closed', false);
+    }
+
+    $orders = $qOrders->get()->toArray();
+
+    $results = [];
+
+    foreach ($orders as $order) {
+      $results[] = [
+        "id" => $order['id'],
+        "label" => $order['identifier'] . ' ' . $order['title'],
+        "url" => 'orders/' . $order['id'],
+      ];
+    }
+
+    return $results;
+  }
+
 }

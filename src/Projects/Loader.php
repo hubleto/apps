@@ -118,7 +118,8 @@ class Loader extends \HubletoMain\App
       $qProjects = $qProjects->where(function($q) use ($e) {
         $q->orWhere('projects.identifier', 'like', '%' . $e . '%');
         $q->orWhere('projects.title', 'like', '%' . $e . '%');
-      });
+      })
+      ->where('is_closed', false);
     }
 
     $projects = $qProjects->get()->toArray();

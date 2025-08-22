@@ -51,7 +51,8 @@ class Loader extends \HubletoMain\App
       $qTasks = $qTasks->where(function($q) use ($e) {
         $q->orWhere('tasks.identifier', 'like', '%' . $e . '%');
         $q->orWhere('tasks.title', 'like', '%' . $e . '%');
-      });
+      })
+      ->where('is_closed', false);
     }
 
     $tasks = $qTasks->get()->toArray();

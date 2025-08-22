@@ -35,6 +35,8 @@ class CreateFromDeal extends \HubletoMain\Controllers\ApiController
         "id_customer" => $deal->id_customer,
         "title" => $deal->title,
         "identifier" => $deal->identifier,
+        "id_owner" => $deal->id_owner,
+        "id_manager" => $deal->id_manager,
       ]);
 
       $mOrderDeal->record->recordCreate([

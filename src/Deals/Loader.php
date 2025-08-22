@@ -116,7 +116,8 @@ class Loader extends \HubletoMain\App
       $qDeals = $qDeals->where(function($q) use ($e) {
         $q->orWhere('deals.identifier', 'like', '%' . $e . '%');
         $q->orWhere('deals.title', 'like', '%' . $e . '%');
-      });
+      })
+      ->where('is_closed', false);
     }
 
     $deals = $qDeals->get()->toArray();
