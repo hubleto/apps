@@ -58,6 +58,7 @@ class Loader extends \HubletoMain\App
       $this->main->load(Models\Project::class)->dropTableIfExists()->install();
       $this->main->load(Models\ProjectDeal::class)->dropTableIfExists()->install();
       $this->main->load(Models\ProjectOrder::class)->dropTableIfExists()->install();
+      $this->main->load(Models\ProjectTask::class)->dropTableIfExists()->install();
     }
     if ($round == 2) {
 
