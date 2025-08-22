@@ -8,13 +8,27 @@ use HubletoApp\Community\Customers\Models\RecordManagers\Customer;
 use HubletoApp\Community\Settings\Models\RecordManagers\Currency;
 use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
 use HubletoApp\Community\Pipeline\Models\RecordManagers\PipelineStep;
+use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends \HubletoMain\RecordManager
 {
   public $table = 'orders';
+
+  /** @return BelongsTo<User, covariant Deal> */
+  public function OWNER(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'id_owner', 'id');
+  }
+
+  /** @return BelongsTo<User, covariant Lead> */
+  public function MANAGER(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'id_manager', 'id');
+  }
 
   /** @return HasOne<Pipeline, covariant Deal> */
   public function PIPELINE(): HasOne

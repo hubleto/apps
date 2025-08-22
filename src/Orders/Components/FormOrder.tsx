@@ -155,6 +155,8 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
               <div className='border-l border-gray-200'></div>
               <div className='grow'>
                 {this.inputWrapper('id_customer')}
+                {this.inputWrapper('id_owner')}
+                {this.inputWrapper('id_manager')}
                 {this.inputWrapper('note')}
                 {this.inputWrapper('id_template')}
               </div>

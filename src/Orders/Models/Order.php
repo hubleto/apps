@@ -21,6 +21,7 @@ use HubletoApp\Community\Pipeline\Models\Pipeline;
 use HubletoApp\Community\Pipeline\Models\PipelineStep;
 use HubletoApp\Community\Invoices\Models\Invoice;
 use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
+use HubletoApp\Community\Settings\Models\User;
 
 class Order extends \Hubleto\Framework\Models\Model
 {
@@ -30,6 +31,8 @@ class Order extends \Hubleto\Framework\Models\Model
 
   public array $relations = [
     'CUSTOMER' => [ self::HAS_ONE, Customer::class, 'id','id_customer'],
+    'OWNER' => [ self::BELONGS_TO, User::class, 'id_owner', 'id'],
+    'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
     'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
     'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
@@ -50,6 +53,8 @@ class Order extends \Hubleto\Framework\Models\Model
       'order_number' => (new Varchar($this, $this->translate('Order number')))->setCssClass('badge badge-info')->setProperty('defaultVisibility', true),
       'id_customer' => (new Lookup($this, $this->translate('Customer'), Customer::class))->setRequired()->setProperty('defaultVisibility', true),
       'title' => (new Varchar($this, $this->translate('Title')))->setCssClass('font-bold')->setProperty('defaultVisibility', true),
+      'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setDefaultValue($this->main->auth->getUserId()),
+      'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setDefaultValue($this->main->auth->getUserId()),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
       'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
       'price_excl_vat' => (new Decimal($this, $this->translate('Price excl. VAT')))->setDefaultValue(0)->setProperty('defaultVisibility', true),
