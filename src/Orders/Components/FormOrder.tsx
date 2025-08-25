@@ -50,6 +50,10 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
     };
   }
 
+  getRecordFormUrl(): string {
+    return 'orders/' + this.state.record.id;
+  }
+
   contentClassName(): string
   {
     return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';

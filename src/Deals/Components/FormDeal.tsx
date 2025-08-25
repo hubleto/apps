@@ -92,6 +92,10 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
     };
   }
 
+  getRecordFormUrl(): string {
+    return 'deals/' + this.state.record.id;
+  }
+
   onAfterLoadFormDescription(description: any) {
     request.get(
       'api/table/describe',

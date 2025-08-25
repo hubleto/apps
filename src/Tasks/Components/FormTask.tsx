@@ -32,6 +32,10 @@ export default class FormTask<P, S> extends HubletoForm<FormTaskProps, FormTaskS
     }
   }
 
+  getRecordFormUrl(): string {
+    return 'tasks/' + this.state.record.id;
+  }
+
   contentClassName(): string
   {
     return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';

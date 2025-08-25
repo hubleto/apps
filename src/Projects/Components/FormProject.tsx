@@ -34,6 +34,10 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
     }
   }
 
+  getRecordFormUrl(): string {
+    return 'projects/' + this.state.record.id;
+  }
+
   contentClassName(): string
   {
     return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';
