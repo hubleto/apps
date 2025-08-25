@@ -265,7 +265,7 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
               return <a
                 key={key}
                 className='badge'
-                href={globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id}
+                href={(item.LEAD ? globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id : '#')}
                 target='_blank'
               >{item.LEAD.id}</a>;
             }) : null}

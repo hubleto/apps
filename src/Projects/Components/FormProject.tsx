@@ -79,7 +79,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
                   return <a
                     key={key}
                     className='badge'
-                    href={globalThis.main.config.projectUrl + '/orders/' + item.ORDER.id}
+                    href={(item.ORDER ? globalThis.main.config.projectUrl + '/orders/' + item.ORDER.id : '#')}
                     target='_blank'
                   >{item.ORDER.identifier}</a>;
                 }) : null}
@@ -93,7 +93,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
               {this.inputWrapper('date_start')}
               {this.inputWrapper('date_deadline')}
               {this.inputWrapper('budget')}
-              {this.inputWrapper('is_closed')}
+              {/* {this.inputWrapper('is_closed')} */}
             </div>
             <div className='flex-1'>
               {this.inputWrapper('id_customer')}
@@ -101,7 +101,7 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
               {this.inputWrapper('color')}
               {this.inputWrapper('online_documentation_folder')}
               {this.inputWrapper('notes')}
-              {this.inputWrapper('id_deal')}
+              {/* {this.inputWrapper('id_deal')} */}
             </div>
           </div>
         </>;
