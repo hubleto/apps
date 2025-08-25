@@ -76,6 +76,12 @@ class Deal extends \HubletoMain\Model
     // 'ORDERS' => [ self::HAS_MANY, OrderDeal::class, 'id_deal', 'id'],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -95,7 +101,7 @@ class Deal extends \HubletoMain\Model
       'id_template_quotation' => (new Lookup($this, $this->translate('Template for quotation'), Template::class)),
       'customer_order_number' => (new Varchar($this, $this->translate('Customer\'s order number')))->setProperty('defaultVisibility', true),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
-      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null)->setProperty('defaultVisibility', true),
       'shared_folder' => new Varchar($this, "Shared folder (online document storage)"),
       'note' => (new Text($this, $this->translate('Notes'))),
       'source_channel' => (new Integer($this, $this->translate('Source channel')))->setEnumValues(self::ENUM_SOURCE_CHANNELS),
@@ -125,6 +131,14 @@ class Deal extends \HubletoMain\Model
     ]);
   }
 
+  /**
+   * [Description for describeInput]
+   *
+   * @param string $columnName
+   * 
+   * @return \Hubleto\Framework\Description\Input
+   * 
+   */
   public function describeInput(string $columnName): \Hubleto\Framework\Description\Input
   {
     $description = parent::describeInput($columnName);
@@ -139,6 +153,12 @@ class Deal extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -157,12 +177,12 @@ class Deal extends \HubletoMain\Model
     $description->ui['showColumnSearch'] = true;
     $description->ui['showFooter'] = false;
     $description->ui['defaultFilters'] = [
+      'fDealPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'State'),
       'fDealSourceChannel' => [ 'title' => $this->translate('Source channel'), 'type' => 'multipleSelectButtons', 'options' => self::ENUM_SOURCE_CHANNELS ],
-      'fDealResult' => [ 'title' => $this->translate('Result'), 'type' => 'multipleSelectButtons', 'options' => self::ENUM_DEAL_RESULTS ],
-      'fDealBusinessType' => [ 'title' => $this->translate('Business type'), 'options' => array_merge([ 0 => $this->translate('All')], self::ENUM_BUSINESS_TYPES) ],
+      // 'fDealBusinessType' => [ 'title' => $this->translate('Business type'), 'options' => array_merge([ 0 => $this->translate('All')], self::ENUM_BUSINESS_TYPES) ],
       'fDealOwnership' => [ 'title' => $this->translate('Ownership'), 'options' => [ 0 => $this->translate('All'), 1 => $this->translate('Owned by me'), 2 => $this->translate('Managed by me') ] ],
       'fDealClosed' => [ 'title' => $this->translate('Open / Closed'), 'options' => [ 0 => $this->translate('Open'), 1 => $this->translate('Closed') ] ],
-      'fDealArchive' => [ 'title' => $this->translate('Archived'), 'options' => [ 0 => $this->translate('Active'), 1 => $this->translate('Archived') ] ],
+      // 'fDealArchive' => [ 'title' => $this->translate('Archived'), 'options' => [ 0 => $this->translate('Active'), 1 => $this->translate('Archived') ] ],
     ];
 
     unset($description->columns['note']);
@@ -180,6 +200,12 @@ class Deal extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for describeForm]
+   *
+   * @return \Hubleto\Framework\Description\Form
+   * 
+   */
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
     $mSettings = $this->main->load(Setting::class);
@@ -195,6 +221,14 @@ class Deal extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterCreate(array $savedRecord): array
   {
     $savedRecord = parent::onAfterCreate($savedRecord);
@@ -215,6 +249,15 @@ class Deal extends \HubletoMain\Model
     return $savedRecord;
   }
 
+  /**
+   * [Description for onAfterUpdate]
+   *
+   * @param array $originalRecord
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterUpdate(array $originalRecord, array $savedRecord): array
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
@@ -252,28 +295,14 @@ class Deal extends \HubletoMain\Model
     return $savedRecord;
   }
 
-  // public function getOwnership(array $record): void
-  // {
-  //   if (isset($record["id_customer"]) && !isset($record["checkOwnership"])) {
-  //     $mCustomer = $this->main->load(Customer::class);
-  //     $customer = $mCustomer->record
-  //       ->where("id", $record["id_customer"])
-  //       ->first()
-  //     ;
-
-  //     // if (isset($record['id_owner']) && $customer->id_owner != $record["id_owner"]) {
-  //     //   throw new \Exception("This deal cannot be assigned to the selected user,\nbecause they are not assigned to the selected customer.");
-  //     // }
-  //   }
-  // }
-
-  // public function onBeforeCreate(array $record): array
-  // {
-  //   $this->getOwnership($record);
-  //   if (!isset($record['is_closed'])) $record['is_closed'] = false;
-  //   return $record;
-  // }
-
+  /**
+   * [Description for onBeforeUpdate]
+   *
+   * @param array $record
+   * 
+   * @return array
+   * 
+   */
   public function onBeforeUpdate(array $record): array
   {
     $oldRecord = $this->record->find($record["id"])->toArray();
@@ -331,7 +360,6 @@ class Deal extends \HubletoMain\Model
 
     return $record;
   }
-
 
   /**
    * Generates quotation PDF document from given deal and returns ID of generated document

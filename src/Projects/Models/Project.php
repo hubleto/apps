@@ -40,6 +40,12 @@ class Project extends \HubletoMain\Model
     'TASKS' => [ self::HAS_MANY, ProjectTask::class, 'id_task', 'id'],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -60,7 +66,7 @@ class Project extends \HubletoMain\Model
       'date_deadline' => (new Date($this, $this->translate('Deadline')))->setReadonly()->setDefaultValue(date("Y-m-d")),
       'budget' => (new Integer($this, $this->translate('Budget')))->setProperty('defaultVisibility', true)->setUnit('€'),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
-      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null)->setProperty('defaultVisibility', true),
       'is_closed' => (new Boolean($this, $this->translate('Closed')))->setDefaultValue(true),
       // 'id_phase' => (new Lookup($this, $this->translate('Phase'), Phase::class))->setProperty('defaultVisibility', true)->setRequired()
       //   ->setDefaultValue($this->main->auth->getUserId())
@@ -72,6 +78,12 @@ class Project extends \HubletoMain\Model
     ]);
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -80,34 +92,21 @@ class Project extends \HubletoMain\Model
     $description->ui['showFulltextSearch'] = true;
     $description->ui['showFooter'] = false;
 
-    // \$mPhase = $this->main->load(Phase::class);
-    // $fPhaseOptions = [ ];//0 => 'All' ];
-    // foreach ($mPhase->record->orderBy('order', 'asc')->get()?->toArray() as $phase) {
-    //   $fPhaseOptions[$phase['id']] = $phase['name'];
-    // }
-
-    // $description->ui['defaultFilters'] = [
-    //   'fPhase' => [ 'title' => 'Phase', 'type' => 'multipleSelectButtons', 'options' => $fPhaseOptions ],
-    // ];
+    $description->ui['defaultFilters'] = [
+      'fProjectPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'Phase'),
+    ];
 
     return $description;
   }
 
-  public function onBeforeCreate(array $record): array
-  {
-    return parent::onBeforeCreate($record);
-  }
-
-  public function onBeforeUpdate(array $record): array
-  {
-    return parent::onBeforeUpdate($record);
-  }
-
-  public function onAfterUpdate(array $originalRecord, array $savedRecord): array
-  {
-    return parent::onAfterUpdate($originalRecord, $savedRecord);
-  }
-
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterCreate(array $savedRecord): array
   {
 

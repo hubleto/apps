@@ -96,5 +96,21 @@ class Order extends \HubletoMain\RecordManager
     return $this->hasOne(Template::class, 'id', 'id_template');
   }
 
+  public function prepareReadQuery(mixed $query = null, int $level = 0): mixed
+  {
+    $query = parent::prepareReadQuery($query, $level);
+
+    $main = \HubletoMain\Loader::getGlobalApp();
+
+    $defaultFilters = $main->urlParamAsArray("defaultFilters");
+
+    $query = Pipeline::applyPipelineStepDefaultFilter(
+      $this->model,
+      $query,
+      $defaultFilters['fOrderPipelineStep'] ?? []
+    );
+
+    return $query;
+  }
 
 }

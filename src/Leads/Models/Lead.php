@@ -43,7 +43,7 @@ class Lead extends \HubletoMain\Model
     'OWNER' => [ self::BELONGS_TO, User::class, 'id_owner', 'id'],
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
     'TEAM' => [ self::BELONGS_TO, Team::class, 'id_team', 'id'],
-    'LEVEL' => [ self::BELONGS_TO, Level::class, 'id_level', 'id'],
+    // 'LEVEL' => [ self::BELONGS_TO, Level::class, 'id_level', 'id'],
     'CONTACT' => [ self::HAS_ONE, Contact::class, 'id', 'id_contact'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
     'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
@@ -76,22 +76,22 @@ class Lead extends \HubletoMain\Model
         ->setProperty('sql', "select value from contact_values cv where cv.id_contact = leads.id_contact and cv.type = 'number' LIMIT 1")
       ,
       'id_contact' => (new Lookup($this, $this->translate('Contact'), Contact::class))->setRequired()->setDefaultValue(null),
-      'id_level' => (new Lookup($this, $this->translate('Level'), Level::class))->setProperty('defaultVisibility', true),
-      'status' => (new Integer($this, $this->translate('Status')))->setProperty('defaultVisibility', true)->setEnumValues(
-        [
-          $this::STATUS_NO_INTERACTION_YET => 'No interaction yet',
-          $this::STATUS_CONTACTED => 'Contacted',
-          $this::STATUS_IN_PROGRESS => 'In Progress',
-          $this::STATUS_CLOSED => 'Closed',
-          $this::STATUS_CONVERTED_TO_DEAL => 'Converted to deal',
-        ]
-      )->setEnumCssClasses([
-        self::STATUS_NO_INTERACTION_YET => 'bg-slate-100 text-slate-800',
-        self::STATUS_CONTACTED => 'bg-blue-100 text-blue-800',
-        self::STATUS_IN_PROGRESS => 'bg-yellow-100 text-yellow-800',
-        self::STATUS_CLOSED => 'bg-slate-100 text-slate-800',
-        self::STATUS_CONVERTED_TO_DEAL => 'bg-green-100 text-green-800',
-      ]),
+      // 'id_level' => (new Lookup($this, $this->translate('Level'), Level::class))->setProperty('defaultVisibility', true),
+      // 'status' => (new Integer($this, $this->translate('Status')))->setProperty('defaultVisibility', true)->setEnumValues(
+      //   [
+      //     $this::STATUS_NO_INTERACTION_YET => 'No interaction yet',
+      //     $this::STATUS_CONTACTED => 'Contacted',
+      //     $this::STATUS_IN_PROGRESS => 'In Progress',
+      //     $this::STATUS_CLOSED => 'Closed',
+      //     $this::STATUS_CONVERTED_TO_DEAL => 'Converted to deal',
+      //   ]
+      // )->setEnumCssClasses([
+      //   self::STATUS_NO_INTERACTION_YET => 'bg-slate-100 text-slate-800',
+      //   self::STATUS_CONTACTED => 'bg-blue-100 text-blue-800',
+      //   self::STATUS_IN_PROGRESS => 'bg-yellow-100 text-yellow-800',
+      //   self::STATUS_CLOSED => 'bg-slate-100 text-slate-800',
+      //   self::STATUS_CONVERTED_TO_DEAL => 'bg-green-100 text-green-800',
+      // ]),
       'price' => (new Decimal($this, $this->translate('Price')))->setDefaultValue(0),
       'id_currency' => (new Lookup($this, $this->translate('Currency'), Currency::class))->setReadonly(),
       'score' => (new Integer($this, $this->translate('Score')))->setProperty('defaultVisibility', true)->setColorScale('bg-light-blue-to-dark-blue'),
@@ -104,7 +104,7 @@ class Lead extends \HubletoMain\Model
       'shared_folder' => new Varchar($this, "Online document folder"),
       'note' => (new Text($this, $this->translate('Notes')))->setProperty('defaultVisibility', true),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
-      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null)->setProperty('defaultVisibility', true),
       'source_channel' => (new Integer($this, $this->translate('Source channel')))->setEnumValues([
         1 => "Advertisement",
         2 => "Partner",
@@ -159,14 +159,12 @@ class Lead extends \HubletoMain\Model
     $description->ui['showFulltextSearch'] = true;
     $description->ui['showSidebarFilter'] = true;
     $description->ui['showColumnSearch'] = true;
-    $description->ui['defaultFilters'] = [
-      'fLeadStatus' => [ 'title' => 'Status', 'type' => 'multipleSelectButtons', 'options' => [ 1 => 'New', 2 => 'In progress', 3 => 'Completed', 4 => 'Lost' ] ],
-      'fLeadOwnership' => [ 'title' => 'Ownership', 'options' => [ 0 => 'All', 1 => 'Owned by me', 2 => 'Managed by me' ] ],
-      'fLeadArchive' => [ 'title' => 'Archive', 'options' => [ 0 => 'Active', 1 => 'Archived' ] ],
-    ];
     $description->columns['tags'] = ["title" => "Tags"];
 
-    $description->ui['moreActions'][] = [ 'title' => 'Set status', 'type' => 'stateChange', 'state' => 'showSetStatusDialog', 'value' => true ];
+    $description->ui['defaultFilters'] = [
+      'fLeadPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'Level'),
+      'fLeadOwnership' => [ 'title' => 'Ownership', 'options' => [ 0 => 'All', 1 => 'Owned by me', 2 => 'Managed by me' ] ],
+    ];
 
     if ($this->main->urlParamAsBool("showArchive")) {
       $description->permissions = [

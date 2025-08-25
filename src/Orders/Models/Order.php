@@ -47,6 +47,12 @@ class Order extends \HubletoMain\Model
     'PROJECTS' => [ self::HAS_MANY, ProjectOrder::class, 'id_order', 'id' ],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -70,6 +76,12 @@ class Order extends \HubletoMain\Model
     ]);
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -80,9 +92,19 @@ class Order extends \HubletoMain\Model
     unset($description->columns["shipping_info"]);
     unset($description->columns["note"]);
 
+    $description->ui['defaultFilters'] = [
+      'fOrderPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'Stage'),
+    ];
+
     return $description;
   }
 
+  /**
+   * [Description for describeForm]
+   *
+   * @return \Hubleto\Framework\Description\Form
+   * 
+   */
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
     $mSettings = $this->main->load(Setting::class);
@@ -98,6 +120,15 @@ class Order extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for onAfterUpdate]
+   *
+   * @param array $originalRecord
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterUpdate(array $originalRecord, array $savedRecord): array
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
@@ -125,6 +156,14 @@ class Order extends \HubletoMain\Model
     return $savedRecord;
   }
 
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterCreate(array $savedRecord): array
   {
     $mPipeline = $this->main->load(Pipeline::class);

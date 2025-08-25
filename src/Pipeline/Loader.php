@@ -77,15 +77,15 @@ class Loader extends \HubletoMain\App
 
       $idPipeline = $mPipeline->record->recordCreate([ "name" => "Lead level", "group" => "leads" ])['id'];
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Subscriber', 'order' => 1, 'color' => '#344556']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'MQL', 'order' => 1, 'color' => '#344556']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'SQL', 'order' => 2, 'color' => '#6830a5']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Opportunity', 'order' => 3, 'color' => '#3068a5']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Customer', 'order' => 4, 'color' => '#ae459f']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'MQL', 'order' => 2, 'color' => '#344556']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'SQL', 'order' => 3, 'color' => '#6830a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Opportunity', 'order' => 4, 'color' => '#3068a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Customer', 'order' => 5, 'color' => '#ae459f']);
 
       $idPipeline = $mPipeline->record->recordCreate([ "name" => "Campaign phase", "group" => "campaigns" ])['id'];
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Preparation', 'order' => 1, 'color' => '#344556']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Launched', 'order' => 3, 'color' => '#6830a5']);
-      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Analysis', 'order' => 4, 'color' => '#008000']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Launched', 'order' => 2, 'color' => '#6830a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Analysis', 'order' => 3, 'color' => '#008000']);
     }
   }
 

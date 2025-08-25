@@ -34,6 +34,12 @@ class Task extends \HubletoMain\Model
     'TESTER' => [ self::BELONGS_TO, User::class, 'id_tester', 'id' ],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -52,7 +58,7 @@ class Task extends \HubletoMain\Model
       'date_start' => (new Date($this, $this->translate('Start')))->setDefaultValue(date("Y-m-d")),
       'date_deadline' => (new Date($this, $this->translate('Deadline')))->setDefaultValue(date("Y-m-d")),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
-      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null)->setProperty('defaultVisibility', true),
       'is_milestone' => (new Boolean($this, $this->translate('Is milestone')))->setDefaultValue(false),
       'is_closed' => (new Boolean($this, $this->translate('Closed')))->setDefaultValue(false),
       // 'id_project' => (new Lookup($this, $this->translate('Project'), Project::class))->setProperty('defaultVisibility', true),
@@ -66,6 +72,12 @@ class Task extends \HubletoMain\Model
     ]);
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -75,29 +87,21 @@ class Task extends \HubletoMain\Model
     $description->ui['showColumnSearch'] = true;
     $description->ui['showFooter'] = false;
 
+    $description->ui['defaultFilters'] = [
+      'fTaskPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'Status'),
+    ];
+
     return $description;
   }
 
-  public function describeForm(): \Hubleto\Framework\Description\Form
-  {
-    return parent::describeForm();
-  }
-
-  public function onBeforeCreate(array $record): array
-  {
-    return parent::onBeforeCreate($record);
-  }
-
-  public function onBeforeUpdate(array $record): array
-  {
-    return parent::onBeforeUpdate($record);
-  }
-
-  public function onAfterUpdate(array $originalRecord, array $savedRecord): array
-  {
-    return parent::onAfterUpdate($originalRecord, $savedRecord);
-  }
-
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterCreate(array $savedRecord): array
   {
 

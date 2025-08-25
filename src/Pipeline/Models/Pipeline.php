@@ -25,6 +25,8 @@ class Pipeline extends \HubletoMain\Model
         'orders',
         'projects',
         'tasks',
+        'leads',
+        'campaigns',
       ])->addIndex('INDEX `group` (`group`)'),
     ]);
   }
@@ -56,6 +58,26 @@ class Pipeline extends \HubletoMain\Model
     }
 
     return [$defaultPipeline, $idPipeline, $idPipelineStep];
+  }
+
+  public static function buildTableDefaultFilterForPipelineSteps(\HubletoMain\Model $model, string $title): array
+  {
+    $fPipelineSteps = [
+      'title' => $title,
+      'type' => 'multipleSelectButtons', 
+      'options' => [],
+      'colors' => [],
+    ];
+    $pipelineStepsUsed = $model->record->with('PIPELINE_STEP')->groupBy('id_pipeline_step')->get();
+    if ($pipelineStepsUsed) {
+      foreach ($pipelineStepsUsed as $step) {
+        if ($step->PIPELINE_STEP) {
+          $fPipelineSteps['options'][$step->PIPELINE_STEP->id] = $step->PIPELINE_STEP->name;
+          $fPipelineSteps['colors'][$step->PIPELINE_STEP->id] = $step->PIPELINE_STEP->color;
+        }
+      }
+    }
+    return $fPipelineSteps;
   }
 
 }

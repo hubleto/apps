@@ -129,6 +129,13 @@ class Deal extends \HubletoMain\RecordManager
     }
 
     $defaultFilters = $main->urlParamAsArray("defaultFilters");
+
+    $query = Pipeline::applyPipelineStepDefaultFilter(
+      $this->model,
+      $query,
+      $defaultFilters['fDealPipelineStep'] ?? []
+    );
+
     if (isset($defaultFilters["fDealSourceChannel"]) && $defaultFilters["fDealSourceChannel"] > 0) {
       $query = $query->where("deals.source_channel", $defaultFilters["fDealSourceChannel"]);
     }

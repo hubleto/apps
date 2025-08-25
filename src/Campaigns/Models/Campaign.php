@@ -53,7 +53,7 @@ class Campaign extends \HubletoMain\Model
       'color' => (new Color($this, $this->translate('Color'))),
       'id_mail_template' => (new Lookup($this, $this->translate('Mail template'), Mail::class))->setProperty('defaultVisibility', true),
       'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
-      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null)->setProperty('defaultVisibility', true),
       'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setProperty('defaultVisibility', true)->setDefaultValue($this->main->auth->getUserId())->setProperty('defaultVisibility', true),
       'is_closed' => (new Boolean($this, $this->translate('Closed')))->setProperty('defaultVisibility', true),
       'datetime_created' => (new DateTime($this, $this->translate('Created')))->setProperty('defaultVisibility', true)->setRequired()->setDefaultValue(date('Y-m-d H:i:s')),
@@ -75,6 +75,11 @@ class Campaign extends \HubletoMain\Model
     $description->ui['showHeader'] = true;
     $description->ui['showFulltextSearch'] = true;
     $description->ui['showFooter'] = false;
+
+    $description->ui['defaultFilters'] = [
+      'fCampaignPipelineStep' => Pipeline::buildTableDefaultFilterForPipelineSteps($this, 'Phase'),
+    ];
+
 
     return $description;
   }

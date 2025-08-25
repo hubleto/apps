@@ -2,7 +2,11 @@
 
 namespace HubletoApp\Community\Projects\Models\RecordManagers;
 
+use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\PipelineStep;
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use HubletoApp\Community\Settings\Models\RecordManagers\User;
 
@@ -35,6 +39,18 @@ class Project extends \HubletoMain\RecordManager
     return $this->belongsTo(User::class, 'id_manager', 'id');
   }
 
+  /** @return HasOne<Pipeline, covariant Deal> */
+  public function PIPELINE(): HasOne
+  {
+    return $this->hasOne(Pipeline::class, 'id', 'id_pipeline');
+  }
+
+  /** @return HasOne<PipelineStep, covariant Deal> */
+  public function PIPELINE_STEP(): HasOne
+  {
+    return $this->hasOne(PipelineStep::class, 'id', 'id_pipeline_step');
+  }
+
   /** @return hasMany<LeadDocument, covariant Lead> */
   public function ORDERS(): HasMany
   {
@@ -58,12 +74,17 @@ class Project extends \HubletoMain\RecordManager
     }
     
     $defaultFilters = $main->urlParamAsArray("defaultFilters");
-    if (isset($defaultFilters["fPhase"]) && count($defaultFilters["fPhase"]) > 0) {
-      $query = $query->whereIn("{$this->table}.id_phase", $defaultFilters["fPhase"]);
+    if ($main->urlParamAsInteger("idDeal") > 0) {
+      $query = $query->whereIn($this->table . '.', $main->urlParamAsInteger("idDeal"));
     }
+
+    $query = Pipeline::applyPipelineStepDefaultFilter(
+      $this->model,
+      $query,
+      $defaultFilters['fProjectPipelineStep'] ?? []
+    );
 
     return $query;
   }
-
   
 }

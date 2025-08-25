@@ -141,11 +141,15 @@ class Lead extends \HubletoMain\RecordManager
     }
 
     $defaultFilters = $main->urlParamAsArray("defaultFilters");
+
+    $query = Pipeline::applyPipelineStepDefaultFilter(
+      $this->model,
+      $query,
+      $defaultFilters['fLeadPipelineStep'] ?? []
+    );
+
     if (isset($defaultFilters["fLeadArchive"]) && $defaultFilters["fLeadArchive"] > 0) {
       $query = $query->where("leads.is_archived", $defaultFilters["fLeadArchive"]);
-    }
-    if (isset($defaultFilters["fLeadStatus"]) && count($defaultFilters["fLeadStatus"]) > 0) {
-      $query = $query->whereIn("leads.status", $defaultFilters["fLeadStatus"]);
     }
 
     if (isset($defaultFilters["fLeadOwnership"])) {
