@@ -36,6 +36,10 @@ export default class TableProjects extends HubletoTable<TableProjectsProps, Tabl
     return params;
   }
 
+  setRecordFormUrl(id: number) {
+    window.history.pushState({}, "", globalThis.main.config.projectUrl + '/projects/' + id);
+  }
+
   rowClassName(rowData: any): string {
     return rowData.is_closed ? 'bg-slate-300' : super.rowClassName(rowData);
   }
