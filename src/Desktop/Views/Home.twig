@@ -5,7 +5,7 @@
 <h1 class="app-main-title">{{ translate('Welcome') }}, {{ user.first_name ?? user.email }}</h1>
 
 {% if main.apps.isAppInstalled('HubletoApp\\Community\\Usage') %}
-  {% set recentlyUsed = main.apps.community('Usage').getRecentlyUsedAppNamespaces() %}
+  {% set recentlyUsed = main.load('HubletoApp\\Community\\Usage\\Logger').getRecentlyUsedAppNamespaces() %}
   {% if recentlyUsed|length > 0 %}
     <div class="mb-2">
       <div><small>Recently used apps</small></div>

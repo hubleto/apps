@@ -38,9 +38,11 @@ class Loader extends \HubletoMain\App
     if ($round == 1) {
       $mPipeline = $this->main->load(Models\Pipeline::class);
       $mPipelineStep = $this->main->load(Models\PipelineStep::class);
+      $mPipelineHistory = $this->main->load(Models\PipelineHistory::class);
 
       $mPipeline->dropTableIfExists()->install();
       $mPipelineStep->dropTableIfExists()->install();
+      $mPipelineHistory->dropTableIfExists()->install();
 
       $idPipeline = $mPipeline->record->recordCreate([ "name" => "Deal stage", "group" => "deals" ])['id'];
       $mPipelineStep->record->recordCreate([ 'name' => 'Prospecting', 'order' => 1, 'color' => '#838383', 'id_pipeline' => $idPipeline , "set_result" => Deal::RESULT_UNKNOWN, "probability" => 1]);

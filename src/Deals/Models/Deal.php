@@ -27,7 +27,7 @@ use HubletoApp\Community\Orders\Models\OrderDeal;
 use HubletoApp\Community\Invoices\Models\Invoice;
 use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
 
-class Deal extends \Hubleto\Framework\Models\Model
+class Deal extends \HubletoMain\Model
 {
   public string $table = 'deals';
   public string $recordManagerClass = RecordManagers\Deal::class;
