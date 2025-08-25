@@ -26,29 +26,25 @@ class Pipeline extends \HubletoMain\Controller
     $pipelineManager = $this->main->load(\HubletoApp\Community\Pipeline\Manager::class);
     $mPipeline = $this->main->load(ModelPipeline::class);
 
-    $pipelineGroup = $this->main->urlParamAsString('pipelineGroup');
-    $idPipeline = $this->main->urlParamAsInteger('idPipeline');
-
-    $pipelineLoader = $pipelineManager->getPipelineLoaderForGroup($pipelineGroup);
-
-    $pipelines = $mPipeline->record->where('group', $pipelineGroup)->get()?->toArray();
+    $pipelines = $mPipeline->record->get()?->toArray();
     if (!is_array($pipelines)) $pipelines = [];
 
-    if ($idPipeline <= 0) {
-      $tmp = reset($pipelines);
-      $idPipeline = (int) ($tmp['id'] ?? 0);
-    }
+    $idPipeline = $this->main->urlParamAsInteger('idPipeline');
 
-    $pipeline = (array) $mPipeline->record
+    $pipeline = $mPipeline->record
       ->where("id", $idPipeline)
       ->with("STEPS")
       ->first()
-      ->toArray()
     ;
 
+    if ($pipeline) {
+      $pipelineLoader = $pipelineManager->getPipelineLoaderForGroup($pipeline->group);
+
+      $this->viewParams["pipeline"] = $pipeline;
+      $this->viewParams["items"] = $pipelineLoader->loadItems($idPipeline, ['fOwner' => $fOwner]);
+    }
+
     $this->viewParams["pipelines"] = $pipelines;
-    $this->viewParams["pipeline"] = $pipeline;
-    $this->viewParams["items"] = $pipelineLoader->loadItems($idPipeline, ['fOwner' => $fOwner]);
 
     $this->setView('@HubletoApp:Community:Pipeline/Pipeline.twig');
   }

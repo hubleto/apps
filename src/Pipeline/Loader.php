@@ -21,11 +21,8 @@ class Loader extends \HubletoMain\App
 
     $this->main->router->httpGet([
       '/^pipeline\/api\/get-pipelines\/?$/' => Controllers\Api\GetPipelines::class,
-      '/^pipeline\/?$/' => Controllers\Home::class,
-      '/^pipeline\/(?<pipelineGroup>deals)\/?$/' => Controllers\Pipeline::class,
-      '/^pipeline\/(?<pipelineGroup>projects)\/?$/' => Controllers\Pipeline::class,
-      '/^pipeline\/(?<pipelineGroup>tasks)\/?$/' => Controllers\Pipeline::class,
-      '/^pipeline\/(?<pipelineGroup>orders)\/?$/' => Controllers\Pipeline::class,
+      '/^pipeline\/?$/' => Controllers\Pipeline::class,
+      '/^pipeline(\/(?<idPipeline>\d+))?\/?$/' => Controllers\Pipeline::class,
       '/^settings\/pipelines\/?$/' => Controllers\Pipelines::class,
     ]);
 
@@ -78,25 +75,25 @@ class Loader extends \HubletoMain\App
     }
   }
 
-  public function renderSecondSidebar(): string
-  {
-    return '
-      <h2 class="mt-2">Pipeline</h2>
-      <div class="btn-list">
-        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/deals">
-          <span class="text">Deals</span>
-        </a>
-        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/projects">
-          <span class="text">Projects</span>
-        </a>
-        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/tasks">
-          <span class="text">Tasks</span>
-        </a>
-        <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/orders">
-          <span class="text">Orders</span>
-        </a>
-      </div>
-    ';
-  }
+  // public function renderSecondSidebar(): string
+  // {
+  //   return '
+  //     <h2 class="mt-2">Pipeline</h2>
+  //     <div class="btn-list">
+  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/deals">
+  //         <span class="text">Deals</span>
+  //       </a>
+  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/projects">
+  //         <span class="text">Projects</span>
+  //       </a>
+  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/tasks">
+  //         <span class="text">Tasks</span>
+  //       </a>
+  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/orders">
+  //         <span class="text">Orders</span>
+  //       </a>
+  //     </div>
+  //   ';
+  // }
 
 }
