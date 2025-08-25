@@ -9,8 +9,11 @@ use HubletoApp\Community\Mail\Models\Mail;
 use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Text;
+use Hubleto\Framework\Db\Column\Boolean;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\DateTime;
+use HubletoApp\Community\Pipeline\Models\Pipeline;
+use HubletoApp\Community\Pipeline\Models\PipelineStep;
 
 use HubletoApp\Community\Leads\Models\LeadCampaign;
 
@@ -22,11 +25,19 @@ class Campaign extends \HubletoMain\Model
 
   public array $relations = [
     'MANAGER' => [ self::BELONGS_TO, User::class, 'id_manager', 'id'],
+    'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
+    'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
 
     'CONTACTS' => [ self::HAS_MANY, CampaignContact::class, 'id_deal', 'id'],
     'TASKS' => [ self::HAS_MANY, CampaignTask::class, 'id_deal', 'id'],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -41,11 +52,20 @@ class Campaign extends \HubletoMain\Model
       'mail_body' => (new Text($this, $this->translate('Mail body (HTML)')))->setReactComponent('InputWysiwyg'),
       'color' => (new Color($this, $this->translate('Color'))),
       'id_mail_template' => (new Lookup($this, $this->translate('Mail template'), Mail::class))->setProperty('defaultVisibility', true),
+      'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
       'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setProperty('defaultVisibility', true)->setDefaultValue($this->main->auth->getUserId())->setProperty('defaultVisibility', true),
+      'is_closed' => (new Boolean($this, $this->translate('Closed')))->setProperty('defaultVisibility', true),
       'datetime_created' => (new DateTime($this, $this->translate('Created')))->setProperty('defaultVisibility', true)->setRequired()->setDefaultValue(date('Y-m-d H:i:s')),
     ]);
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -59,16 +79,46 @@ class Campaign extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
+  public function onAfterCreate(array $savedRecord): array
+  {
+
+    $mPipeline = $this->main->load(Pipeline::class);
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('campaigns');
+    $savedRecord['id_pipeline'] = $idPipeline;
+    $savedRecord['id_pipeline_step'] = $idPipelineStep;
+
+    $this->record->recordUpdate($savedRecord);
+
+    return parent::onAfterCreate($savedRecord);
+  }
+
+  /**
+   * [Description for onAfterUpdate]
+   *
+   * @param array $originalRecord
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterUpdate(array $originalRecord, array $savedRecord): array
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);
 
     $mMail = $this->main->load(Mail::class);
-    $template = $mMail->record->find((int) $savedRecord['id_mail_template'])?->toArray();
+    $template = $mMail->record->find((int) ($savedRecord['id_mail_template'] ?? 0));
 
-    if (is_array($template)) {
+    if ($template) {
       $bodyHtml = Lib::addUtmVariablesToEmailLinks(
-        (string) $template['body_html'],
+        (string) $template->body_html,
         (string) $savedRecord['utm_source'],
         (string) $savedRecord['utm_campaign'],
         (string) $savedRecord['utm_term'],

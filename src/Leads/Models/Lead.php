@@ -19,6 +19,8 @@ use HubletoApp\Community\Settings\Models\Setting;
 use HubletoApp\Community\Settings\Models\User;
 use HubletoApp\Community\Settings\Models\Team;
 use Hubleto\Framework\Helper;
+use HubletoApp\Community\Pipeline\Models\Pipeline;
+use HubletoApp\Community\Pipeline\Models\PipelineStep;
 
 use HubletoApp\Community\Deals\Models\DealLead;
 
@@ -44,6 +46,8 @@ class Lead extends \HubletoMain\Model
     'LEVEL' => [ self::BELONGS_TO, Level::class, 'id_level', 'id'],
     'CONTACT' => [ self::HAS_ONE, Contact::class, 'id', 'id_contact'],
     'CURRENCY' => [ self::HAS_ONE, Currency::class, 'id', 'id_currency'],
+    'PIPELINE' => [ self::HAS_ONE, Pipeline::class, 'id', 'id_pipeline'],
+    'PIPELINE_STEP' => [ self::HAS_ONE, PipelineStep::class, 'id', 'id_pipeline_step'],
 
     'HISTORY' => [ self::HAS_MANY, LeadHistory::class, 'id_lead', 'id', ],
     'TAGS' => [ self::HAS_MANY, LeadTag::class, 'id_lead', 'id' ],
@@ -53,6 +57,12 @@ class Lead extends \HubletoMain\Model
     'TASKS' => [ self::HAS_MANY, LeadTask::class, 'id_deal', 'id'],
   ];
 
+  /**
+   * [Description for describeColumns]
+   *
+   * @return array
+   * 
+   */
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
@@ -93,6 +103,8 @@ class Lead extends \HubletoMain\Model
       'lost_reason' => (new Lookup($this, $this->translate("Reason for Lost"), LostReason::class)),
       'shared_folder' => new Varchar($this, "Online document folder"),
       'note' => (new Text($this, $this->translate('Notes')))->setProperty('defaultVisibility', true),
+      'id_pipeline' => (new Lookup($this, $this->translate('Pipeline'), Pipeline::class))->setDefaultValue(1),
+      'id_pipeline_step' => (new Lookup($this, $this->translate('Pipeline step'), PipelineStep::class))->setDefaultValue(null),
       'source_channel' => (new Integer($this, $this->translate('Source channel')))->setEnumValues([
         1 => "Advertisement",
         2 => "Partner",
@@ -102,10 +114,19 @@ class Lead extends \HubletoMain\Model
         6 => "Refferal",
         7 => "Other",
       ]),
+      'is_closed' => (new Boolean($this, $this->translate('Closed')))->setProperty('defaultVisibility', true),
       'is_archived' => (new Boolean($this, $this->translate('Archived')))->setDefaultValue(0),
     ]);
   }
 
+  /**
+   * [Description for describeInput]
+   *
+   * @param string $columnName
+   * 
+   * @return \Hubleto\Framework\Description\Input
+   * 
+   */
   public function describeInput(string $columnName): \Hubleto\Framework\Description\Input
   {
     $description = parent::describeInput($columnName);
@@ -124,6 +145,12 @@ class Lead extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for describeTable]
+   *
+   * @return \Hubleto\Framework\Description\Table
+   * 
+   */
   public function describeTable(): \Hubleto\Framework\Description\Table
   {
     $description = parent::describeTable();
@@ -155,6 +182,12 @@ class Lead extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for describeForm]
+   *
+   * @return \Hubleto\Framework\Description\Form
+   * 
+   */
   public function describeForm(): \Hubleto\Framework\Description\Form
   {
     $description = parent::describeForm();
@@ -172,6 +205,14 @@ class Lead extends \HubletoMain\Model
     return $description;
   }
 
+  /**
+   * [Description for checkOwnership]
+   *
+   * @param array $record
+   * 
+   * @return void
+   * 
+   */
   public function checkOwnership(array $record): void
   {
     if (isset($record['id_customer']) && $record['id_customer'] && !isset($record['checkOwnership'])) {
@@ -188,12 +229,28 @@ class Lead extends \HubletoMain\Model
     }
   }
 
+  /**
+   * [Description for onBeforeCreate]
+   *
+   * @param array $record
+   * 
+   * @return array
+   * 
+   */
   public function onBeforeCreate(array $record): array
   {
     $this->checkOwnership($record);
     return $record;
   }
 
+  /**
+   * [Description for onBeforeUpdate]
+   *
+   * @param array $record
+   * 
+   * @return array
+   * 
+   */
   public function onBeforeUpdate(array $record): array
   {
     $this->checkOwnership($record);
@@ -254,6 +311,14 @@ class Lead extends \HubletoMain\Model
     return $record;
   }
 
+  /**
+   * [Description for onAfterCreate]
+   *
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterCreate(array $savedRecord): array
   {
     $savedRecord = parent::onAfterCreate($savedRecord);
@@ -266,14 +331,30 @@ class Lead extends \HubletoMain\Model
     ]);
 
     $newLead = $savedRecord;
+
+    $mPipeline = $this->main->load(Pipeline::class);
+    list($defaultPipeline, $idPipeline, $idPipelineStep) = $mPipeline->getDefaultPipelineInGroup('campaigns');
+    $newLead['id_pipeline'] = $idPipeline;
+    $newLead['id_pipeline_step'] = $idPipelineStep;
+
     if (empty($newLead['identifier'])) {
       $newLead["identifier"] = $this->main->apps->community('Leads')->configAsString('leadPrefix') . str_pad($savedRecord["id"], 6, 0, STR_PAD_LEFT);
-      $this->record->recordUpdate($newLead);
     }
+
+    $this->record->recordUpdate($newLead);
 
     return $savedRecord;
   }
 
+  /**
+   * [Description for onAfterUpdate]
+   *
+   * @param array $originalRecord
+   * @param array $savedRecord
+   * 
+   * @return array
+   * 
+   */
   public function onAfterUpdate(array $originalRecord, array $savedRecord): array
   {
     $savedRecord = parent::onAfterUpdate($originalRecord, $savedRecord);

@@ -12,6 +12,9 @@ use HubletoApp\Community\Deals\Models\RecordManagers\Deal;
 use HubletoApp\Community\Deals\Models\RecordManagers\DealLead;
 use HubletoApp\Community\Leads\Models\RecordManagers\LeadHistory;
 use HubletoApp\Community\Leads\Models\RecordManagers\LeadTag;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\PipelineStep;
+
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -79,6 +82,18 @@ class Lead extends \HubletoMain\RecordManager
   public function HISTORY(): HasMany
   {
     return $this->hasMany(LeadHistory::class, 'id_lead', 'id');
+  }
+
+  /** @return HasOne<Pipeline, covariant Deal> */
+  public function PIPELINE(): HasOne
+  {
+    return $this->hasOne(Pipeline::class, 'id', 'id_pipeline');
+  }
+
+  /** @return HasOne<PipelineStep, covariant Deal> */
+  public function PIPELINE_STEP(): HasOne
+  {
+    return $this->hasOne(PipelineStep::class, 'id', 'id_pipeline_step');
   }
 
   /** @return hasMany<LeadTag, covariant Lead> */

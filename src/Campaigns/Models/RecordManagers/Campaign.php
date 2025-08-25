@@ -6,8 +6,8 @@ use HubletoApp\Community\Settings\Models\RecordManagers\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-
-use HubletoApp\Community\Leads\Models\RecordManagers\LeadCampaign;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\Pipeline;
+use HubletoApp\Community\Pipeline\Models\RecordManagers\PipelineStep;
 
 class Campaign extends \HubletoMain\RecordManager
 {
@@ -17,6 +17,18 @@ class Campaign extends \HubletoMain\RecordManager
   public function MANAGER(): BelongsTo
   {
     return $this->belongsTo(User::class, 'id_manager', 'id');
+  }
+
+  /** @return HasOne<Pipeline, covariant Deal> */
+  public function PIPELINE(): HasOne
+  {
+    return $this->hasOne(Pipeline::class, 'id', 'id_pipeline');
+  }
+
+  /** @return HasOne<PipelineStep, covariant Deal> */
+  public function PIPELINE_STEP(): HasOne
+  {
+    return $this->hasOne(PipelineStep::class, 'id', 'id_pipeline_step');
   }
 
   /** @return HasMany<DealTask, covariant Deal> */

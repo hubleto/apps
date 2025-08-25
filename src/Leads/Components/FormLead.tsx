@@ -11,6 +11,7 @@ import LeadFormActivity, { LeadFormActivityProps, LeadFormActivityState } from '
 import Hyperlink from '@hubleto/react-ui/core/Inputs/Hyperlink';
 import { FormProps, FormState } from '@hubleto/react-ui/core/Form';
 import moment, { Moment } from "moment";
+import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 
 import TableLeadHistory from './TableLeadHistory';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
@@ -122,6 +123,26 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
       this.props.onClose();
       this.props.parentTable.loadData();
     } else super.onAfterSaveRecord(saveResponse);
+  }
+
+  renderTopMenu(): JSX.Element {
+    const R = this.state.record;
+    return <>
+      {super.renderTopMenu()}
+      {this.state.id <= 0 ? null : <>
+        <PipelineSelector
+          idPipeline={R.id_pipeline}
+          idPipelineStep={R.id_pipeline_step}
+          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+            this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
+          }}
+          onPipelineStepChange={(idPipelineStep: number, step: any) => {
+            this.updateRecord({id_pipeline_step: idPipelineStep});
+          }}
+        ></PipelineSelector>
+        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+      </>}
+    </>
   }
 
   renderTitle(): JSX.Element {

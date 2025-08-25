@@ -74,28 +74,19 @@ class Loader extends \HubletoMain\App
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Ready to invoice', 'order' => 3, 'color' => '#3068a5']);
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Invoiced', 'order' => 4, 'color' => '#ae459f']);
       $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Paid', 'order' => 5, 'color' => '#a38f9a']);
+
+      $idPipeline = $mPipeline->record->recordCreate([ "name" => "Lead level", "group" => "leads" ])['id'];
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Subscriber', 'order' => 1, 'color' => '#344556']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'MQL', 'order' => 1, 'color' => '#344556']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'SQL', 'order' => 2, 'color' => '#6830a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Opportunity', 'order' => 3, 'color' => '#3068a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Customer', 'order' => 4, 'color' => '#ae459f']);
+
+      $idPipeline = $mPipeline->record->recordCreate([ "name" => "Campaign phase", "group" => "campaigns" ])['id'];
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Preparation', 'order' => 1, 'color' => '#344556']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Launched', 'order' => 3, 'color' => '#6830a5']);
+      $mPipelineStep->record->recordCreate(['id_pipeline' => $idPipeline, 'name' => 'Analysis', 'order' => 4, 'color' => '#008000']);
     }
   }
-
-  // public function renderSecondSidebar(): string
-  // {
-  //   return '
-  //     <h2 class="mt-2">Pipeline</h2>
-  //     <div class="btn-list">
-  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/deals">
-  //         <span class="text">Deals</span>
-  //       </a>
-  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/projects">
-  //         <span class="text">Projects</span>
-  //       </a>
-  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/tasks">
-  //         <span class="text">Tasks</span>
-  //       </a>
-  //       <a class="btn btn-list-item btn-transparent" href="' . $this->main->projectUrl . '/pipeline/orders">
-  //         <span class="text">Orders</span>
-  //       </a>
-  //     </div>
-  //   ';
-  // }
 
 }

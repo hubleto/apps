@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import HubletoForm, { HubletoFormProps, HubletoFormState } from '@hubleto/react-ui/ext/HubletoForm';
 import TableContacts from '@hubleto/apps/Contacts/Components/TableContacts';
 import TableTasks from '@hubleto/apps/Tasks/Components/TableTasks';
+import PipelineSelector from '../../Pipeline/Components/PipelineSelector';
 import request from '@hubleto/react-ui/core/Request';
 
 export interface FormCampaignProps extends HubletoFormProps {}
@@ -42,6 +43,26 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
       <small>{this.translate("Campaign")}</small>
       <h2>{this.state.record.name ?? '-'}</h2>
     </>;
+  }
+
+  renderTopMenu(): JSX.Element {
+    const R = this.state.record;
+    return <>
+      {super.renderTopMenu()}
+      {this.state.id <= 0 ? null : <>
+        <PipelineSelector
+          idPipeline={R.id_pipeline}
+          idPipelineStep={R.id_pipeline_step}
+          onPipelineChange={(idPipeline: number, idPipelineStep: number) => {
+            this.updateRecord({id_pipeline: idPipeline, id_pipeline_step: idPipelineStep});
+          }}
+          onPipelineStepChange={(idPipelineStep: number, step: any) => {
+            this.updateRecord({id_pipeline_step: idPipelineStep});
+          }}
+        ></PipelineSelector>
+        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+      </>}
+    </>
   }
 
   renderTab(tab: string) {
