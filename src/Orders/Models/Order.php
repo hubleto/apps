@@ -23,7 +23,7 @@ use HubletoApp\Community\Invoices\Models\Invoice;
 use HubletoApp\Community\Invoices\Models\Dto\Invoice as InvoiceDto;
 use HubletoApp\Community\Settings\Models\User;
 
-class Order extends \Hubleto\Framework\Models\Model
+class Order extends \HubletoMain\Model
 {
   public string $table = 'orders';
   public string $recordManagerClass = RecordManagers\Order::class;

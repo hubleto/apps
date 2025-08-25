@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Contacts\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Value extends \Hubleto\Framework\Models\Model
+class Value extends \HubletoMain\Model
 {
   public string $table = 'contact_values';
   public string $recordManagerClass = RecordManagers\Value::class;

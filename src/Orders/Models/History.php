@@ -2,7 +2,7 @@
 
 namespace HubletoApp\Community\Orders\Models;
 
-class History extends \Hubleto\Framework\Models\Model
+class History extends \HubletoMain\Model
 {
   public string $table = 'order_histories';
   public string $recordManagerClass = RecordManagers\History::class;

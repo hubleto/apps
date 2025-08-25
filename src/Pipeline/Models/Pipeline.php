@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Pipeline\Models;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Integer;
 
-class Pipeline extends \Hubleto\Framework\Models\Model
+class Pipeline extends \HubletoMain\Model
 {
   public string $table = 'pipelines';
   public string $recordManagerClass = RecordManagers\Pipeline::class;

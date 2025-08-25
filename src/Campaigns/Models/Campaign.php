@@ -14,7 +14,7 @@ use Hubleto\Framework\Db\Column\DateTime;
 
 use HubletoApp\Community\Leads\Models\LeadCampaign;
 
-class Campaign extends \Hubleto\Framework\Models\Model
+class Campaign extends \HubletoMain\Model
 {
   public string $table = 'campaigns';
   public string $recordManagerClass = RecordManagers\Campaign::class;

@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Mail\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Settings\Models\User;
 
-class Index extends \Hubleto\Framework\Models\Model
+class Index extends \HubletoMain\Model
 {
   public string $table = 'mails_index';
   public string $recordManagerClass = RecordManagers\Index::class;

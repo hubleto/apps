@@ -22,7 +22,7 @@ use HubletoApp\Community\Pipeline\Models\PipelineStep;
 use HubletoApp\Community\Contacts\Models\Contact;
 use HubletoApp\Community\Customers\Models\Customer;
 
-class Project extends \Hubleto\Framework\Models\Model
+class Project extends \HubletoMain\Model
 {
   public string $table = 'projects';
   public string $recordManagerClass = RecordManagers\Project::class;

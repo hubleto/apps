@@ -17,7 +17,7 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\User;
 
-class EventSpeaker extends \Hubleto\Framework\Models\Model
+class EventSpeaker extends \HubletoMain\Model
 {
   public string $table = 'events_has_speakers';
   public string $recordManagerClass = RecordManagers\EventSpeaker::class;

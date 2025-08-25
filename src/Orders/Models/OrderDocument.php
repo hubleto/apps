@@ -8,7 +8,7 @@ use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Documents\Models\Document;
 
-class OrderDocument extends \Hubleto\Framework\Models\Model
+class OrderDocument extends \HubletoMain\Model
 {
   public string $table = 'orders_documents';
   public string $recordManagerClass = RecordManagers\OrderDocument::class;

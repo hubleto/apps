@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Settings\Models;
 
 use Hubleto\Framework\Db\Column\Varchar;
 
-class InvoiceProfile extends \Hubleto\Framework\Models\Model
+class InvoiceProfile extends \HubletoMain\Model
 {
   public string $table = 'invoice_profiles';
   public ?string $lookupSqlValue = '{%TABLE%}.name';

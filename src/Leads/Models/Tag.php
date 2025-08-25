@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Leads\Models;
 use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Tag extends \Hubleto\Framework\Models\Model
+class Tag extends \HubletoMain\Model
 {
   public string $table = 'lead_tags';
   public string $recordManagerClass = RecordManagers\Tag::class;

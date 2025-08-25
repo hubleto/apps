@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\Boolean;
 use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class ActivityType extends \Hubleto\Framework\Models\Model
+class ActivityType extends \HubletoMain\Model
 {
   public string $table = 'activity_types';
   public string $recordManagerClass = RecordManagers\ActivityType::class;

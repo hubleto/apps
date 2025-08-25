@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Deals\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Leads\Models\Lead;
 
-class DealLead extends \Hubleto\Framework\Models\Model
+class DealLead extends \HubletoMain\Model
 {
   public string $table = 'deals_leads';
   public string $recordManagerClass = RecordManagers\DealLead::class;

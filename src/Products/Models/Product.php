@@ -11,7 +11,7 @@ use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Product extends \Hubleto\Framework\Models\Model
+class Product extends \HubletoMain\Model
 {
   public const TYPE_CONSUMABLE = 1;
   public const TYPE_STORABLE = 2;

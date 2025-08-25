@@ -10,7 +10,7 @@ use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Customers\Models\Customer;
 use Hubleto\Framework\Helper;
 
-class Contact extends \Hubleto\Framework\Models\Model
+class Contact extends \HubletoMain\Model
 {
   public bool $isExtendableByCustomColumns = true;
 

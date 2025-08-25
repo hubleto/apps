@@ -17,7 +17,7 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\User;
 
-class EventAttendee extends \Hubleto\Framework\Models\Model
+class EventAttendee extends \HubletoMain\Model
 {
   public string $table = 'events_has_attendees';
   public string $recordManagerClass = RecordManagers\EventAttendee::class;

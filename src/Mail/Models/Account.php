@@ -9,7 +9,7 @@ use Hubleto\Framework\Db\Column\Color;
 
 use HubletoApp\Community\Crypto\KeyManager;
 
-class Account extends \Hubleto\Framework\Models\Model
+class Account extends \HubletoMain\Model
 {
 
   public string $table = 'mails_accounts';

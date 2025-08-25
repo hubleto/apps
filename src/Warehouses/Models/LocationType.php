@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Warehouses\Models;
 
 use Hubleto\Framework\Db\Column\Varchar;
 
-class LocationType extends \Hubleto\Framework\Models\Model
+class LocationType extends \HubletoMain\Model
 {
   public string $table = 'warehouses_locations_types';
   public string $recordManagerClass = RecordManagers\LocationType::class;

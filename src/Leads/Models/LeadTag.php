@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Leads\Models;
 
 use Hubleto\Framework\Db\Column\Lookup;
 
-class LeadTag extends \Hubleto\Framework\Models\Model
+class LeadTag extends \HubletoMain\Model
 {
   public string $table = 'cross_lead_tags';
   public string $recordManagerClass = RecordManagers\LeadTag::class;

@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\Date;
 use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class LeadHistory extends \Hubleto\Framework\Models\Model
+class LeadHistory extends \HubletoMain\Model
 {
   public string $table = 'lead_histories';
   public string $recordManagerClass = RecordManagers\LeadHistory::class;

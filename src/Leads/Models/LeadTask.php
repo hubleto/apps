@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Leads\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Tasks\Models\Task;
 
-class LeadTask extends \Hubleto\Framework\Models\Model
+class LeadTask extends \HubletoMain\Model
 {
   public string $table = 'leads_tasks';
   public string $recordManagerClass = RecordManagers\LeadTask::class;

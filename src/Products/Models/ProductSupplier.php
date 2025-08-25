@@ -12,7 +12,7 @@ use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class ProductSupplier extends \Hubleto\Framework\Models\Model
+class ProductSupplier extends \HubletoMain\Model
 {
 
   public string $table = 'products_suppliers';

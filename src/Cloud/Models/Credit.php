@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Cloud\Models;
 use Hubleto\Framework\Db\Column\Decimal;
 use Hubleto\Framework\Db\Column\DateTime;
 
-class Credit extends \Hubleto\Framework\Models\Model
+class Credit extends \HubletoMain\Model
 {
   public string $table = 'cloud_credit';
   public string $recordManagerClass = RecordManagers\Credit::class;

@@ -10,7 +10,7 @@ use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\ActivityType;
 use HubletoApp\Community\Settings\Models\User;
 
-class Activity extends \Hubleto\Framework\Models\Model
+class Activity extends \HubletoMain\Model
 {
   public string $table = 'activities';
   public string $recordManagerClass = RecordManagers\Activity::class;

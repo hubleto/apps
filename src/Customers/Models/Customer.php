@@ -14,7 +14,7 @@ use HubletoApp\Community\Settings\Models\Country;
 use HubletoApp\Community\Settings\Models\User;
 use Hubleto\Framework\Helper;
 
-class Customer extends \Hubleto\Framework\Models\Model
+class Customer extends \HubletoMain\Model
 {
   public bool $isExtendableByCustomColumns = true;
 

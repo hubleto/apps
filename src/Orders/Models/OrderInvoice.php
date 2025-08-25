@@ -8,7 +8,7 @@ use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Invoices\Models\Invoice;
 
-class OrderInvoice extends \Hubleto\Framework\Models\Model
+class OrderInvoice extends \HubletoMain\Model
 {
   public string $table = 'orders_invoices';
   public string $recordManagerClass = RecordManagers\OrderInvoice::class;

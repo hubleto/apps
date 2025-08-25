@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Settings\Models;
 
 use Hubleto\Framework\Db\Column\Lookup;
 
-class UserHasRole extends \Hubleto\Framework\Models\Model
+class UserHasRole extends \HubletoMain\Model
 {
   public string $table = 'user_has_roles';
   public string $recordManagerClass = RecordManagers\UserHasRole::class;

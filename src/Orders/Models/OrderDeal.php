@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Orders\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Deals\Models\Deal;
 
-class OrderDeal extends \Hubleto\Framework\Models\Model
+class OrderDeal extends \HubletoMain\Model
 {
   public string $table = 'orders_deals';
   public string $recordManagerClass = RecordManagers\OrderDeal::class;

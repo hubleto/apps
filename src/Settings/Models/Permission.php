@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Settings\Models;
 
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Permission extends \Hubleto\Framework\Models\Model
+class Permission extends \HubletoMain\Model
 {
   public string $table = 'permissions';
   public string $recordManagerClass = RecordManagers\Permission::class;

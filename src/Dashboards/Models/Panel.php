@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Json;
 
-class Panel extends \Hubleto\Framework\Models\Model
+class Panel extends \HubletoMain\Model
 {
   public string $table = 'dashboards_panels';
   public string $recordManagerClass = RecordManagers\Panel::class;

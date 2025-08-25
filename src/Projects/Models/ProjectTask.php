@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Projects\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Tasks\Models\Task;
 
-class ProjectTask extends \Hubleto\Framework\Models\Model
+class ProjectTask extends \HubletoMain\Model
 {
   public string $table = 'projects_tasks';
   public string $recordManagerClass = RecordManagers\ProjectTask::class;

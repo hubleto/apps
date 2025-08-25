@@ -9,7 +9,7 @@ use Hubleto\Framework\Db\Column\Lookup;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Decimal;
 
-class InvoiceItem extends \Hubleto\Framework\Models\Model {
+class InvoiceItem extends \HubletoMain\Model {
   public string $table = 'invoice_items';
   public ?string $lookupSqlValue = '{%TABLE%}.id_invoice';
   public string $recordManagerClass = RecordManagers\InvoiceItem::class;

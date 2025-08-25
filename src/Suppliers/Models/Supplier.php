@@ -7,7 +7,7 @@ use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\Country;
 use HubletoApp\Community\Contacts\Models\Contact;
 
-class Supplier extends \Hubleto\Framework\Models\Model
+class Supplier extends \HubletoMain\Model
 {
   public string $table = 'suppliers';
   public string $recordManagerClass = RecordManagers\Supplier::class;

@@ -5,7 +5,7 @@ namespace HubletoApp\Community\OAuth\Models;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Boolean;
 
-class AuthCode extends \Hubleto\Framework\Models\Model
+class AuthCode extends \HubletoMain\Model
 {
   public string $table = 'oauth_auth_codes';
   public string $recordManagerClass = RecordManagers\AuthCode::class;

@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\Boolean;
 use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Source extends \Hubleto\Framework\Models\Model
+class Source extends \HubletoMain\Model
 {
   public string $table = 'calendar_sync_sources';
   public string $recordManagerClass = RecordManagers\Source::class;

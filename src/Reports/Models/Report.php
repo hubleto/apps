@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\User;
 
-class Report extends \Hubleto\Framework\Models\Model
+class Report extends \HubletoMain\Model
 {
   public string $table = 'reports';
   public string $recordManagerClass = RecordManagers\Report::class;

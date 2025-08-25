@@ -9,7 +9,7 @@ use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Settings\Models\User;
 
-class Dashboard extends \Hubleto\Framework\Models\Model
+class Dashboard extends \HubletoMain\Model
 {
   public string $table = 'dashboards';
   public string $recordManagerClass = RecordManagers\Dashboard::class;

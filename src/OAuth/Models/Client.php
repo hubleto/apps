@@ -5,7 +5,7 @@ namespace HubletoApp\Community\OAuth\Models;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\VarcBooleanhar;
 
-class Client extends \Hubleto\Framework\Models\Model
+class Client extends \HubletoMain\Model
 {
   public string $table = 'oauth_clients';
   public string $recordManagerClass = RecordManagers\Client::class;

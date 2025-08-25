@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Projects\Models;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Orders\Models\Order;
 
-class ProjectOrder extends \Hubleto\Framework\Models\Model
+class ProjectOrder extends \HubletoMain\Model
 {
   public string $table = 'projects_orders';
   public string $recordManagerClass = RecordManagers\ProjectOrder::class;

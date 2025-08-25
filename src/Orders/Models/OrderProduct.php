@@ -9,7 +9,7 @@ use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Products\Models\Product;
 use HubletoApp\Community\Products\Controllers\Api\CalculatePrice;
 
-class OrderProduct extends \Hubleto\Framework\Models\Model
+class OrderProduct extends \HubletoMain\Model
 {
   public string $table = 'orders_products';
   public string $recordManagerClass = RecordManagers\OrderProduct::class;

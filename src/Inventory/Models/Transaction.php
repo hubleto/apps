@@ -14,7 +14,7 @@ use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Decimal;
 
 // This table records all movements of inventory within the warehouse.
-class Transaction extends \Hubleto\Framework\Models\Model
+class Transaction extends \HubletoMain\Model
 {
   public string $table = 'inventory_transactions';
   public string $recordManagerClass = RecordManagers\Transaction::class;

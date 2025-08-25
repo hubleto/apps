@@ -10,7 +10,7 @@ use Hubleto\Framework\Db\Column\Image;
 use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Text;
 
-class Warehouse extends \Hubleto\Framework\Models\Model
+class Warehouse extends \HubletoMain\Model
 {
   public string $table = 'warehouses';
   public string $recordManagerClass = RecordManagers\Warehouse::class;

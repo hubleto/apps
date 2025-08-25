@@ -22,7 +22,7 @@ use Hubleto\Framework\Helper;
 
 use HubletoApp\Community\Deals\Models\DealLead;
 
-class Lead extends \Hubleto\Framework\Models\Model
+class Lead extends \HubletoMain\Model
 {
   public string $table = 'leads';
   public string $recordManagerClass = RecordManagers\Lead::class;

@@ -6,7 +6,7 @@ use Hubleto\Framework\Db\Column\File;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Lookup;
 
-class Document extends \Hubleto\Framework\Models\Model
+class Document extends \HubletoMain\Model
 {
   public string $table = 'documents';
   public string $recordManagerClass = RecordManagers\Document::class;

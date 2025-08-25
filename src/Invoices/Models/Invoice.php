@@ -10,7 +10,7 @@ use HubletoApp\Community\Customers\Models\Customer;
 use HubletoApp\Community\Settings\Models\InvoiceProfile;
 use HubletoApp\Community\Settings\Models\User;
 
-class Invoice extends \Hubleto\Framework\Models\Model {
+class Invoice extends \HubletoMain\Model {
   public string $table = 'invoices';
   public ?string $lookupSqlValue = '{%TABLE%}.number';
   public string $recordManagerClass = RecordManagers\Invoice::class;

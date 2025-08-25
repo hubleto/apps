@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Customers\Models;
 
 use Hubleto\Framework\Db\Column\Lookup;
 
-class CustomerTag extends \Hubleto\Framework\Models\Model
+class CustomerTag extends \HubletoMain\Model
 {
   public string $table = 'cross_customer_tags';
   public string $recordManagerClass = RecordManagers\CustomerTag::class;

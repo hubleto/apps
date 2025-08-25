@@ -5,7 +5,7 @@ namespace HubletoApp\Community\Orders\Models;
 use Hubleto\Framework\Db\Column\Varchar;
 use Hubleto\Framework\Db\Column\Color;
 
-class State extends \Hubleto\Framework\Models\Model
+class State extends \HubletoMain\Model
 {
   public string $table = 'order_states';
   public string $recordManagerClass = RecordManagers\State::class;

@@ -17,7 +17,7 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Varchar;
 use HubletoApp\Community\Settings\Models\User;
 
-class Phase extends \Hubleto\Framework\Models\Model
+class Phase extends \HubletoMain\Model
 {
   public const ENUM_ONE = 1;
   public const ENUM_TWO = 2;

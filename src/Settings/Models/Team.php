@@ -7,7 +7,7 @@ use Hubleto\Framework\Db\Column\Text;
 use Hubleto\Framework\Db\Column\Color;
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Team extends \Hubleto\Framework\Models\Model
+class Team extends \HubletoMain\Model
 {
   public string $table = 'teams';
   public string $recordManagerClass = RecordManagers\Team::class;

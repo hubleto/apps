@@ -8,7 +8,7 @@ use Hubleto\Framework\Db\Column\Integer;
 use Hubleto\Framework\Db\Column\Lookup;
 use HubletoApp\Community\Deals\Models\Deal;
 
-class ProjectDeal extends \Hubleto\Framework\Models\Model
+class ProjectDeal extends \HubletoMain\Model
 {
   public string $table = 'projects_deals';
   public string $recordManagerClass = RecordManagers\ProjectDeal::class;

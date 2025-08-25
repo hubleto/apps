@@ -4,7 +4,7 @@ namespace HubletoApp\Community\Issues\Models;
 
 use Hubleto\Framework\Db\Column\Varchar;
 
-class Issue extends \Hubleto\Framework\Models\Model
+class Issue extends \HubletoMain\Model
 {
   public string $table = 'issues';
   public string $recordManagerClass = RecordManagers\Issue::class;
