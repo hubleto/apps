@@ -262,12 +262,12 @@ export default class FormDeal<P, S> extends HubletoForm<FormDealProps,FormDealSt
         const inputsColumnLeft = <>
           <FormInput title={"Lead"}>
             {R.LEADS ? R.LEADS.map((item, key) => {
-              return <a
+              return (item.LEAD ? <a
                 key={key}
                 className='badge'
-                href={(item.LEAD ? globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id : '#')}
+                href={globalThis.main.config.projectUrl + '/leads/' + item.LEAD.id}
                 target='_blank'
-              >{item.LEAD.id}</a>;
+              >{item.LEAD.id}</a> : '#');
             }) : null}
           </FormInput>
           {this.inputWrapper('identifier', {cssClass: 'text-2xl text-primary', readonly: R.is_archived})}

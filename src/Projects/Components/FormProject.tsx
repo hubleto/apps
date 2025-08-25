@@ -76,12 +76,12 @@ export default class FormProject<P, S> extends HubletoForm<FormProjectProps, For
             <div className='flex-1 border-r border-gray-100'>
               <FormInput title={"Order"}>
                 {R.ORDERS ? R.ORDERS.map((item, key) => {
-                  return <a
+                  return (item.ORDER ? <a
                     key={key}
                     className='badge'
-                    href={(item.ORDER ? globalThis.main.config.projectUrl + '/orders/' + item.ORDER.id : '#')}
+                    href={globalThis.main.config.projectUrl + '/orders/' + item.ORDER.id}
                     target='_blank'
-                  >{item.ORDER.identifier}</a>;
+                  >{item.ORDER.identifier}</a> : '#');
                 }) : null}
               </FormInput>
               {this.inputWrapper('identifier')}

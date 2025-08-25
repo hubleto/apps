@@ -134,12 +134,12 @@ export default class FormOrder<P, S> extends HubletoForm<FormOrderProps,FormOrde
               <div className='grow'>
                 <FormInput title={"Deal"}>
                   {R.DEALS ? R.DEALS.map((item, key) => {
-                    return <a
+                    return (item.DEAL ? <a
                       key={key}
                       className='badge'
-                      href={(item.DEAL ? globalThis.main.config.projectUrl + '/deals/' + item.DEAL.id : '#')}
+                      href={globalThis.main.config.projectUrl + '/deals/' + item.DEAL.id}
                       target='_blank'
-                    >{item.DEAL.identifier}</a>;
+                    >{item.DEAL.identifier}</a> : '#');
                   }) : null}
                 </FormInput>
                 {this.inputWrapper('identifier')}
