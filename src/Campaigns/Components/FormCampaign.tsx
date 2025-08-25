@@ -38,6 +38,15 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
     };
   }
 
+  getRecordFormUrl(): string {
+    return 'campaigns/' + this.state.record.id;
+  }
+
+  contentClassName(): string
+  {
+    return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';
+  }
+
   renderTitle(): JSX.Element {
     return <>
       <small>{this.translate("Campaign")}</small>
@@ -60,7 +69,7 @@ export default class FormCampaign<P, S> extends HubletoForm<FormCampaignProps, F
             this.updateRecord({id_pipeline_step: idPipelineStep});
           }}
         ></PipelineSelector>
-        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+        {this.inputWrapper('is_closed')}
       </>}
     </>
   }

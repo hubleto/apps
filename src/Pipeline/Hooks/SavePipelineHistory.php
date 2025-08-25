@@ -21,8 +21,7 @@ class SavePipelineHistory extends \HubletoMain\Hook
           ->where('record_id', $savedRecord['id'])
           ->first()
         ;
-        var_dump($savedRecord['id_pipeline_step']);
-        var_dump($lastState->id_pipeline_step);
+
         if (
           !$lastState
           || $lastState->id_pipeline != $savedRecord['id_pipeline']

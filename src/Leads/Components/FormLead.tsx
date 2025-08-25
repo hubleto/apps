@@ -96,6 +96,10 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
     ]
   }
 
+  getRecordFormUrl(): string {
+    return 'leads/' + this.state.record.id;
+  }
+
   onAfterLoadFormDescription(description: any) {
     request.get(
       'api/table/describe',
@@ -125,6 +129,11 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
     } else super.onAfterSaveRecord(saveResponse);
   }
 
+  contentClassName(): string
+  {
+    return this.state.record.is_closed ? 'opacity-85 bg-slate-100' : '';
+  }
+
   renderTopMenu(): JSX.Element {
     const R = this.state.record;
     return <>
@@ -140,7 +149,7 @@ export default class FormLead<P, S> extends HubletoForm<FormLeadProps,FormLeadSt
             this.updateRecord({id_pipeline_step: idPipelineStep});
           }}
         ></PipelineSelector>
-        {this.inputWrapper('is_closed', {readonly: R.is_archived})}
+        {this.inputWrapper('is_closed')}
       </>}
     </>
   }
