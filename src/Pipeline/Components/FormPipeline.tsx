@@ -35,6 +35,13 @@ export default class FormPipeline<P, S> extends HubletoForm<FormPipelineProps, F
     };
   }
 
+  getEndpointParams(): any {
+    return {
+      ...super.getEndpointParams(),
+      saveRecursively: true,
+    }
+  }
+
   renderTitle(): JSX.Element {
     return <>
       <small>Pipeline</small>
